@@ -15,7 +15,10 @@ class ListTableViewCell: UITableViewCell {
     func configure(phone: PhoneModel) {
         descLabel.text = phone.model
     }
-
+    
+    func configure(accesorie: ReplacementModel) {
+        descLabel.text = accesorie.description
+    }
 
 
 }

@@ -8,61 +8,97 @@
 import UIKit
 import FirebaseDatabase
 
+
 class ListViewController: UIViewController {
     
     var cels = [PhoneModel]()
-    var phones: PhoneModel?
-    var accesories: ReplacementModel?
-    var dataBaseRef: DatabaseReference!
-    enum ShowType {
-        case phones, accesories
-    }
+    var acces = [ReplacementModel]()
+    
+    var isSearching = false
+    var phonesFilter = [PhoneModel]()
+    var accesoriesFilter = [ReplacementModel]()
+    
     var showType: ShowType = .phones
     @IBOutlet weak var listTableView: UITableView!
-    @IBOutlet weak var typeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataBaseRef = Database.database().reference()
-        if showType == .phones {
-            showPhones()
-        }
+        searchBar.scopeButtonTitles = ["model"]
     }
-
     
-    func showPhones() {
-        dataBaseRef.child("data").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let iphonesDictionary = snapshot.value as? [String : AnyObject],
-               let iphones = iphonesDictionary["iphone"] as? [[String: AnyObject]] {
-                
-                for iphone in iphones {
-                    if let cel = PhoneModel(JSON: iphone) {
-                        self.cels.append(cel)
+    func filterTableView(text: String) {
+        phonesFilter = cels
+        accesoriesFilter = acces
+            if showType == . phones {
+                phonesFilter = phonesFilter.filter { (phones) -> Bool in
+                    if let model = phones.model {
+                        return model.lowercased().contains(text.lowercased())
+                    } else {
+                        return false
+                    }
+                }
+            } else {
+                accesoriesFilter = accesoriesFilter.filter { (acces) -> Bool in
+                    if let description = acces.description {
+                        return description.lowercased().contains(text.lowercased())
+                    } else {
+                        return false
                     }
                 }
             }
-            self.listTableView.reloadData()
-        }) { (error) in
-            print(error.localizedDescription)
-        }    }
 
-    func showAccesories() {
-        
+        listTableView.reloadData()
     }
     
 }
 
+extension ListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            isSearching = false
+            phonesFilter = cels
+            listTableView.reloadData()
+        } else {
+            isSearching = true
+            filterTableView(text: searchText)
+        }
+    }
+}
+
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cels.count
+        if isSearching {
+            if showType == .phones {
+                return phonesFilter.count
+            } else {
+                return accesoriesFilter.count
+            }
+        } else {
+            if showType == .phones {
+                return cels.count
+            } else {
+                return acces.count
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
-        cell.configure(phone: cels[indexPath.row])
+        if isSearching {
+            if showType == .phones {
+            cell.configure(phone: phonesFilter[indexPath.row])
+            } else {
+                cell.configure(accesorie: accesoriesFilter[indexPath.row])
+            }
+        } else {
+            if showType == .phones {
+                cell.configure(phone: cels[indexPath.row])
+            } else {
+                cell.configure(accesorie: acces[indexPath.row])
+            }
+        }
         
         return cell
     }
-    
-    
 }

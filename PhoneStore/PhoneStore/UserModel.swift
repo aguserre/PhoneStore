@@ -15,3 +15,7 @@ struct UserModel {
 enum UserType {
     case admin, vendor
 }
+
+enum ShowType {
+    case phones, accesories
+}
