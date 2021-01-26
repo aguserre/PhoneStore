@@ -27,11 +27,12 @@ class LoginViewController: UIViewController {
             return
         }
         
-        
         Auth.auth().signIn(withEmail: username, password: pass) { (auth, error) in
             if let _ = auth {
-                self.performSegue(withIdentifier: "goToApp", sender: nil)
+                self.user = UserModel(username: username, type: .admin)
+                self.performSegue(withIdentifier: "goToMain", sender: nil)
             } else {
+                //TODO: Crear alerta
                 print("error login")
             }
         }
@@ -39,9 +40,9 @@ class LoginViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
-           segueId == "goToApp",
-           let _ = segue.destination as? UINavigationController {
-            
+           segueId == "goToMain",
+           let mainViewController = segue.destination as? MainViewController {
+            mainViewController.user = self.user
         }
     }
 

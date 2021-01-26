@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
+		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4125BF683A00B325B2 /* AppDelegate.swift */; };
 		0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */; };
 		0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4725BF683A00B325B2 /* Main.storyboard */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0FA63E3E25BF683A00B325B2 /* PhoneStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA63E4125BF683A00B325B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F69283825C05DD700CCE117 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		0FA63E3525BF683A00B325B2 = {
 			isa = PBXGroup;
 			children = (
@@ -99,8 +111,10 @@
 		0FF106DB25BFE5FE00B2656D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				0F69283825C05DD700CCE117 /* Cells */,
 				0FF106DC25BFE62D00B2656D /* MainViewController.swift */,
 				0FF106E125BFE74D00B2656D /* LoginViewController.swift */,
+				0F69283525C05A5700CCE117 /* ListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -260,7 +274,9 @@
 				0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */,
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
+				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
+				0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */,
 				0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

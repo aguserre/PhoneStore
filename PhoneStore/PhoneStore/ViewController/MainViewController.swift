@@ -10,27 +10,31 @@ import FirebaseDatabase
 
 class MainViewController: UIViewController {
     
-    var dataBaseRef: DatabaseReference!
-    var cels = [PhoneModel]()
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var celButton: UIButton!
+    @IBOutlet weak var accesoriesButton: UIButton!
+    var user: UserModel?
+    
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataBaseRef = Database.database().reference()
-        dataBaseRef.child("data").observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            if let iphonesDictionary = snapshot.value as? [String : AnyObject],
-               let iphones = iphonesDictionary["iphone"] as? [[String: AnyObject]] {
-                
-                for iphone in iphones {
-                    if let cel = PhoneModel(JSON: iphone) {
-                        self.cels.append(cel)
-                    }
-                }
-            }
-            
-        }) { (error) in
-            print(error.localizedDescription)
+        if let username = user?.username {
+            welcomeLabel.text = "Bienvenido \(username)"
         }
     }
-
+    
+    @IBAction func goToList(_ sender: Any) {
+        performSegue(withIdentifier: "goToList", sender: nil)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "goToList",
+           let _ = segue.destination as? ListViewController {
+        
+        }
+    }
 }
