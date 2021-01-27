@@ -14,11 +14,14 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     var user: UserModel?
     
-    @IBOutlet weak var asfefwe: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     @IBAction func checkUser(_ sender: Any) {
@@ -45,6 +48,16 @@ class LoginViewController: UIViewController {
             mainViewController.user = self.user
         }
     }
+}
 
-
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

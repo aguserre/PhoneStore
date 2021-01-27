@@ -6,16 +6,21 @@
 //
 
 import ObjectMapper
+import RealmSwift
 
 
-class ReplacementModel: Mappable {
+class ReplacementModel: Object, Mappable {
 
-    var description: String?
+    @objc dynamic var descriptions: String?
 
-    init(){}
+    override init(){}
     required init?(map: Map) {}
 
     func mapping(map: Map) {
-        description <- map["description"]
+        descriptions <- map["descriptions"]
     }
+    func toDictionary() -> NSDictionary {
+        return ["descriptions": descriptions  ?? ""] as NSDictionary
+    }
+    
 }

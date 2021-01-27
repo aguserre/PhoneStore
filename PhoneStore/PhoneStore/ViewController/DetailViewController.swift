@@ -7,6 +7,8 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
+import RealmSwift
 
 class DetailViewController: UIViewController {
 
@@ -33,26 +35,59 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func deleteProduct(_ sender: Any) {
-        let type = showType == .accesories ? "accesories" : "iphone"
+        let type = showType == .accesories ? "accesorie" : "iphone"
         dataBaseRef = Database.database().reference().child("data")
         dataBaseRef.child(type).observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                                if self.selectedPhone?.id == postDict["id"] as? String {
-                                    self.dataBaseRef.child(type).child(snap.key).removeValue(completionBlock: { (error, ref) in
-                                        if error != nil {
-                                            print("Error: \(String(describing: error))")
-                                            return
-                                        }
-                                        print("Removed successfully")
-                                    })
-                                }
+                for snap in snapshot {
+                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                        
+                        if self.showType == .phones {
+                            if self.selectedPhone?.id == postDict["id"] as? String {
+                                self.dataBaseRef.child(type).child(snap.key).removeValue(completionBlock: { (error, ref) in
+                                    if error != nil {
+                                        print("Error: \(String(describing: error))")
+                                        return
+                                    }
+                                    self.registerSaleMov()
+                                })
+                            }
                         } else {
-                            print("Zhenya: failed to convert")
+                            if self.selectedAccesorie?.descriptions?.lowercased() == (postDict["descriptions"] as? String)?.lowercased() {
+                                self.dataBaseRef.child(type).child(snap.key).removeValue(completionBlock: { (error, ref) in
+                                    if error != nil {
+                                        print("Error: \(String(describing: error))")
+                                        return
+                                    }
+                                    self.registerSaleMov()
+                                })
+                            }
                         }
+                    } else {
+                        print("Zhenya: failed to convert")
                     }
                 }
+            }
         }
+    }
+    
+    func registerSaleMov() {
+        let realm = try! Realm()
+        let movDic: [String : Any] = ["id" : selectedPhone?.id as Any,
+                                      "productDescription" : showType == .phones ? selectedPhone?.model as Any : selectedAccesorie?.descriptions as Any,
+                                      "movementType" : "Venta"]
+        
+        if let mov = MovementsModel(JSON: movDic) {
+            try! realm.write {
+                realm.add(mov)
+            }
+        }
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+        do { try Auth.auth().signOut() }
+        catch { print("already logged out") }
+        
+        navigationController?.popToRootViewController(animated: true)
     }
 }

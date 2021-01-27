@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 
 class ListViewController: UIViewController {
@@ -37,7 +38,7 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        title = showType == .phones ? "Stock celulares" : "Stock accesorios"
         floatingButton()
     }
     
@@ -46,7 +47,7 @@ class ListViewController: UIViewController {
         
         dataBaseRef.removeAllObservers()
     }
-    
+
     func filterTableView(text: String) {
         phonesFilter = cels
         accesoriesFilter = acces
@@ -60,7 +61,7 @@ class ListViewController: UIViewController {
                 }
             } else {
                 accesoriesFilter = accesoriesFilter.filter { (acces) -> Bool in
-                    if let description = acces.description {
+                    if let description = acces.descriptions {
                         return description.lowercased().contains(text.lowercased())
                     } else {
                         return false
@@ -72,16 +73,19 @@ class ListViewController: UIViewController {
     }
     
     func refreshData() {
-        let type = showType == .accesories ? "accesories" : "iphone"
+        let type = showType == .accesories ? "accesorie" : "iphone"
         dataBaseRef = Database.database().reference().child("data")
+        
         dataBaseRef.child(type).observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                     for snap in snapshot {
                         if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            
                             if self.showType == . phones {
                                 if let p = PhoneModel(JSON: postDict) {
                                     self.cels.append(p)
                                 }
+                                
                             } else {
                                 if let ac = ReplacementModel(JSON: postDict) {
                                     self.acces.append(ac)
@@ -129,10 +133,18 @@ class ListViewController: UIViewController {
         }
         if let segueId = segue.identifier,
            segueId == "goToAddStock",
-           let _ = segue.destination as? AddStockViewController {
-            
+           let addStockVC = segue.destination as? AddStockViewController {
+            addStockVC.showType = showType
         }
     }
+    
+    @IBAction func logOut(_ sender: Any) {
+        do { try Auth.auth().signOut() }
+        catch { print("already logged out") }
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
 }
 
 extension ListViewController: UISearchBarDelegate {

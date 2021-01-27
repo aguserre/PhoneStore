@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
+import RealmSwift
 
 class MainViewController: UIViewController {
     
@@ -24,6 +25,11 @@ class MainViewController: UIViewController {
 
     
     override func viewDidLoad() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
+        }
+        
         super.viewDidLoad()
         if let username = user?.username {
             welcomeLabel.text = "Bienvenido \(username)"
@@ -34,11 +40,13 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         dataBaseRef = Database.database().reference().child("data")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         dataBaseRef.removeAllObservers()
     }
     
@@ -57,5 +65,12 @@ class MainViewController: UIViewController {
            let listViewController = segue.destination as? ListViewController {
             listViewController.showType = self.showType
         }
+    }
+    
+    @IBAction func logOut(_ sender: Any) {
+        do { try Auth.auth().signOut() }
+        catch { print("already logged out") }
+        
+        navigationController?.popToRootViewController(animated: true)
     }
 }

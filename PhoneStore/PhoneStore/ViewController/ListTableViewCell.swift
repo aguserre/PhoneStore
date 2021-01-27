@@ -17,7 +17,7 @@ class ListTableViewCell: UITableViewCell {
     }
     
     func configure(accesorie: ReplacementModel) {
-        descLabel.text = accesorie.description
+        descLabel.text = accesorie.descriptions
     }
 
 
