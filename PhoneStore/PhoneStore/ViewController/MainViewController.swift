@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class MainViewController: UIViewController {
     
@@ -33,36 +34,12 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        dataBaseRef = Database.database().reference()
+        dataBaseRef = Database.database().reference().child("data")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         dataBaseRef.removeAllObservers()
-    }
-    
-    func getData() {
-        let type = showType == .accesories ? "accesories" : "iphone"
-        dataBaseRef.child("data").child(type).observeSingleEvent(of: .value) { (snapshot) in
-            if let array = snapshot.value as? [[String : AnyObject]] {
-                self.cels.removeAll()
-                self.acces.removeAll()
-                
-                    for object in array {
-                        if self.showType == .phones {
-                            if let cel = PhoneModel(JSON: object) {
-                                self.cels.append(cel)
-                            }
-                        } else {
-                            if let access = ReplacementModel(JSON: object) {
-                                self.acces.append(access)
-                            }
-                        }
-                    }
-            }
-            
-            self.performSegue(withIdentifier: "goToList", sender: nil)
-        }
     }
     
     @IBAction func goToList(_ sender: UIButton) {
@@ -71,17 +48,14 @@ class MainViewController: UIViewController {
         } else {
             showType = .accesories
         }
-        getData()
+        self.performSegue(withIdentifier: "goToList", sender: nil)
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "goToList",
            let listViewController = segue.destination as? ListViewController {
             listViewController.showType = self.showType
-            listViewController.acces = self.acces
-            listViewController.cels = self.cels
         }
     }
 }

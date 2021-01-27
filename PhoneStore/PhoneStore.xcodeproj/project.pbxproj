@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
+		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
 		0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4125BF683A00B325B2 /* AppDelegate.swift */; };
 		0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */; };
 		0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4725BF683A00B325B2 /* Main.storyboard */; };
@@ -20,12 +21,14 @@
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
 		0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106E125BFE74D00B2656D /* LoginViewController.swift */; };
 		0FF106E525BFE92D00B2656D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106E425BFE92D00B2656D /* UserModel.swift */; };
+		0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */; };
 		36AC8AE958863C458B632577 /* Pods_PhoneStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE0A6F6817624F77EB4BB6E /* Pods_PhoneStore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0FA63E3E25BF683A00B325B2 /* PhoneStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA63E4125BF683A00B325B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +42,7 @@
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0FF106E125BFE74D00B2656D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0FF106E425BFE92D00B2656D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStockViewController.swift; sourceTree = "<group>"; };
 		3D487CCB11A817837E776DC3 /* Pods-PhoneStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneStore.release.xcconfig"; path = "Target Support Files/Pods-PhoneStore/Pods-PhoneStore.release.xcconfig"; sourceTree = "<group>"; };
 		97DD3C50DDB2D6073B87B220 /* Pods-PhoneStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneStore.debug.xcconfig"; path = "Target Support Files/Pods-PhoneStore/Pods-PhoneStore.debug.xcconfig"; sourceTree = "<group>"; };
 		BCE0A6F6817624F77EB4BB6E /* Pods_PhoneStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +119,8 @@
 				0FF106DC25BFE62D00B2656D /* MainViewController.swift */,
 				0FF106E125BFE74D00B2656D /* LoginViewController.swift */,
 				0F69283525C05A5700CCE117 /* ListViewController.swift */,
+				0F69285125C09D0800CCE117 /* DetailViewController.swift */,
+				0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -276,6 +282,8 @@
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
+				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
+				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
 				0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */,
 				0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */,
 			);

@@ -14,17 +14,31 @@ class ListViewController: UIViewController {
     var cels = [PhoneModel]()
     var acces = [ReplacementModel]()
     
+    var selectedPhone: PhoneModel?
+    var selectedAccesorie: ReplacementModel?
+    
     var isSearching = false
     var phonesFilter = [PhoneModel]()
     var accesoriesFilter = [ReplacementModel]()
+    var dataBaseRef: DatabaseReference!
     
     var showType: ShowType = .phones
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchBar.scopeButtonTitles = ["model"]
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if cels.count != 0 || acces.count != 0 {
+            cels.removeAll()
+            acces.removeAll()
+        }
+        refreshData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        dataBaseRef.removeAllObservers()
     }
     
     func filterTableView(text: String) {
@@ -51,6 +65,42 @@ class ListViewController: UIViewController {
         listTableView.reloadData()
     }
     
+    func refreshData() {
+        let type = showType == .accesories ? "accesories" : "iphone"
+        dataBaseRef = Database.database().reference().child("data")
+        dataBaseRef.child(type).observeSingleEvent(of: .value) { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                    for snap in snapshot {
+                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
+                            if self.showType == . phones {
+                                if let p = PhoneModel(JSON: postDict) {
+                                    self.cels.append(p)
+                                }
+                            } else {
+                                if let ac = ReplacementModel(JSON: postDict) {
+                                    self.acces.append(ac)
+                                }
+                            }
+                        } else {
+                            print("Zhenya: failed to convert")
+                        }
+                    }
+                }
+            
+            self.listTableView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "goToDetails",
+           let detailsViewController = segue.destination as? DetailViewController {
+            detailsViewController.selectedPhone = selectedPhone
+            detailsViewController.selectedAccesorie = selectedAccesorie
+            detailsViewController.showType = showType
+        }
+    }
+    
 }
 
 extension ListViewController: UISearchBarDelegate {
@@ -63,6 +113,25 @@ extension ListViewController: UISearchBarDelegate {
             isSearching = true
             filterTableView(text: searchText)
         }
+    }
+}
+
+extension ListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isSearching {
+            if showType == .phones {
+                selectedPhone = phonesFilter[indexPath.row]
+            } else {
+                selectedAccesorie = accesoriesFilter[indexPath.row]
+            }
+        } else {
+            if showType == .phones {
+                selectedPhone = cels[indexPath.row]
+            } else {
+                selectedAccesorie = acces[indexPath.row]
+            }
+        }
+        performSegue(withIdentifier: "goToDetails", sender: nil)
     }
 }
 
