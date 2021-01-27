@@ -35,6 +35,12 @@ class ListViewController: UIViewController {
         refreshData()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        floatingButton()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -91,6 +97,28 @@ class ListViewController: UIViewController {
         }
     }
     
+    func floatingButton(){
+        let btn = UIButton(type: .custom)
+        btn.setTitle("Agregar", for: .normal)
+        btn.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        btn.clipsToBounds = true
+        btn.layer.cornerRadius = 35
+        btn.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        btn.layer.borderWidth = 2.0
+        btn.addTarget(self,action: #selector(goToAddStock), for: .touchUpInside)
+        view.addSubview(btn)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        btn.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        btn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
+        btn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
+    }
+    
+    @objc func goToAddStock() {
+        performSegue(withIdentifier: "goToAddStock", sender: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "goToDetails",
@@ -99,8 +127,12 @@ class ListViewController: UIViewController {
             detailsViewController.selectedAccesorie = selectedAccesorie
             detailsViewController.showType = showType
         }
+        if let segueId = segue.identifier,
+           segueId == "goToAddStock",
+           let _ = segue.destination as? AddStockViewController {
+            
+        }
     }
-    
 }
 
 extension ListViewController: UISearchBarDelegate {
