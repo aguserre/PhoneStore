@@ -8,5 +8,6 @@ target 'PhoneStore' do
   pod 'Firebase/Database'
   pod 'ObjectMapper'
   pod 'FirebaseUI/Auth'
+  pod 'RealmSwift'
 
 end
