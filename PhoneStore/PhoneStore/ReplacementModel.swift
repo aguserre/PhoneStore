@@ -6,14 +6,12 @@
 //
 
 import ObjectMapper
-import RealmSwift
 
 
-class ReplacementModel: Object, Mappable {
+class ReplacementModel: Mappable {
 
     @objc dynamic var descriptions: String?
 
-    override init(){}
     required init?(map: Map) {}
 
     func mapping(map: Map) {

@@ -6,15 +6,13 @@
 //
 
 import ObjectMapper
-import RealmSwift
 
-class MovementsModel: Object, Mappable {
+class MovementsModel: Mappable {
 
     @objc dynamic var id: String?
     @objc dynamic var productDescription: String?
     @objc dynamic var movementType: String?
 
-    override init(){}
     required init?(map: Map) {}
 
     func mapping(map: Map) {

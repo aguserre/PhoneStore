@@ -5,17 +5,92 @@
 //  Created by Agustin Errecalde on 26/01/2021.
 //
 
-struct UserModel {
+import ObjectMapper
 
+class UserModel: Mappable {
+        
+    var id: String?
     var username: String?
-    var type: UserType?
+    var email: String?
+    var dni: String?
+    var type: String?
+    var localAutorized: String?
 
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        id <- map["id"]
+        username <- map["username"]
+        dni <- map["dni"]
+        type <- map["type"]
+        email <- map["email"]
+        localAutorized <- map["localAutorized"]
+    }
+    
+    func toDictionary() -> NSDictionary {
+        return ["id":id as Any,
+                "username" : username as Any,
+                "email" : email as Any,
+                "dni" : dni as Any,
+                "type" : type as Any,
+                "localAutorized" : localAutorized as Any] as NSDictionary
+    }
 }
 
-enum UserType {
-    case admin, vendor
+class PointOfSale: Mappable {
+    var id: String?
+    var name: String?
+    var type: POSType?
+    var localized: String?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        id <- map["id"]
+        name <- map["name"]
+        localized <- map["localized"]
+        type <- map["type"]
+    }
+}
+
+
+enum UserType: Int, RawRepresentable {
+    case admin = 0
+    case vendor = 1
+    
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .vendor:
+            return "vendor" 
+        case . admin:
+            return "admin"
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue.lowercased() {
+        case "vendor":
+            self = .vendor
+        case "admin":
+            self = .admin
+        default:
+            self = .vendor
+        }
+    }
+}
+
+enum addType: Int {
+    case user = 0
+    case pos = 1
 }
 
 enum ShowType {
     case phones, accesories
+}
+
+enum POSType: String {
+    case movil = "movil"
+    case kStatic = "static"
 }

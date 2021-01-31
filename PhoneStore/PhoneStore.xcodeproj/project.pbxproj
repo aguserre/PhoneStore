@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F19895425C64584000E56AF /* MovementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895025C64584000E56AF /* MovementsViewController.swift */; };
+		0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895125C64584000E56AF /* TextFieldTableViewCell.swift */; };
+		0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895225C64584000E56AF /* SettingsViewController.swift */; };
+		0F19895725C64584000E56AF /* MovementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895325C64584000E56AF /* MovementsTableViewCell.swift */; };
+		0F19895B25C646AD000E56AF /* MovementsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895A25C646AD000E56AF /* MovementsModel.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
@@ -26,6 +31,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F19895025C64584000E56AF /* MovementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsViewController.swift; sourceTree = "<group>"; };
+		0F19895125C64584000E56AF /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		0F19895225C64584000E56AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0F19895325C64584000E56AF /* MovementsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsTableViewCell.swift; sourceTree = "<group>"; };
+		0F19895A25C646AD000E56AF /* MovementsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsModel.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +73,8 @@
 		0F69283825C05DD700CCE117 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				0F19895325C64584000E56AF /* MovementsTableViewCell.swift */,
+				0F19895125C64584000E56AF /* TextFieldTableViewCell.swift */,
 				0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */,
 			);
 			name = Cells;
@@ -105,6 +117,7 @@
 		0FF1065725BFBDA100B2656D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0F19895A25C646AD000E56AF /* MovementsModel.swift */,
 				0FF1065D25BFBDC800B2656D /* PhoneModel.swift */,
 				0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */,
 				0FF106E425BFE92D00B2656D /* UserModel.swift */,
@@ -116,11 +129,13 @@
 			isa = PBXGroup;
 			children = (
 				0F69283825C05DD700CCE117 /* Cells */,
-				0FF106DC25BFE62D00B2656D /* MainViewController.swift */,
 				0FF106E125BFE74D00B2656D /* LoginViewController.swift */,
+				0FF106DC25BFE62D00B2656D /* MainViewController.swift */,
+				0F19895025C64584000E56AF /* MovementsViewController.swift */,
 				0F69283525C05A5700CCE117 /* ListViewController.swift */,
 				0F69285125C09D0800CCE117 /* DetailViewController.swift */,
 				0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */,
+				0F19895225C64584000E56AF /* SettingsViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -276,15 +291,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */,
+				0F19895725C64584000E56AF /* MovementsTableViewCell.swift in Sources */,
 				0FF106E525BFE92D00B2656D /* UserModel.swift in Sources */,
 				0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */,
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
+				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
 				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
+				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
+				0F19895425C64584000E56AF /* MovementsViewController.swift in Sources */,
 				0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */,
+				0F19895B25C646AD000E56AF /* MovementsModel.swift in Sources */,
 				0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

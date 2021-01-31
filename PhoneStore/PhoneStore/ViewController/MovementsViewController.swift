@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import RealmSwift
-
 
 
 class MovementsViewController: UIViewController {
@@ -23,12 +21,7 @@ class MovementsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let realm = try! Realm()
-        let movArray = realm.objects(MovementsModel.self)
         
-        for mov in movArray {
-            movements.append(mov)
-        }
     }
 }
 

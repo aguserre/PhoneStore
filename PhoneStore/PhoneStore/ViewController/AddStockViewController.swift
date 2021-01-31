@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
-import RealmSwift
 
 class AddStockViewController: UIViewController {
 
@@ -17,7 +16,7 @@ class AddStockViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         let type = showType == .phones ? "iphone" : "accesorie"
         dataBaseRef = Database.database().reference().child("data").child(type).childByAutoId()
     }
@@ -65,19 +64,10 @@ class AddStockViewController: UIViewController {
     }
     
     func registerAddMov(dic: NSDictionary) {
-        let realm = try! Realm()
-        let movDic: [String : Any] = ["id" : dic["id"] as Any,
-                                      "productDescription" : showType == .phones ? dic["model"] as Any : dic["descriptions"] as Any,
-                                      "movementType" : "Ingreso"]
         
-        if let mov = MovementsModel(JSON: movDic) {
-            try! realm.write {
-                realm.add(mov)
-            }
-        }
     }
     
-    @IBAction func logOut(_ sender: Any) {
+    @IBAction @objc func logOut(_ sender: Any) {
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         

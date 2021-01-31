@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
-import RealmSwift
 
 class DetailViewController: UIViewController {
 
@@ -20,7 +19,8 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
+       
         if let p = selectedPhone {
             print(p.toJSON())
         }
@@ -72,16 +72,7 @@ class DetailViewController: UIViewController {
     }
     
     func registerSaleMov() {
-        let realm = try! Realm()
-        let movDic: [String : Any] = ["id" : selectedPhone?.id as Any,
-                                      "productDescription" : showType == .phones ? selectedPhone?.model as Any : selectedAccesorie?.descriptions as Any,
-                                      "movementType" : "Venta"]
-        
-        if let mov = MovementsModel(JSON: movDic) {
-            try! realm.write {
-                realm.add(mov)
-            }
-        }
+       
     }
     
     @IBAction func logOut(_ sender: Any) {

@@ -8,69 +8,111 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
-import RealmSwift
 
 class MainViewController: UIViewController {
     
     @IBOutlet weak var welcomeLabel: UILabel!
-    @IBOutlet weak var celButton: UIButton!
-    @IBOutlet weak var accesoriesButton: UIButton!
+
+    var userId: String = ""
     var user: UserModel?
-    var cels = [PhoneModel]()
-    var phones: PhoneModel?
-    var acces = [ReplacementModel]()
-    var accesories: ReplacementModel?
-    var showType: ShowType = .phones
     var dataBaseRef: DatabaseReference!
 
     
     override func viewDidLoad() {
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
-        }
-        
         super.viewDidLoad()
-        if let username = user?.username {
-            welcomeLabel.text = "Bienvenido \(username)"
-        }
-        celButton.tag = 0
-        accesoriesButton.tag = 1
+        //Use to need clear DB info
+        //let realm = try! Realm()
+        //try! realm.write {
+        //    realm.deleteAll()
+        //}
+        setupUserByID(id: userId)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-        dataBaseRef = Database.database().reference().child("data")
+        self.navigationItem.leftBarButtonItem = setupBackButton(target: #selector(logOutTapped))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        self.navigationItem.hidesBackButton = false
         dataBaseRef.removeAllObservers()
     }
     
-    @IBAction func goToList(_ sender: UIButton) {
-        if sender.tag == 0 {
-            showType = .phones
-        } else {
-            showType = .accesories
+    private func setupUserByID(id: String) {
+        dataBaseRef = Database.database().reference().child(id)
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let userDic = snapshot.value as? Dictionary<String , Any> {
+                let userLogged = UserModel(JSON: userDic)
+                self.prepareViewByUser(user: userLogged)
+            }
         }
-        self.performSegue(withIdentifier: "goToList", sender: nil)
+    }
+    
+    private func prepareViewByUser(user: UserModel?) {
+        self.user = user
+        if user?.type == UserType.admin.rawValue {
+            setupAdminView()
+        } else {
+            setupVendorViewByPOSView()
+        }
+    }
+    
+    private func setupAdminView() {
+        
+    }
+    
+    private func setupVendorViewByPOSView() {
+
+    }
+    
+    
+    @IBAction func goToSettings(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goToSettings", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "goToList",
            let listViewController = segue.destination as? ListViewController {
-            listViewController.showType = self.showType
+            
+        }
+        
+        if let segueId = segue.identifier,
+           segueId == "goToSettings",
+           let settingsVC = segue.destination as? SettingsViewController {
+            if self.user?.type == UserType.admin.rawValue {
+                settingsVC.userTypeView = .admin
+            } else {
+                settingsVC.userTypeView = .vendor
+            }
         }
     }
     
-    @IBAction func logOut(_ sender: Any) {
+    @objc func logOutTapped() {
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         
         navigationController?.popToRootViewController(animated: true)
     }
+    
+    @IBAction @objc func logOut(_ sender: Any) {
+        logOutTapped()
+    }
+}
+
+extension UIViewController {
+    func setupBackButton(target: Selector?) -> UIBarButtonItem {
+        let newBackButton = UIBarButtonItem(barButtonSystemItem: .close,
+                                            target: self,
+                                            action:target)
+        newBackButton.tintColor = .black
+        return newBackButton
+    }
+    
+    func setupRightButton(target: Selector?) -> UIBarButtonItem {
+        setupBackButton(target: target)
+    }
+    
 }

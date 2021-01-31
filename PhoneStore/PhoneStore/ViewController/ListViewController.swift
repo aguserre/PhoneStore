@@ -39,6 +39,7 @@ class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = showType == .phones ? "Stock celulares" : "Stock accesorios"
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         floatingButton()
     }
     
