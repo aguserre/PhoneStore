@@ -32,19 +32,18 @@ class MainViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+        
         let gradientLayer2 = CAGradientLayer()
         gradientLayer2.frame = self.shadowView.bounds
         gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
         gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.shadowView.layer.insertSublayer(gradientLayer2, at: 0)
-
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(blurEffectView, at: 0)
         
         let shadowSize: CGFloat = 20
         let contactRect = CGRect(x: -shadowSize, y: shadowView.bounds.height - (shadowSize * 0.4), width: shadowView.bounds.width + shadowSize * 2, height: shadowSize)

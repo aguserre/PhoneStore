@@ -53,11 +53,30 @@ Q29udHJhc2VuYRAQEA
                                     <action selector="checkUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u0I-Zp-ml9"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qfm-tv-tcq">
+                                <rect key="frame" x="1" y="44" width="373" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INICIO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2b3-vl-KHg">
+                                        <rect key="frame" x="156" y="21" width="61" height="24"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemTealColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="2b3-vl-KHg" secondAttribute="bottom" constant="5" id="20p-J1-MC5"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="5IG-No-B11"/>
+                                    <constraint firstAttribute="height" constant="50" id="WJ0-Ic-VfP"/>
+                                    <constraint firstItem="2b3-vl-KHg" firstAttribute="centerX" secondItem="Qfm-tv-tcq" secondAttribute="centerX" id="vQQ-5i-ec8"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
+                            <constraint firstItem="Qfm-tv-tcq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ASx-AJ-Hj8"/>
                             <constraint firstItem="96M-ur-9B0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="179" id="ATv-Ua-97y"/>
+                            <constraint firstItem="Qfm-tv-tcq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="1" id="BoZ-Us-pY7"/>
                             <constraint firstItem="u3o-rf-aJj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="FBN-8C-hmO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="McY-iJ-z5R" secondAttribute="bottom" constant="10" id="IKs-qH-paK"/>
                             <constraint firstItem="NRp-Lj-m6c" firstAttribute="top" secondItem="a4d-3f-2Cy" secondAttribute="bottom" constant="10" id="Lsa-dg-a3r"/>
@@ -66,6 +85,7 @@ Q29udHJhc2VuYRAQEA
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="McY-iJ-z5R" secondAttribute="trailing" constant="20" id="aeB-dn-yNf"/>
                             <constraint firstItem="a4d-3f-2Cy" firstAttribute="top" secondItem="96M-ur-9B0" secondAttribute="bottom" constant="15" id="d7s-Ay-b97"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NRp-Lj-m6c" secondAttribute="trailing" constant="20" id="eyf-83-v3N"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qfm-tv-tcq" secondAttribute="trailing" constant="1" id="f2O-Bh-oli"/>
                             <constraint firstItem="McY-iJ-z5R" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.07" id="fUB-KG-Bba"/>
                             <constraint firstItem="96M-ur-9B0" firstAttribute="top" secondItem="u3o-rf-aJj" secondAttribute="bottom" constant="10" id="hef-l7-0c4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="96M-ur-9B0" secondAttribute="trailing" constant="20" id="pir-yz-32u"/>
@@ -75,6 +95,7 @@ Q29udHJhc2VuYRAQEA
                     </view>
                     <navigationItem key="navigationItem" title=" " id="WE0-WH-UMu"/>
                     <connections>
+                        <outlet property="headerView" destination="Qfm-tv-tcq" id="d3s-86-D35"/>
                         <outlet property="passwordTextField" destination="NRp-Lj-m6c" id="gKs-mH-Vha"/>
                         <outlet property="userTextField" destination="96M-ur-9B0" id="hWy-hu-qyl"/>
                         <segue destination="lGt-Da-Hxv" kind="show" identifier="goToMain" id="Mta-u4-6Sh"/>
