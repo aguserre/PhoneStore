@@ -79,8 +79,9 @@ class ListViewController: UIViewController {
         searchBar.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
         searchBar.layer.shadowRadius = 4
         searchBar.layer.shadowOpacity = 0.2
-        
-        floatingButton()
+        if userLogged?.type == UserType.admin.rawValue {
+            floatingButton()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
