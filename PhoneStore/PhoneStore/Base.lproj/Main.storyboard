@@ -326,13 +326,13 @@ Q29udHJhc2VuYRAQEA
                                                             <rect key="frame" x="0.0" y="0.0" width="92.5" height="90"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ume-pY-loo">
-                                                                    <rect key="frame" x="0.0" y="-0.5" width="92.5" height="28"/>
+                                                                    <rect key="frame" x="35.5" y="22.5" width="21" height="21"/>
                                                                     <color key="tintColor" systemColor="systemRedColor"/>
                                                                     <imageReference key="image" image="mappin.and.ellipse" catalog="system" symbolScale="default"/>
                                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIb-ok-XSK">
-                                                                    <rect key="frame" x="5" y="27" width="82.5" height="12"/>
+                                                                    <rect key="frame" x="33.5" y="47" width="25.5" height="12"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="10"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -340,13 +340,10 @@ Q29udHJhc2VuYRAQEA
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                             <constraints>
-                                                                <constraint firstItem="JIb-ok-XSK" firstAttribute="top" secondItem="Ume-pY-loo" secondAttribute="bottom" id="Bns-Us-fIB"/>
-                                                                <constraint firstItem="Ume-pY-loo" firstAttribute="height" secondItem="mXQ-tx-yat" secondAttribute="height" multiplier="0.3" id="Bwo-je-8uo"/>
-                                                                <constraint firstItem="JIb-ok-XSK" firstAttribute="leading" secondItem="mXQ-tx-yat" secondAttribute="leading" constant="5" id="Jbq-l2-bdW"/>
-                                                                <constraint firstAttribute="trailing" secondItem="JIb-ok-XSK" secondAttribute="trailing" constant="5" id="KHb-r0-iY4"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Ume-pY-loo" secondAttribute="trailing" id="NIz-pw-an4"/>
-                                                                <constraint firstItem="Ume-pY-loo" firstAttribute="top" secondItem="mXQ-tx-yat" secondAttribute="top" id="Ooz-qY-Ksk"/>
-                                                                <constraint firstItem="Ume-pY-loo" firstAttribute="leading" secondItem="mXQ-tx-yat" secondAttribute="leading" id="Vbi-f8-6w8"/>
+                                                                <constraint firstItem="Ume-pY-loo" firstAttribute="centerX" secondItem="mXQ-tx-yat" secondAttribute="centerX" id="1Z7-hP-93g"/>
+                                                                <constraint firstItem="Ume-pY-loo" firstAttribute="bottom" secondItem="mXQ-tx-yat" secondAttribute="centerY" constant="-2" id="LRR-Mi-kWT"/>
+                                                                <constraint firstItem="JIb-ok-XSK" firstAttribute="top" secondItem="mXQ-tx-yat" secondAttribute="centerY" constant="2" id="lX4-24-9Ue"/>
+                                                                <constraint firstItem="JIb-ok-XSK" firstAttribute="centerX" secondItem="mXQ-tx-yat" secondAttribute="centerX" id="tRH-yu-PoV"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwG-29-s1w">
