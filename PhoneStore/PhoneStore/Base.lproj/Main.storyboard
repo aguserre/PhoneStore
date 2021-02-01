@@ -43,11 +43,14 @@ Q29udHJhc2VuYRAQEA
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McY-iJ-z5R">
-                                <rect key="frame" x="20" y="610.5" width="335" height="46.5"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <rect key="frame" x="20" y="607" width="335" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="74g-pl-vo6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Ingresar">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="checkUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u0I-Zp-ml9"/>
@@ -86,7 +89,6 @@ Q29udHJhc2VuYRAQEA
                             <constraint firstItem="a4d-3f-2Cy" firstAttribute="top" secondItem="96M-ur-9B0" secondAttribute="bottom" constant="15" id="d7s-Ay-b97"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NRp-Lj-m6c" secondAttribute="trailing" constant="20" id="eyf-83-v3N"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qfm-tv-tcq" secondAttribute="trailing" constant="1" id="f2O-Bh-oli"/>
-                            <constraint firstItem="McY-iJ-z5R" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.07" id="fUB-KG-Bba"/>
                             <constraint firstItem="96M-ur-9B0" firstAttribute="top" secondItem="u3o-rf-aJj" secondAttribute="bottom" constant="10" id="hef-l7-0c4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="96M-ur-9B0" secondAttribute="trailing" constant="20" id="pir-yz-32u"/>
                             <constraint firstItem="NRp-Lj-m6c" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="s1J-Kp-3gw"/>
@@ -96,6 +98,8 @@ Q29udHJhc2VuYRAQEA
                     <navigationItem key="navigationItem" title=" " id="WE0-WH-UMu"/>
                     <connections>
                         <outlet property="headerView" destination="Qfm-tv-tcq" id="d3s-86-D35"/>
+                        <outlet property="loginButton" destination="McY-iJ-z5R" id="1cQ-Tl-m2g"/>
+                        <outlet property="loginButtonConstant" destination="IKs-qH-paK" id="v1b-vM-5JQ"/>
                         <outlet property="passwordTextField" destination="NRp-Lj-m6c" id="gKs-mH-Vha"/>
                         <outlet property="userTextField" destination="96M-ur-9B0" id="hWy-hu-qyl"/>
                         <segue destination="lGt-Da-Hxv" kind="show" identifier="goToMain" id="Mta-u4-6Sh"/>
@@ -231,11 +235,14 @@ Q29udHJhc2VuYRAQEA
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vrp-k2-n2j">
-                                <rect key="frame" x="20" y="561.5" width="335" height="46.5"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <rect key="frame" x="20" y="558" width="335" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="JYo-Sj-81N"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Agregar">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="add:" destination="bZV-yD-Dpo" eventType="touchUpInside" id="swp-PR-NMd"/>
@@ -270,7 +277,6 @@ Q29udHJhc2VuYRAQEA
                             <constraint firstItem="NGN-Qk-ddM" firstAttribute="bottom" secondItem="Mai-iZ-V8J" secondAttribute="bottom" id="il4-Z9-HNj"/>
                             <constraint firstItem="vrp-k2-n2j" firstAttribute="leading" secondItem="BRT-Gu-xuy" secondAttribute="leading" constant="20" id="mh7-ln-N4m"/>
                             <constraint firstItem="MCd-D8-Ll1" firstAttribute="top" secondItem="BRT-Gu-xuy" secondAttribute="top" id="vvO-Jd-ubr"/>
-                            <constraint firstItem="vrp-k2-n2j" firstAttribute="height" secondItem="Mai-iZ-V8J" secondAttribute="height" multiplier="0.07" id="y8h-xq-IoZ"/>
                             <constraint firstItem="vrp-k2-n2j" firstAttribute="bottom" secondItem="BRT-Gu-xuy" secondAttribute="bottom" constant="-10" id="zNE-J2-zFa"/>
                         </constraints>
                     </view>

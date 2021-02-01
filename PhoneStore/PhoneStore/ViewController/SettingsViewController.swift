@@ -86,7 +86,24 @@ class SettingsViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         addButton.isHidden = userTypeView == .admin ? false : true
-        addButton.layer.cornerRadius = addButton.bounds.height/2
+        
+        if !addButton.isHidden {
+            addButton.layer.shadowPath = UIBezierPath(rect: addButton.bounds).cgPath
+            addButton.layer.shadowRadius = 5
+            addButton.layer.shadowOffset = .zero
+            addButton.layer.shadowOpacity = 0.3
+            
+            let gradientLayer3 = CAGradientLayer()
+            gradientLayer3.cornerRadius = 10
+            gradientLayer3.frame = addButton.bounds
+            gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+            gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
+            gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
+            
+            self.addButton.layer.insertSublayer(gradientLayer3, at: 0)
+        }
+        
+        
         expandViewSetup(type: .hidden)
     }
     

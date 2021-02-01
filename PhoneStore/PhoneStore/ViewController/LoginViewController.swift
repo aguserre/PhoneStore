@@ -13,10 +13,16 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var userTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginButtonConstant: NSLayoutConstraint!
+    
     private var userId = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
@@ -43,6 +49,20 @@ class LoginViewController: UIViewController {
         headerView.layer.shadowRadius = 4
         headerView.layer.shadowOpacity = 0.2
         
+        
+        loginButton.layer.shadowPath = UIBezierPath(rect: loginButton.bounds).cgPath
+        loginButton.layer.shadowRadius = 5
+        loginButton.layer.shadowOffset = .zero
+        loginButton.layer.shadowOpacity = 0.3
+        
+        let gradientLayer3 = CAGradientLayer()
+        gradientLayer3.cornerRadius = 10
+        gradientLayer3.frame = self.loginButton.bounds
+        gradientLayer3.colors = [UIColor.systemIndigo.cgColor,  UIColor.systemTeal.cgColor]
+        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.loginButton.layer.insertSublayer(gradientLayer3, at: 0)
+        
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -60,7 +80,7 @@ class LoginViewController: UIViewController {
         self.performSegue(withIdentifier: "goToSettings", sender: nil)
     }
     
-    @IBAction func checkUser(_ sender: Any) {
+    @IBAction @objc func checkUser(_ sender: Any) {
         guard let username = userTextField.text,
               let pass = passwordTextField.text else {
             return
@@ -74,6 +94,25 @@ class LoginViewController: UIViewController {
                 //TODO: Crear alerta
                 print("error login")
             }
+        }
+    }
+    
+    @objc func keyboardWillShow(notification:NSNotification){
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            let userInfo = notification.userInfo!
+            var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+            self.loginButtonConstant.constant = keyboardFrame.size.height
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func keyboardWillHide(notification:NSNotification){
+        UIView.animate(withDuration: 1, delay: 0.5) {
+            self.loginButtonConstant.constant = 10
+            self.loginButton.addTarget(self, action: #selector(self.checkUser(_:)), for: .touchUpOutside)
+            self.view.layoutIfNeeded()
         }
     }
     
