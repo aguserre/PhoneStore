@@ -12,7 +12,10 @@ import FirebaseDatabase
 class SettingsViewController: UIViewController {
     
     var user: UserModel?
+    var userLogged: UserModel?
     var pos: PointOfSale?
+    var selectedPos: PointOfSale?
+    var posArray = [PointOfSale]()
     var baseRef: DatabaseReference!
     var viewState: StateExpandView? = .hidden
     var userTypeView: UserType? = .vendor
@@ -54,6 +57,19 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+        
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         addButton.isHidden = userTypeView == .admin ? false : true
         addButton.layer.cornerRadius = addButton.bounds.height/2
@@ -115,41 +131,74 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func add(_ sender: UIButton) {
+        let typeViewExpanded: StateExpandView  = addTypeSelectedControl.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded
+        let typeRawValue: UserType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .vendor : .admin
+        
         if sender.tag == 1 {
-            
-            expandViewSetup(type: addTypeSelectedControl.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded)
+            expandViewSetup(type: typeViewExpanded)
         } else {
-            user = UserModel(JSON: userDic)
-            guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
-                print("Error de registracion")
-                return
-            }
-            
-            Auth.auth().createUser(withEmail: email, password: pass ) { (auth, error) in
-            guard let user = auth?.user else {
-                print(error?.localizedDescription)
-                return
-            }
+            if typeViewExpanded == .userExpanded {
                 
-            let typeRawValue: UserType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .vendor : .admin
-                
-            let newUserDic: [String : Any] = ["id":user.uid,
-                                            "email": user.email as Any,
-                                            "username": self.userDic["username"] as Any,
-                                            "dni":self.userDic["dni"] as Any,
-                                            "type": typeRawValue.rawValue,
-                                            "localAutotized":user.uid]
-
-            let userModel = UserModel(JSON: newUserDic)
-            self.baseRef = Database.database().reference().child("USER_ADD").childByAutoId()
-            self.baseRef.setValue(userModel?.toDictionary()) { (error, ref) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    print("Save SUCCESS")
-                    self.expandViewSetup(type: .hidden)
+                if typeRawValue == .vendor,
+                   selectedPos?.id == nil  {
+                    print("Debe seleccionar un local")
+                    return
                 }
-            }
+                
+                let selectedPosId = selectedPos?.id ?? ""
+                
+            
+                user = UserModel(JSON: userDic)
+                guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
+                    print("Error de registracion")
+                    return
+                }
+                
+                Auth.auth().createUser(withEmail: email, password: pass ) { (auth, error) in
+                guard let user = auth?.user else {
+                    print(error?.localizedDescription)
+                    return
+                }
+                    
+                
+                    
+                let newUserDic: [String : Any] = ["id":user.uid,
+                                                "email": user.email as Any,
+                                                "username": self.userDic["username"] as Any,
+                                                "dni":self.userDic["dni"] as Any,
+                                                "type": typeRawValue.rawValue,
+                                                "localAutorized":selectedPosId]
+
+                let userModel = UserModel(JSON: newUserDic)?.toDictionary()
+                self.baseRef = Database.database().reference().child("USER_ADD").child(user.uid)
+                self.baseRef.setValue(userModel) { (error, ref) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print("Save SUCCESS")
+                        self.expandViewSetup(type: .hidden)
+                    }
+                }
+                }
+            } else {
+                let typeRawValue: POSType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .movil : .kStatic
+                self.baseRef = Database.database().reference().child("POS_ADD").childByAutoId()
+                let key = baseRef.key
+                let newPosDic: [String : Any] = ["id": key as Any,
+                                                 "name": userDic["name"] as Any,
+                                                 "type": typeRawValue.rawValue,
+                                                "localized" : userDic["localized"] as Any]
+
+                let posModel = PointOfSale(JSON: newPosDic)
+                
+                self.baseRef.setValue(posModel?.toDictionary()) { (error, ref) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        print("Save SUCCESS")
+                        self.expandViewSetup(type: .hidden)
+                    }
+                }
             }
         }
     }
@@ -199,8 +248,8 @@ class SettingsViewController: UIViewController {
         viewState = .posExpanded
         cancelButton.isHidden = false
         titleLabel.isHidden = false
-        rolSegmentedControl.setTitle("Vendedor", forSegmentAt: 0)
-        rolSegmentedControl.setTitle("Administrador", forSegmentAt: 1)
+        rolSegmentedControl.setTitle("Movil", forSegmentAt: 0)
+        rolSegmentedControl.setTitle("Fijo", forSegmentAt: 1)
         rolSegmentedControl.isHidden = false
         posSelectionButton.isHidden = true
         textFieldsTableView.isHidden = false
@@ -218,29 +267,42 @@ class SettingsViewController: UIViewController {
     }
     
     private func presentActionSheet() {
-        let arrayPos = ["Local1","Local2","Local3","Local4","Local5","Local6","Local7","Local7","Local3","Local4","Local5","Local6","Local7","Local7"]
-        
+        baseRef = Database.database().reference().child("POS_ADD")
+        baseRef.observeSingleEvent(of: .value) { (snap) in
+            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let posDic = snap.value as? [String : AnyObject] {
+                        if let posObject = PointOfSale(JSON: posDic) {
+                            self.posArray.append(posObject)
+                        }
+                    }
+                }
+                self.presentSelectionPosActionSheet()
+            }
+        }
+            
         // create an actionSheet
+
+    }
+        
+    func presentSelectionPosActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: "Elegi una opcion", message: nil, preferredStyle: .actionSheet)
 
-        for pos in arrayPos {
-            // create an action
-            let actionAdd: UIAlertAction = UIAlertAction(title: pos, style: .default) { action -> Void in
-                
-                print(pos)
+        for pos in posArray {
+            let actionAdd: UIAlertAction = UIAlertAction(title: pos.name, style: .default) { action -> Void in
+                self.selectedPos = pos
             }
             actionSheetController.addAction(actionAdd)
         }
 
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
-
-        // add actions
         actionSheetController.addAction(cancelAction)
 
         present(actionSheetController, animated: true) {
-            print("option menu presented")
+            self.posArray.removeAll()
         }
     }
+    
     @IBAction func selectAsign(_ sender: Any) {
         presentActionSheet()
     }
