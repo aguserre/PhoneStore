@@ -118,10 +118,10 @@ Q29udHJhc2VuYRAQEA
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NGN-Qk-ddM">
-                                <rect key="frame" x="0.0" y="667" width="375" height="0.0"/>
+                                <rect key="frame" x="0.0" y="167" width="375" height="500"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEK-OV-kIe">
-                                        <rect key="frame" x="56.5" y="174" width="262.5" height="30"/>
+                                        <rect key="frame" x="56.5" y="336" width="262.5" height="30"/>
                                         <color key="backgroundColor" systemColor="systemPinkColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <state key="normal" title="Asignar punto de venta">
@@ -132,7 +132,7 @@ Q29udHJhc2VuYRAQEA
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8fF-gS-NC9">
-                                        <rect key="frame" x="0.0" y="114" width="375" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="76" width="375" height="200"/>
                                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextFieldTableViewCell" rowHeight="74" id="lrz-gk-zzD" customClass="TextFieldTableViewCell" customModule="PhoneStore" customModuleProvider="target">
@@ -142,12 +142,12 @@ Q29udHJhc2VuYRAQEA
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydc-Tg-KOg">
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydc-Tg-KOg">
                                                             <rect key="frame" x="35" y="19.5" width="305" height="44.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgn-7g-Yp3">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgn-7g-Yp3">
                                                             <rect key="frame" x="35" y="5" width="305" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
@@ -177,14 +177,8 @@ Q29udHJhc2VuYRAQEA
                                             <outlet property="delegate" destination="bZV-yD-Dpo" id="S9d-cL-80q"/>
                                         </connections>
                                     </tableView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nuevo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmg-Gc-Sv1">
-                                        <rect key="frame" x="151.5" y="25" width="72" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="O2O-NG-H8q">
-                                        <rect key="frame" x="94" y="68" width="187.5" height="32"/>
+                                        <rect key="frame" x="94" y="30" width="187.5" height="32"/>
                                         <segments>
                                             <segment title="Usuario"/>
                                             <segment title="POS"/>
@@ -193,17 +187,8 @@ Q29udHJhc2VuYRAQEA
                                             <action selector="typeChanged:" destination="bZV-yD-Dpo" eventType="valueChanged" id="YdN-tU-BBP"/>
                                         </connections>
                                     </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q6C-tp-Glk">
-                                        <rect key="frame" x="306" y="8" width="61" height="30"/>
-                                        <state key="normal" title="Cancelar">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="cancelAction:" destination="bZV-yD-Dpo" eventType="touchUpInside" id="mPH-89-2f0"/>
-                                        </connections>
-                                    </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="GAC-wg-gdp">
-                                        <rect key="frame" x="56.5" y="128" width="262.5" height="32"/>
+                                        <rect key="frame" x="56.5" y="290" width="262.5" height="32"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <segments>
                                             <segment title="Vendedor"/>
@@ -214,23 +199,19 @@ Q29udHJhc2VuYRAQEA
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                 <constraints>
-                                    <constraint firstItem="Jmg-Gc-Sv1" firstAttribute="top" secondItem="NGN-Qk-ddM" secondAttribute="top" constant="25" id="4GV-g7-InL"/>
                                     <constraint firstItem="rEK-OV-kIe" firstAttribute="top" secondItem="GAC-wg-gdp" secondAttribute="bottom" constant="15" id="54e-c3-PVf"/>
                                     <constraint firstItem="O2O-NG-H8q" firstAttribute="width" secondItem="NGN-Qk-ddM" secondAttribute="width" multiplier="0.5" id="5PO-eF-CDx"/>
-                                    <constraint firstAttribute="trailing" secondItem="q6C-tp-Glk" secondAttribute="trailing" constant="8" id="Elj-kB-Qda"/>
-                                    <constraint firstItem="q6C-tp-Glk" firstAttribute="top" secondItem="NGN-Qk-ddM" secondAttribute="top" constant="8" id="KYf-cp-8FM"/>
+                                    <constraint firstItem="O2O-NG-H8q" firstAttribute="top" secondItem="NGN-Qk-ddM" secondAttribute="top" constant="30" id="6cu-dr-xjc"/>
                                     <constraint firstItem="rEK-OV-kIe" firstAttribute="width" secondItem="GAC-wg-gdp" secondAttribute="width" id="Kal-ug-SSD"/>
                                     <constraint firstItem="rEK-OV-kIe" firstAttribute="centerX" secondItem="GAC-wg-gdp" secondAttribute="centerX" id="MgS-H5-5YP"/>
                                     <constraint firstItem="GAC-wg-gdp" firstAttribute="centerX" secondItem="8fF-gS-NC9" secondAttribute="centerX" id="OOl-YM-xBf"/>
                                     <constraint firstItem="O2O-NG-H8q" firstAttribute="centerX" secondItem="NGN-Qk-ddM" secondAttribute="centerX" id="W2z-w2-wge"/>
                                     <constraint firstItem="8fF-gS-NC9" firstAttribute="top" secondItem="O2O-NG-H8q" secondAttribute="bottom" constant="15" id="WkR-Gq-U5u"/>
-                                    <constraint firstItem="O2O-NG-H8q" firstAttribute="top" secondItem="Jmg-Gc-Sv1" secondAttribute="bottom" constant="13" id="ZRh-WZ-PxI"/>
                                     <constraint firstItem="8fF-gS-NC9" firstAttribute="height" secondItem="NGN-Qk-ddM" secondAttribute="height" multiplier="0.4" id="b9G-a0-g4x"/>
                                     <constraint firstItem="GAC-wg-gdp" firstAttribute="top" secondItem="8fF-gS-NC9" secondAttribute="bottom" constant="14" id="dbI-1C-cAv"/>
-                                    <constraint firstItem="Jmg-Gc-Sv1" firstAttribute="centerX" secondItem="NGN-Qk-ddM" secondAttribute="centerX" id="eNR-yG-8Y9"/>
                                     <constraint firstItem="GAC-wg-gdp" firstAttribute="width" secondItem="8fF-gS-NC9" secondAttribute="width" multiplier="0.7" id="fCH-k9-nU5"/>
                                     <constraint firstItem="8fF-gS-NC9" firstAttribute="leading" secondItem="NGN-Qk-ddM" secondAttribute="leading" id="feD-L8-kBo"/>
-                                    <constraint firstAttribute="height" id="jET-AL-B7q"/>
+                                    <constraint firstAttribute="height" constant="500" id="jET-AL-B7q"/>
                                     <constraint firstAttribute="trailing" secondItem="8fF-gS-NC9" secondAttribute="trailing" id="juQ-Q5-2QF"/>
                                 </constraints>
                             </view>
@@ -287,13 +268,11 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="addButton" destination="vrp-k2-n2j" id="Z0B-Bg-3IF"/>
                         <outlet property="addTypeSelectedControl" destination="O2O-NG-H8q" id="JBx-7u-mlx"/>
                         <outlet property="backgroundContactView" destination="NGN-Qk-ddM" id="xR6-iI-ECF"/>
-                        <outlet property="cancelButton" destination="q6C-tp-Glk" id="lT7-DA-qss"/>
                         <outlet property="headerView" destination="MCd-D8-Ll1" id="uRc-1y-uwn"/>
                         <outlet property="hightBackgroundView" destination="jET-AL-B7q" id="zGB-gc-Xj6"/>
                         <outlet property="posSelectionButton" destination="rEK-OV-kIe" id="Ktb-Kl-9hv"/>
                         <outlet property="rolSegmentedControl" destination="GAC-wg-gdp" id="vfj-Vd-Twa"/>
                         <outlet property="textFieldsTableView" destination="8fF-gS-NC9" id="XXX-iz-UGO"/>
-                        <outlet property="titleLabel" destination="Jmg-Gc-Sv1" id="zXv-md-pMs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3DN-w6-qfg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

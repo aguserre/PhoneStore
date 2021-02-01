@@ -25,7 +25,6 @@ class SettingsViewController: UIViewController {
     let placeHolderPos = ["Nombre del Punto de Venta", "Ubicacion"]
     var userDic = [String : Any]()
     @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var backgroundContactView: UIView!
     @IBOutlet weak var hightBackgroundView: NSLayoutConstraint!
@@ -35,7 +34,6 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var textFieldsTableView: UITableView!
     private var textFields = [UITextField]()
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var addTypeSelectedControl: UISegmentedControl!
     enum StateExpandView {
         case hidden, userExpanded, posExpanded
@@ -103,7 +101,6 @@ class SettingsViewController: UIViewController {
             
             self.addButton.layer.insertSublayer(gradientLayer3, at: 0)
         }
-        
         
         expandViewSetup(type: .hidden)
     }
@@ -266,37 +263,34 @@ class SettingsViewController: UIViewController {
     
     private func setupUserView() {
         viewState = .userExpanded
-        cancelButton.isHidden = false
-        titleLabel.isHidden = false
         rolSegmentedControl.setTitle("Vendedor", forSegmentAt: 0)
         rolSegmentedControl.setTitle("Administrador", forSegmentAt: 1)
         rolSegmentedControl.isHidden = false
         posSelectionButton.setTitle("Asignar punto de venta", for: .normal)
         posSelectionButton.isHidden = false
         textFieldsTableView.isHidden = false
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(showHiddenViewAction))
         setupTextFields()
         expandViewAnimation(expand: true)
     }
     
     private func setupPosView() {
         viewState = .posExpanded
-        cancelButton.isHidden = false
-        titleLabel.isHidden = false
         rolSegmentedControl.setTitle("Movil", forSegmentAt: 0)
         rolSegmentedControl.setTitle("Fijo", forSegmentAt: 1)
         rolSegmentedControl.isHidden = false
         posSelectionButton.isHidden = true
         textFieldsTableView.isHidden = false
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(showHiddenViewAction))
         setupTextFields()
         expandViewAnimation(expand: true)
     }
     
     private func setupHiddenView() {
-        cancelButton.isHidden = true
         posSelectionButton.isHidden = true
         rolSegmentedControl.isHidden = true
-        titleLabel.isHidden = true
         textFieldsTableView.isHidden = true
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         expandViewAnimation(expand: false)
     }
     
@@ -319,6 +313,10 @@ class SettingsViewController: UIViewController {
 
     }
         
+    @objc func showHiddenViewAction() {
+        setupHiddenView()
+    }
+    
     func presentSelectionPosActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: "Elegi una opcion", message: nil, preferredStyle: .actionSheet)
 
