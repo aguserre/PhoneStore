@@ -11,57 +11,52 @@ import FirebaseAuth
 
 class DetailViewController: UIViewController {
 
-    var selectedPhone: PhoneModel?
-    var selectedAccesorie: ReplacementModel?
-    var showType: ShowType = .phones
+    var selectedProduct: ProductModel?
     var dataBaseRef: DatabaseReference!
+    @IBOutlet weak var sellButton: UIButton!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
        
-        if let p = selectedPhone {
-            print(p.toJSON())
-        }
-        if let a = selectedAccesorie {
-            print(a.toJSON())
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        sellButton.layer.shadowPath = UIBezierPath(rect: sellButton.bounds).cgPath
+        sellButton.layer.shadowRadius = 5
+        sellButton.layer.shadowOffset = .zero
+        sellButton.layer.shadowOpacity = 0.3
+        
+        let gradientLayer2 = CAGradientLayer()
+        gradientLayer2.cornerRadius = 10
+        gradientLayer2.frame = self.sellButton.bounds
+        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.sellButton.layer.insertSublayer(gradientLayer2, at: 0)
         
     }
     
     @IBAction func deleteProduct(_ sender: Any) {
-        let type = showType == .accesories ? "accesorie" : "iphone"
-        dataBaseRef = Database.database().reference().child("data")
-        dataBaseRef.child(type).observeSingleEvent(of: .value) { (snapshot) in
+        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        
-                        if self.showType == .phones {
-                            if self.selectedPhone?.id == postDict["id"] as? String {
-                                self.dataBaseRef.child(type).child(snap.key).removeValue(completionBlock: { (error, ref) in
-                                    if error != nil {
-                                        print("Error: \(String(describing: error))")
-                                        return
-                                    }
-                                    self.registerSaleMov()
-                                })
-                            }
-                        } else {
-                            if self.selectedAccesorie?.descriptions?.lowercased() == (postDict["descriptions"] as? String)?.lowercased() {
-                                self.dataBaseRef.child(type).child(snap.key).removeValue(completionBlock: { (error, ref) in
-                                    if error != nil {
-                                        print("Error: \(String(describing: error))")
-                                        return
-                                    }
-                                    self.registerSaleMov()
-                                })
-                            }
+                        if self.selectedProduct?.code == postDict["code"] as? String {
+                            self.dataBaseRef.child(snap.key).removeValue(completionBlock: { (error, ref) in
+                                if error != nil {
+                                    print("Error: \(String(describing: error))")
+                                    return
+                                }
+                                self.dataBaseRef.removeAllObservers()
+                                self.registerSaleMov()
+                            })
                         }
                     } else {
                         print("Zhenya: failed to convert")

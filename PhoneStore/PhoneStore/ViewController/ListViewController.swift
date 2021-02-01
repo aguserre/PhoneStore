@@ -12,34 +12,70 @@ import FirebaseAuth
 
 class ListViewController: UIViewController {
     
-    var cels = [PhoneModel]()
-    var acces = [ReplacementModel]()
+    var products = [ProductModel]()
+    var productsFilter = [ProductModel]()
     
-    var selectedPhone: PhoneModel?
-    var selectedAccesorie: ReplacementModel?
+    var selectedPos: PointOfSale?
+    var userLogged: UserModel?
+    
+    var selectedProduct: ProductModel?
     
     var isSearching = false
-    var phonesFilter = [PhoneModel]()
-    var accesoriesFilter = [ReplacementModel]()
     var dataBaseRef: DatabaseReference!
-    
-    var showType: ShowType = .phones
+        
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if cels.count != 0 || acces.count != 0 {
-            cels.removeAll()
-            acces.removeAll()
+        if products.count != 0 {
+            products.removeAll()
         }
         refreshData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = showType == .phones ? "Stock celulares" : "Stock accesorios"
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
+        let string = selectedPos?.name?.capitalized ?? "Stock"
+        
+        let titleLbl = UILabel()
+            let titleLblColor = UIColor.white
+
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 20)!,
+                                                         NSAttributedString.Key.foregroundColor: titleLblColor]
+
+        titleLbl.attributedText = NSAttributedString(string: string, attributes: attributes)
+        titleLbl.sizeToFit()
+        
+        self.navigationItem.titleView = titleLbl
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = self.view.bounds
+        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.insertSubview(blurEffectView, at: 0)
+        
+        let gradientLayer2 = CAGradientLayer()
+        gradientLayer2.frame = self.searchBar.bounds
+        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.searchBar.layer.insertSublayer(gradientLayer2, at: 0)
+        
+        let shadowSize: CGFloat = 20
+        let contactRect = CGRect(x: -shadowSize, y: searchBar.bounds.height - (shadowSize * 0.4), width: searchBar.bounds.width + shadowSize * 2, height: shadowSize)
+        searchBar.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
+        searchBar.layer.shadowRadius = 4
+        searchBar.layer.shadowOpacity = 0.2
+        
         floatingButton()
     }
     
@@ -50,74 +86,55 @@ class ListViewController: UIViewController {
     }
 
     func filterTableView(text: String) {
-        phonesFilter = cels
-        accesoriesFilter = acces
-            if showType == . phones {
-                phonesFilter = phonesFilter.filter { (phones) -> Bool in
-                    if let model = phones.model {
-                        return model.lowercased().contains(text.lowercased())
-                    } else {
-                        return false
-                    }
-                }
+        productsFilter = products
+        productsFilter = productsFilter.filter { (product) -> Bool in
+            if let model = product.code {
+                return model.lowercased().contains(text.lowercased())
             } else {
-                accesoriesFilter = accesoriesFilter.filter { (acces) -> Bool in
-                    if let description = acces.descriptions {
-                        return description.lowercased().contains(text.lowercased())
+                return false
+            }
+        }
+        listTableView.reloadData()
+    }
+        
+    
+    func refreshData() {
+        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let prodDict = snap.value as? Dictionary<String, AnyObject> {
+                        if let p = ProductModel(JSON: prodDict) {
+                            if self.selectedPos?.id == p.id {
+                                self.products.append(p)
+                            }
+                        }
                     } else {
-                        return false
+                        print("Zhenya: failed to convert")
                     }
                 }
             }
-
-        listTableView.reloadData()
-    }
-    
-    func refreshData() {
-        let type = showType == .accesories ? "accesorie" : "iphone"
-        dataBaseRef = Database.database().reference().child("data")
-        
-        dataBaseRef.child(type).observeSingleEvent(of: .value) { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                    for snap in snapshot {
-                        if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                            
-                            if self.showType == . phones {
-                                if let p = PhoneModel(JSON: postDict) {
-                                    self.cels.append(p)
-                                }
-                                
-                            } else {
-                                if let ac = ReplacementModel(JSON: postDict) {
-                                    self.acces.append(ac)
-                                }
-                            }
-                        } else {
-                            print("Zhenya: failed to convert")
-                        }
-                    }
-                }
-            
             self.listTableView.reloadData()
         }
     }
     
     func floatingButton(){
         let btn = UIButton(type: .custom)
-        btn.setTitle("Agregar", for: .normal)
-        btn.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        btn.clipsToBounds = true
+        btn.setTitle("Nuevo", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = .systemIndigo
+        btn.layer.masksToBounds = true
         btn.layer.cornerRadius = 35
-        btn.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        btn.layer.borderWidth = 2.0
         btn.addTarget(self,action: #selector(goToAddStock), for: .touchUpInside)
         view.addSubview(btn)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        
+
         btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 70).isActive = true
         btn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
         btn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
+        
+        btn.addShadow(offset: .zero, color: .systemIndigo, radius: 10, opacity: 1)
     }
     
     @objc func goToAddStock() {
@@ -128,14 +145,13 @@ class ListViewController: UIViewController {
         if let segueId = segue.identifier,
            segueId == "goToDetails",
            let detailsViewController = segue.destination as? DetailViewController {
-            detailsViewController.selectedPhone = selectedPhone
-            detailsViewController.selectedAccesorie = selectedAccesorie
-            detailsViewController.showType = showType
+            detailsViewController.selectedProduct = selectedProduct
         }
         if let segueId = segue.identifier,
            segueId == "goToAddStock",
-           let addStockVC = segue.destination as? AddStockViewController {
-            addStockVC.showType = showType
+           let addVc = segue.destination as? AddStockViewController {
+            addVc.selectedPos = selectedPos
+            addVc.userLogged = userLogged
         }
     }
     
@@ -152,7 +168,7 @@ extension ListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             isSearching = false
-            phonesFilter = cels
+            productsFilter = products
             listTableView.reloadData()
         } else {
             isSearching = true
@@ -164,17 +180,9 @@ extension ListViewController: UISearchBarDelegate {
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isSearching {
-            if showType == .phones {
-                selectedPhone = phonesFilter[indexPath.row]
-            } else {
-                selectedAccesorie = accesoriesFilter[indexPath.row]
-            }
+            selectedProduct = productsFilter[indexPath.row]
         } else {
-            if showType == .phones {
-                selectedPhone = cels[indexPath.row]
-            } else {
-                selectedAccesorie = acces[indexPath.row]
-            }
+            selectedProduct = products[indexPath.row]
         }
         performSegue(withIdentifier: "goToDetails", sender: nil)
     }
@@ -183,36 +191,35 @@ extension ListViewController: UITableViewDelegate {
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearching {
-            if showType == .phones {
-                return phonesFilter.count
-            } else {
-                return accesoriesFilter.count
-            }
+            return productsFilter.count
         } else {
-            if showType == .phones {
-                return cels.count
-            } else {
-                return acces.count
-            }
+            return products.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell", for: indexPath) as! ListTableViewCell
         if isSearching {
-            if showType == .phones {
-            cell.configure(phone: phonesFilter[indexPath.row])
-            } else {
-                cell.configure(accesorie: accesoriesFilter[indexPath.row])
-            }
+            cell.configure(product: productsFilter[indexPath.row])
         } else {
-            if showType == .phones {
-                cell.configure(phone: cels[indexPath.row])
-            } else {
-                cell.configure(accesorie: acces[indexPath.row])
-            }
+            cell.configure(product: products[indexPath.row])
         }
         
         return cell
+    }
+}
+
+extension UIView {
+
+    func addShadow(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float) {
+        layer.masksToBounds = false
+        layer.shadowOffset = offset
+        layer.shadowColor = color.cgColor
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
+
+        let backgroundCGColor = backgroundColor?.cgColor
+        backgroundColor = nil
+        layer.backgroundColor =  backgroundCGColor
     }
 }

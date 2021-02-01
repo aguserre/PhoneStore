@@ -16,8 +16,8 @@ class ListTableViewCell: UITableViewCell {
         descLabel.text = phone.model
     }
     
-    func configure(accesorie: ReplacementModel) {
-        descLabel.text = accesorie.descriptions
+    func configure(product: ProductModel) {
+        descLabel.text = product.code
     }
 
 

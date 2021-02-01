@@ -79,13 +79,6 @@ class MainViewController: UIViewController {
                 }
                 selectUserLogged(users: self.users)
             }
-            
-            
-            
-//            if let userDic = snapshot.value as? Dictionary<String , Any> {
-//                let userLogged = UserModel(JSON: userDic)
-//                self.prepareViewByUser(user: userLogged)
-//            }
         }
     }
     
@@ -149,7 +142,8 @@ class MainViewController: UIViewController {
         if let segueId = segue.identifier,
            segueId == "goToList",
            let listViewController = segue.destination as? ListViewController {
-            
+            listViewController.selectedPos = self.selectedPost
+            listViewController.userLogged = self.userLogged
         }
         
         if let segueId = segue.identifier,
@@ -211,7 +205,7 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedPost = posts[indexPath.row]
-        print(selectedPost?.name)
+        performSegue(withIdentifier: "goToList", sender: nil)
     }
 }
 
