@@ -117,12 +117,12 @@ Q29udHJhc2VuYRAQEA
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydc-Tg-KOg">
+                                                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ydc-Tg-KOg">
                                                             <rect key="frame" x="35" y="19.5" width="305" height="44.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
                                                         </textField>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgn-7g-Yp3">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgn-7g-Yp3">
                                                             <rect key="frame" x="35" y="5" width="305" height="14.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
@@ -261,7 +261,7 @@ Q29udHJhc2VuYRAQEA
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="beA-5x-nSW">
-                                <rect key="frame" x="10" y="123" width="355" height="544"/>
+                                <rect key="frame" x="10" y="114" width="355" height="553"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PosTableViewCell" rowHeight="105" id="flN-Ih-ATw" customClass="PosTableViewCell" customModule="PhoneStore" customModuleProvider="target">
@@ -394,24 +394,33 @@ Q29udHJhc2VuYRAQEA
                                     <outlet property="delegate" destination="lGt-Da-Hxv" id="Ma1-8j-UTP"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tja-Vf-BcO">
-                                <rect key="frame" x="10" y="44" width="355" height="69"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rf2-7W-qdl">
+                                <rect key="frame" x="1" y="44" width="373" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUNTOS DE VENTA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hmr-qO-OzL">
+                                        <rect key="frame" x="95" y="21" width="183.5" height="24"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="69" id="fFg-Rz-IYO"/>
+                                    <constraint firstAttribute="height" constant="50" id="qVQ-CB-7SO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hmr-qO-OzL" secondAttribute="bottom" constant="5" id="ssa-Q5-YPJ"/>
+                                    <constraint firstItem="Hmr-qO-OzL" firstAttribute="centerX" secondItem="rf2-7W-qdl" secondAttribute="centerX" id="uho-nI-OkM"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AWa-L3-XFe"/>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
-                            <constraint firstItem="beA-5x-nSW" firstAttribute="top" secondItem="tja-Vf-BcO" secondAttribute="bottom" constant="10" id="6gf-Hq-bkg"/>
-                            <constraint firstItem="tja-Vf-BcO" firstAttribute="centerX" secondItem="beA-5x-nSW" secondAttribute="centerX" id="9vl-bE-O30"/>
                             <constraint firstItem="beA-5x-nSW" firstAttribute="bottom" secondItem="AWa-L3-XFe" secondAttribute="bottom" id="Aoc-8J-dR6"/>
-                            <constraint firstItem="tja-Vf-BcO" firstAttribute="top" secondItem="AWa-L3-XFe" secondAttribute="top" id="OYx-3D-fdT"/>
-                            <constraint firstItem="tja-Vf-BcO" firstAttribute="width" secondItem="beA-5x-nSW" secondAttribute="width" id="Pzq-fe-Onr"/>
+                            <constraint firstItem="rf2-7W-qdl" firstAttribute="leading" secondItem="AWa-L3-XFe" secondAttribute="leading" constant="1" id="RFh-GT-xkj"/>
                             <constraint firstItem="beA-5x-nSW" firstAttribute="trailing" secondItem="AWa-L3-XFe" secondAttribute="trailing" constant="-10" id="UAG-o9-PqN"/>
+                            <constraint firstItem="beA-5x-nSW" firstAttribute="top" secondItem="rf2-7W-qdl" secondAttribute="bottom" constant="20" id="V8Y-V8-6hH"/>
                             <constraint firstItem="beA-5x-nSW" firstAttribute="leading" secondItem="AWa-L3-XFe" secondAttribute="leading" constant="10" id="bM9-uz-LJ6"/>
+                            <constraint firstItem="rf2-7W-qdl" firstAttribute="top" secondItem="AWa-L3-XFe" secondAttribute="top" id="bvF-g0-ey4"/>
+                            <constraint firstItem="AWa-L3-XFe" firstAttribute="trailing" secondItem="rf2-7W-qdl" secondAttribute="trailing" constant="1" id="zUR-DB-8gZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lvW-xn-hp0">
@@ -424,8 +433,8 @@ Q29udHJhc2VuYRAQEA
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="headerTableView" destination="tja-Vf-BcO" id="mlr-et-PxI"/>
                         <outlet property="posTableView" destination="beA-5x-nSW" id="T2H-zd-HcE"/>
+                        <outlet property="shadowView" destination="rf2-7W-qdl" id="diN-la-s0W"/>
                         <segue destination="grb-UL-4xB" kind="show" identifier="goToList" id="NR6-EA-ic3"/>
                         <segue destination="bZV-yD-Dpo" kind="show" identifier="goToSettings" id="8sr-dk-ccn"/>
                     </connections>
