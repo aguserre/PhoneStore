@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController {
     let placeHolderUser = ["Nombre completo", "Email", "Password", "Documento"]
     let placeHolderPos = ["Nombre del Punto de Venta", "Ubicacion"]
     var userDic = [String : Any]()
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var backgroundContactView: UIView!
@@ -70,6 +71,19 @@ class SettingsViewController: UIViewController {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.insertSubview(blurEffectView, at: 0)
         
+        let gradientLayer2 = CAGradientLayer()
+        gradientLayer2.frame = self.headerView.bounds
+        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.headerView.layer.insertSublayer(gradientLayer2, at: 0)
+        
+        let shadowSize: CGFloat = 20
+        let contactRect = CGRect(x: -shadowSize, y: headerView.bounds.height - (shadowSize * 0.4), width: headerView.bounds.width + shadowSize * 2, height: shadowSize)
+        headerView.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
+        headerView.layer.shadowRadius = 4
+        headerView.layer.shadowOpacity = 0.2
+        
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         addButton.isHidden = userTypeView == .admin ? false : true
         addButton.layer.cornerRadius = addButton.bounds.height/2
@@ -85,7 +99,7 @@ class SettingsViewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             if expand {
                 let safeAreaTop = self.view.safeAreaInsets.top
-                self.hightBackgroundView.constant = self.view.bounds.height-safeAreaTop
+                self.hightBackgroundView.constant = self.view.bounds.height-safeAreaTop - self.headerView.bounds.height
                 self.addButton.setTitle("Guardar", for: .normal)
                 self.addButton.tag = 0
             } else {
