@@ -9,16 +9,18 @@ import UIKit
 
 class ListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var conditionLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     
-    
-    func configure(phone: PhoneModel) {
-        descLabel.text = phone.model
-    }
     
     func configure(product: ProductModel) {
-        descLabel.text = product.code
+        let price = "$ " + (product.priceSale ?? "0,00")
+        codeLabel.text = product.code
+        descLabel.text = product.description
+        conditionLabel.text = product.condition
+        priceLabel.text = price
     }
-
 
 }

@@ -22,6 +22,7 @@ class ListViewController: UIViewController {
     
     var isSearching = false
     var dataBaseRef: DatabaseReference!
+    var isKeyboardShowing = false
         
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -31,6 +32,9 @@ class ListViewController: UIViewController {
         if products.count != 0 {
             products.removeAll()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         refreshData()
     }
     
@@ -81,7 +85,7 @@ class ListViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        NotificationCenter.default.removeObserver(self)
         dataBaseRef.removeAllObservers()
     }
 
@@ -141,6 +145,14 @@ class ListViewController: UIViewController {
         performSegue(withIdentifier: "goToAddStock", sender: nil)
     }
     
+    @objc func keyboardWillAppear() {
+        isKeyboardShowing = true
+    }
+
+    @objc func keyboardWillDisappear() {
+        isKeyboardShowing = false
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "goToDetails",
@@ -179,6 +191,10 @@ extension ListViewController: UISearchBarDelegate {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isKeyboardShowing {
+            view.endEditing(true)
+            return
+        }
         if isSearching {
             selectedProduct = productsFilter[indexPath.row]
         } else {

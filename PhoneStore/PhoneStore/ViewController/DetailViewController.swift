@@ -20,6 +20,8 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
        
+        self.hideKeyboardWhenTappedAround()
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
         gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]

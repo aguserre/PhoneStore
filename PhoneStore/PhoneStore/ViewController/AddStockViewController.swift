@@ -55,21 +55,18 @@ class AddStockViewController: UIViewController {
     }
     
     func saveProduct() {
-        let dic: [String : Any] = ["id": String(Int.random(in: 1..<100)),
-                   "model": "Iphone 98",
-                   "color": "Red",
-                   "vendor":"Pia Salta"]
         let date = Date()
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         let today = formatter1.string(from: date)
+        let  ramdomPrice = String(Int.random(in: 1..<10000))
         let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
                                         "code" : "I_M \(String(Int.random(in: 1..<100)))",
                                         "description" : "Descripcion del producto",
                                         "color" : "Rojo" ,
                                         "condition" : "Usado",
                                         "priceBuy" : "142",
-                                        "priceSale" : "600",
+                                        "priceSale" : ramdomPrice,
                                         "dateIn" : today,
                                         "dateOut" : " ",
                                         "localInStock" : selectedPos?.name as Any]
