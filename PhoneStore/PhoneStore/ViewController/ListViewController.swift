@@ -23,9 +23,12 @@ class ListViewController: UIViewController {
     var isSearching = false
     var dataBaseRef: DatabaseReference!
     var isKeyboardShowing = false
-        
+    @IBOutlet weak var changeFilterButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
+    
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var stackView: UIStackView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -79,9 +82,19 @@ class ListViewController: UIViewController {
         searchBar.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
         searchBar.layer.shadowRadius = 4
         searchBar.layer.shadowOpacity = 0.2
-        if userLogged?.type == UserType.admin.rawValue {
-            floatingButton()
+        if userLogged?.type != UserType.admin.rawValue {
+            addButton.isHidden = true
         }
+        
+        
+        let gradientLayer3 = CAGradientLayer()
+        gradientLayer3.frame = self.stackView.bounds
+        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.stackView.layer.insertSublayer(gradientLayer3, at: 0)
+        stackView.addShadow(offset: CGSize(width: 0.0, height : -5.0), color: .black, radius: 4, opacity: 0.2)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -123,23 +136,8 @@ class ListViewController: UIViewController {
         }
     }
     
-    func floatingButton(){
-        let btn = UIButton(type: .custom)
-        btn.setTitle("Nuevo", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = .systemIndigo
-        btn.layer.masksToBounds = true
-        btn.layer.cornerRadius = 35
-        btn.addTarget(self,action: #selector(goToAddStock), for: .touchUpInside)
-        view.addSubview(btn)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-
-        btn.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        btn.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        btn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
-        btn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30).isActive = true
-        
-        btn.addShadow(offset: .zero, color: .systemIndigo, radius: 10, opacity: 1)
+    @IBAction func addStockAction(_ sender: Any) {
+        goToAddStock()
     }
     
     @objc func goToAddStock() {
