@@ -50,13 +50,9 @@ class LoginViewController: UIViewController {
         headerView.layer.shadowOpacity = 0.2
         
         
-        loginButton.layer.shadowPath = UIBezierPath(rect: loginButton.bounds).cgPath
-        loginButton.layer.shadowRadius = 5
-        loginButton.layer.shadowOffset = .zero
-        loginButton.layer.shadowOpacity = 0.3
+        loginButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.cornerRadius = 10
         gradientLayer3.frame = self.loginButton.bounds
         gradientLayer3.colors = [UIColor.systemIndigo.cgColor,  UIColor.systemTeal.cgColor]
         gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
@@ -97,12 +93,12 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillShow(notification:NSNotification){
+    @objc func keyboardWillShow(notification:NSNotification) {
+        let userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        self.loginButtonConstant.constant = keyboardFrame.height + 50
         UIView.animate(withDuration: 0.3, delay: 0.5) {
-            let userInfo = notification.userInfo!
-            var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-            keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-            self.loginButtonConstant.constant = keyboardFrame.size.height
             self.view.layoutIfNeeded()
         }
         
@@ -110,7 +106,7 @@ class LoginViewController: UIViewController {
     
     @objc func keyboardWillHide(notification:NSNotification){
         UIView.animate(withDuration: 1, delay: 0.5) {
-            self.loginButtonConstant.constant = 10
+            self.loginButtonConstant.constant = 70
             self.loginButton.addTarget(self, action: #selector(self.checkUser(_:)), for: .touchUpOutside)
             self.view.layoutIfNeeded()
         }
