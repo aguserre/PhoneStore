@@ -29,10 +29,7 @@ class DetailViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
-        sellButton.layer.shadowPath = UIBezierPath(rect: sellButton.bounds).cgPath
-        sellButton.layer.shadowRadius = 5
-        sellButton.layer.shadowOffset = .zero
-        sellButton.layer.shadowOpacity = 0.3
+        sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         let gradientLayer2 = CAGradientLayer()
         gradientLayer2.cornerRadius = 10

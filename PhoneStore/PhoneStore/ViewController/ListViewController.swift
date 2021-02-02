@@ -19,6 +19,7 @@ class ListViewController: UIViewController {
     var userLogged: UserModel?
     
     var selectedProduct: ProductModel?
+    @IBOutlet weak var backgroundHeaderView: UIView!
     
     var isSearching = false
     var dataBaseRef: DatabaseReference!
@@ -43,6 +44,7 @@ class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         let string = selectedPos?.name?.capitalized ?? "Stock"
         
@@ -71,21 +73,16 @@ class ListViewController: UIViewController {
         view.insertSubview(blurEffectView, at: 0)
         
         let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.searchBar.bounds
+        gradientLayer2.frame = self.backgroundHeaderView.bounds
         gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
         gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.searchBar.layer.insertSublayer(gradientLayer2, at: 0)
+        self.backgroundHeaderView.layer.insertSublayer(gradientLayer2, at: 0)
         
-        let shadowSize: CGFloat = 20
-        let contactRect = CGRect(x: -shadowSize, y: searchBar.bounds.height - (shadowSize * 0.4), width: searchBar.bounds.width + shadowSize * 2, height: shadowSize)
-        searchBar.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
-        searchBar.layer.shadowRadius = 4
-        searchBar.layer.shadowOpacity = 0.2
+        backgroundHeaderView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         if userLogged?.type != UserType.admin.rawValue {
             addButton.isHidden = true
         }
-        
         
         let gradientLayer3 = CAGradientLayer()
         gradientLayer3.frame = self.stackView.bounds
@@ -93,7 +90,7 @@ class ListViewController: UIViewController {
         gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.stackView.layer.insertSublayer(gradientLayer3, at: 0)
-        stackView.addShadow(offset: CGSize(width: 0.0, height : -5.0), color: .black, radius: 4, opacity: 0.2)
+        stackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
 
     }
     

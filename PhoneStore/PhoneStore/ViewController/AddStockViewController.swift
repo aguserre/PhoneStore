@@ -28,10 +28,7 @@ class AddStockViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
-        addButton.layer.shadowPath = UIBezierPath(rect: addButton.bounds).cgPath
-        addButton.layer.shadowRadius = 5
-        addButton.layer.shadowOffset = .zero
-        addButton.layer.shadowOpacity = 0.3
+        addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         let gradientLayer2 = CAGradientLayer()
         gradientLayer2.cornerRadius = 10

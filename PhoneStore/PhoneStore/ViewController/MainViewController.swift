@@ -11,9 +11,9 @@ import FirebaseAuth
 
 class MainViewController: UIViewController {
     
-    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var posTableView: UITableView!
+    @IBOutlet weak var seeMoreButton: UIButton!
     
     var userId: String = ""
     var userLogged: UserModel?
@@ -52,12 +52,12 @@ class MainViewController: UIViewController {
         shadowView.layer.shadowOpacity = 0.2
         
         let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.frame = self.stackView.bounds
+        gradientLayer3.frame = self.seeMoreButton.bounds
         gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
         gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.stackView.layer.insertSublayer(gradientLayer3, at: 0)
-        stackView.addShadow(offset: CGSize(width: 0.0, height : -5.0), color: .black, radius: 4, opacity: 0.2)
+        self.seeMoreButton.layer.insertSublayer(gradientLayer3, at: 0)
+        seeMoreButton.addShadow(offset: CGSize(width: 0.0, height : -5.0), color: .black, radius: 4, opacity: 0.2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
