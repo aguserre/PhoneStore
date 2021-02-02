@@ -60,6 +60,39 @@ class PointOfSale: Mappable {
     }
 }
 
+enum FilterSelection: Int {
+    case none = 0, day, week, month
+    
+    public typealias RawValue = Int
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .none:
+            return 0
+        case .day:
+            return 1
+        case .week:
+            return 2
+        case .month:
+            return 3
+        }
+    }
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue {
+        case 0:
+            self = .none
+        case 1:
+            self = .day
+        case 2:
+            self = .week
+        case 3:
+            self = .month
+        default:
+            self = .none
+        }
+    }
+}
 
 enum UserType: Int, RawRepresentable {
     case admin = 0
