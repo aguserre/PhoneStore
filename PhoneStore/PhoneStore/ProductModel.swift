@@ -19,6 +19,7 @@ class ProductModel: Mappable {
     var priceSale: String?
     var dateIn: Date?
     var dateOut: Date?
+    var isChecked = false
 
     required init?(map: Map) {}
     
@@ -45,6 +46,7 @@ class ProductModel: Mappable {
                 "priceSale" : priceSale as Any,
                 "dateIn" : dateIn as Any,
                 "dateOut" : dateOut as Any,
+                "isChecked" : isChecked as Any,
                 "localInStock" : localInStock as Any] as NSDictionary
     }
 }

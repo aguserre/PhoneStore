@@ -13,6 +13,7 @@ import FirebaseAuth
 class ListViewController: UIViewController {
     
     var products = [ProductModel]()
+    var productsSelected = [ProductModel]()
     var productsFilter = [ProductModel]()
     
     var selectedPos: PointOfSale?
@@ -24,6 +25,8 @@ class ListViewController: UIViewController {
     var isSearching = false
     var dataBaseRef: DatabaseReference!
     var isKeyboardShowing = false
+    @IBOutlet weak var cartButton: UIButton!
+    @IBOutlet weak var cantSelectedLabel: UILabel!
     @IBOutlet weak var changeFilterButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     
@@ -47,6 +50,11 @@ class ListViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         let string = selectedPos?.name?.capitalized ?? "Stock"
+        
+        cantSelectedLabel.isHidden = true
+        cantSelectedLabel.backgroundColor = .systemIndigo
+        cantSelectedLabel.layer.cornerRadius = cantSelectedLabel.bounds.width/2
+        cantSelectedLabel.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         let titleLbl = UILabel()
             let titleLblColor = UIColor.white
@@ -99,19 +107,6 @@ class ListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
         dataBaseRef.removeAllObservers()
     }
-
-    func filterTableView(text: String) {
-        productsFilter = products
-        productsFilter = productsFilter.filter { (product) -> Bool in
-            if let model = product.code {
-                return model.lowercased().contains(text.lowercased())
-            } else {
-                return false
-            }
-        }
-        listTableView.reloadData()
-    }
-        
     
     func refreshData() {
         dataBaseRef = Database.database().reference().child("PROD_ADD")
@@ -163,11 +158,30 @@ class ListViewController: UIViewController {
         }
     }
     
+    @IBAction func cartTapped(_ sender: Any) {
+        for p in productsSelected {
+            print(p.toDictionary())
+        }
+    }
+    
     @IBAction func logOut(_ sender: Any) {
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func filterTableView(text: String) {
+        listTableView.reloadData()
+        productsFilter = products
+        productsFilter = productsFilter.filter { (product) -> Bool in
+            if let model = product.code {
+                return model.lowercased().contains(text.lowercased())
+            } else {
+                return false
+            }
+        }
+        listTableView.reloadData()
     }
     
 }
@@ -191,9 +205,12 @@ extension ListViewController: UITableViewDelegate {
             view.endEditing(true)
             return
         }
+        if productsSelected.count > 0 {
+            return
+        }
         if isSearching {
             selectedProduct = productsFilter[indexPath.row]
-        } else {
+       } else {
             selectedProduct = products[indexPath.row]
         }
         performSegue(withIdentifier: "goToDetails", sender: nil)
@@ -202,11 +219,11 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isSearching {
-            return productsFilter.count
-        } else {
+       if isSearching {
+        return productsFilter.count
+       } else {
             return products.count
-        }
+       }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -217,8 +234,45 @@ extension ListViewController: UITableViewDataSource {
             cell.configure(product: products[indexPath.row])
         }
         
+        cell.delegate = self
+        cell.checkBoxButton.tag = indexPath.row
+        
         return cell
     }
+}
+
+extension ListViewController: CheckMarkDelegate {
+    func didCheckBoxTapped(productAdd: ProductModel) {
+        productsSelected.append(productAdd)
+        updateCartCantiti()
+        for p in products {
+            if p.code == productAdd.code {
+                p.isChecked = true
+            }
+        }
+    }
+    
+    func didDeselectCheck(productAdd: ProductModel) {
+        if let index = productsSelected.firstIndex(where: {$0.code == productAdd.code}) {
+            for p in products {
+                if p.code == productAdd.code {
+                    p.isChecked = false
+                }
+            }
+            productsSelected.remove(at: index)
+            updateCartCantiti()
+        }
+    }
+    
+    private func updateCartCantiti() {
+        if productsSelected.count == 0 {
+            self.cantSelectedLabel.isHidden = true
+        } else {
+            self.cantSelectedLabel.isHidden = false
+            self.cantSelectedLabel.text = String(productsSelected.count)
+        }
+    }
+    
 }
 
 extension UIView {
