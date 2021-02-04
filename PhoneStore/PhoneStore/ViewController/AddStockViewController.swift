@@ -14,6 +14,7 @@ class AddStockViewController: UIViewController {
     var dataBaseRef: DatabaseReference!
     var selectedPos: PointOfSale?
     var userLogged: UserModel?
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     @IBOutlet weak var addButton: UIButton!
     
     override func viewDidLoad() {
@@ -48,6 +49,7 @@ class AddStockViewController: UIViewController {
     }
     
     @IBAction func addProduct(_ sender: Any) {
+        generator.impactOccurred()
         saveProduct()
     }
     
@@ -85,6 +87,7 @@ class AddStockViewController: UIViewController {
     }
     
     @IBAction @objc func logOut(_ sender: Any) {
+        generator.impactOccurred()
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         

@@ -15,6 +15,7 @@ class DetailViewController: UIViewController {
     var selectedProduct: ProductModel?
     var multipSelectedProducts = [ProductModel]()
     var dataBaseRef: DatabaseReference!
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var prodCollectionView: GeminiCollectionView!
     let cellScale: CGFloat = 0.6
@@ -64,6 +65,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func deleteProduct(_ sender: Any) {
+        generator.impactOccurred()
         dataBaseRef = Database.database().reference().child("PROD_ADD")
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -92,6 +94,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func logOut(_ sender: Any) {
+        generator.impactOccurred()
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         
@@ -107,9 +110,6 @@ extension DetailViewController: UICollectionViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.prodCollectionView.animateVisibleCells()
     }
-    
-
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCardCollectionViewCell", for: indexPath) as! ProductCardCollectionViewCell
@@ -134,7 +134,7 @@ extension DetailViewController: UICollectionViewDelegate {
 
 extension DetailViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
+        generator.impactOccurred()
         let layout = self.prodCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
         let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
 

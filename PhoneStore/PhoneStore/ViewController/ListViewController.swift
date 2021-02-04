@@ -18,7 +18,7 @@ class ListViewController: UIViewController {
     
     var selectedPos: PointOfSale?
     var userLogged: UserModel?
-    
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     var selectedProduct: ProductModel?
     @IBOutlet weak var backgroundHeaderView: UIView!
     
@@ -38,6 +38,7 @@ class ListViewController: UIViewController {
         super.viewWillAppear(animated)
         if products.count != 0 {
             products.removeAll()
+            cantSelectedLabel.isHidden = true
         }
         if productsSelected.count != 0 {
             productsSelected.removeAll()
@@ -132,10 +133,12 @@ class ListViewController: UIViewController {
     }
     
     @IBAction func addStockAction(_ sender: Any) {
+        generator.impactOccurred()
         goToAddStock()
     }
     
     @objc func goToAddStock() {
+        generator.impactOccurred()
         performSegue(withIdentifier: "goToAddStock", sender: nil)
     }
     
@@ -165,11 +168,17 @@ class ListViewController: UIViewController {
         }
     }
     
+    @IBAction func changeSpecificFilter(_ sender: Any) {
+        generator.impactOccurred()
+    }
+    
     @IBAction func cartTapped(_ sender: Any) {
+        generator.impactOccurred()
         performSegue(withIdentifier: "goToDetails", sender: nil)
     }
     
     @IBAction func logOut(_ sender: Any) {
+        generator.impactOccurred()
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         
@@ -206,6 +215,7 @@ extension ListViewController: UISearchBarDelegate {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        generator.impactOccurred()
         if isKeyboardShowing {
             view.endEditing(true)
             return
@@ -248,6 +258,7 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: CheckMarkDelegate {
     func didCheckBoxTapped(productAdd: ProductModel) {
+        generator.impactOccurred()
         productsSelected.append(productAdd)
         updateCartCantiti()
         for p in products {
@@ -258,6 +269,7 @@ extension ListViewController: CheckMarkDelegate {
     }
     
     func didDeselectCheck(productAdd: ProductModel) {
+        generator.impactOccurred()
         if let index = productsSelected.firstIndex(where: {$0.code == productAdd.code}) {
             for p in products {
                 if p.code == productAdd.code {

@@ -16,7 +16,7 @@ class MovementsViewController: UIViewController {
     @IBOutlet weak var weekButton: UIButton!
     @IBOutlet weak var monthButton: UIButton!
     @IBOutlet weak var backgroundView: UIView!
-    
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     var senderFilter = UIButton()
     var filter: FilterSelection = .none
     @IBOutlet weak var colectionView: UICollectionView!
@@ -69,10 +69,12 @@ class MovementsViewController: UIViewController {
     }
     
     @IBAction func seeMoreAction(_ sender: Any) {
+        generator.impactOccurred()
         print("Filtro especifico")
     }
     
     @IBAction private func selectSender(sender: UIButton) {
+        generator.impactOccurred()
         if filter == .none {
             isShowingCollectionView.toggle()
         }
@@ -149,7 +151,7 @@ class MovementsViewController: UIViewController {
                 days.append(day)
             }
         }
-       return [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+       return days
     }
 }
 
@@ -187,14 +189,11 @@ extension MovementsViewController: UICollectionViewDataSource {
         cell.layer.cornerRadius = 10
         return cell
     }
-    
-
-
-    
 }
 
 extension MovementsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        generator.impactOccurred()
         isShowingCollectionView.toggle()
         filter = .none
         expandCollection(expand: isShowingCollectionView, showCells: [])

@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var loginButtonConstant: NSLayoutConstraint!
+    @IBOutlet weak var backgroundView: UIView!
     
     private var userId = ""
     
@@ -42,13 +43,17 @@ class LoginViewController: UIViewController {
         gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.headerView.layer.insertSublayer(gradientLayer2, at: 0)
+        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
-        let shadowSize: CGFloat = 20
-        let contactRect = CGRect(x: -shadowSize, y: headerView.bounds.height - (shadowSize * 0.4), width: headerView.bounds.width + shadowSize * 2, height: shadowSize)
-        headerView.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
-        headerView.layer.shadowRadius = 4
-        headerView.layer.shadowOpacity = 0.2
-        
+//        let gradientLayer4 = CAGradientLayer()
+//        gradientLayer4.frame = backgroundView.frame
+//        gradientLayer4.cornerRadius = 20
+//        gradientLayer4.colors = [UIColor.systemIndigo.cgColor,  UIColor.systemTeal.cgColor]
+//        gradientLayer4.startPoint = CGPoint(x: 0.0, y: 0.5)
+//        gradientLayer4.endPoint = CGPoint(x: 1.0, y: 0.5)
+//        backgroundView.layer.insertSublayer(gradientLayer4, at: 0)
+        backgroundView.layer.cornerRadius = 20
+        backgroundView.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.4)
         
         loginButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
@@ -77,6 +82,8 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction @objc func checkUser(_ sender: Any) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
         guard let username = userTextField.text,
               let pass = passwordTextField.text else {
             return

@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     var baseRef: DatabaseReference!
     var viewState: StateExpandView? = .hidden
     var userTypeView: UserType? = .vendor
+    let generator = UIImpactFeedbackGenerator(style: .medium)
     
     var placeholders = [String]()
     let placeHolderUser = ["Nombre completo", "Email", "Password", "Documento"]
@@ -146,6 +147,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func add(_ sender: UIButton) {
+        generator.impactOccurred()
         let typeViewExpanded: StateExpandView  = addTypeSelectedControl.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded
         let typeRawValue: UserType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .vendor : .admin
         
@@ -320,22 +322,30 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func selectAsign(_ sender: Any) {
+        generator.impactOccurred()
         presentActionSheet()
     }
     
     
     @IBAction func cancelAction(_ sender: UIButton) {
+        generator.impactOccurred()
         setupHiddenView()
     }
     
     @IBAction func typeChanged(_ sender: UISegmentedControl) {
+        generator.impactOccurred()
         textFields.removeAll()
         userDic = [:]
         expandViewSetup(type: sender.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded)
         changeViewColor()
     }
     
+    @IBAction func typeUserChange(_ sender: Any) {
+        generator.impactOccurred()
+    }
+    
     @objc func logOut(_ sender: Any) {
+        generator.impactOccurred()
         do { try Auth.auth().signOut() }
         catch { print("already logged out") }
         

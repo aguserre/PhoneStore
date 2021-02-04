@@ -21,7 +21,8 @@ class MainViewController: UIViewController {
     var posts = [PointOfSale]()
     var selectedPost: PointOfSale?
     var dataBaseRef: DatabaseReference!
-    
+    let generator = UIImpactFeedbackGenerator(style: .medium)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,6 +144,7 @@ class MainViewController: UIViewController {
     
     
     @IBAction func goToSettings(_ sender: UIBarButtonItem) {
+        generator.impactOccurred()
         performSegue(withIdentifier: "goToSettings", sender: nil)
     }
     
@@ -191,7 +193,12 @@ class MainViewController: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
+    @IBAction func movmentsActionButton(_ sender: Any) {
+        generator.impactOccurred()
+    }
+    
     @IBAction @objc func logOut(_ sender: Any) {
+        generator.impactOccurred()
         logOutTapped()
     }
 }
@@ -212,6 +219,7 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        generator.impactOccurred()
         selectedPost = posts[indexPath.row]
         performSegue(withIdentifier: "goToList", sender: nil)
     }
