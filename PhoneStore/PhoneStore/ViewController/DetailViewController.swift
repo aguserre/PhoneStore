@@ -16,8 +16,10 @@ class DetailViewController: UIViewController {
     var multipSelectedProducts = [ProductModel]()
     var dataBaseRef: DatabaseReference!
     let generator = UIImpactFeedbackGenerator(style: .medium)
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var prodCollectionView: GeminiCollectionView!
+    @IBOutlet weak var totalLabel: UILabel!
     let cellScale: CGFloat = 0.7
 
     override func viewDidLoad() {
@@ -41,13 +43,19 @@ class DetailViewController: UIViewController {
         sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.cornerRadius = 10
         gradientLayer2.frame = self.sellButton.bounds
         gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
         gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.sellButton.layer.insertSublayer(gradientLayer2, at: 0)
         
+        let gradientLayer3 = CAGradientLayer()
+        gradientLayer3.frame = self.headerView.bounds
+        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
+        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
+        self.headerView.layer.insertSublayer(gradientLayer3, at: 0)
+        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         calculateTotal()
 }
     
@@ -83,7 +91,7 @@ class DetailViewController: UIViewController {
                 total = price + total
             }
         }
-        print(total)
+        totalLabel.text = "Total $ \(total)"
     }
     
     func registerSaleMov() {

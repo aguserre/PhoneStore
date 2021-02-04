@@ -1156,8 +1156,8 @@ Q29udHJhc2VuYRAQEA
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="130"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Productos seleccionados" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccb-24-3TF">
-                                        <rect key="frame" x="89.5" y="101" width="235" height="24"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="20"/>
+                                        <rect key="frame" x="56" y="95" width="302.5" height="30"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                 </subviews>
@@ -1357,8 +1357,10 @@ Q29udHJhc2VuYRAQEA
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="headerView" destination="6Xh-ur-gAr" id="P6p-10-rbv"/>
                         <outlet property="prodCollectionView" destination="eG7-wx-VNU" id="ORU-eL-h57"/>
                         <outlet property="sellButton" destination="0et-Ym-r8J" id="QTF-OJ-KIL"/>
+                        <outlet property="totalLabel" destination="ccb-24-3TF" id="vxP-s5-fCm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFz-TJ-Kdm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
