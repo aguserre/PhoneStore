@@ -39,6 +39,9 @@ class ListViewController: UIViewController {
         if products.count != 0 {
             products.removeAll()
         }
+        if productsSelected.count != 0 {
+            productsSelected.removeAll()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -148,7 +151,11 @@ class ListViewController: UIViewController {
         if let segueId = segue.identifier,
            segueId == "goToDetails",
            let detailsViewController = segue.destination as? DetailViewController {
-            detailsViewController.selectedProduct = selectedProduct
+            if let p = selectedProduct {
+                productsSelected.append(p)
+            }
+            detailsViewController.multipSelectedProducts = productsSelected
+            
         }
         if let segueId = segue.identifier,
            segueId == "goToAddStock",
@@ -159,9 +166,7 @@ class ListViewController: UIViewController {
     }
     
     @IBAction func cartTapped(_ sender: Any) {
-        for p in productsSelected {
-            print(p.toDictionary())
-        }
+        performSegue(withIdentifier: "goToDetails", sender: nil)
     }
     
     @IBAction func logOut(_ sender: Any) {

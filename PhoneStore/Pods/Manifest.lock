@@ -27,6 +27,7 @@ PODS:
   - FirebaseUI/Auth (9.0.0):
     - Firebase/Auth
     - GoogleUtilities/UserDefaults
+  - Gemini (1.4.0)
   - GoogleDataTransport (8.2.0):
     - nanopb (~> 2.30907.0)
   - GoogleUtilities/AppDelegateSwizzler (7.2.0):
@@ -59,6 +60,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Database
   - FirebaseUI/Auth
+  - Gemini
   - ObjectMapper
 
 SPEC REPOS:
@@ -69,6 +71,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
     - FirebaseUI
+    - Gemini
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
@@ -84,6 +87,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 3770093ac4f2be4590fa03cfa1d3a6e5602d4557
   FirebaseDatabase: 0a619c887a9565bf4808eba37d2f0ed1d62f62d0
   FirebaseUI: f0677a1cc235f6da602cbd5c9b5fbbd24544a6b3
+  Gemini: 4ad915cca8805577fe3021e02feeca2b77dcdbfc
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: d866834472f1324d080496bc67ab3ce5d0d46027
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
@@ -92,6 +96,6 @@ SPEC CHECKSUMS:
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
 
-PODFILE CHECKSUM: 0464e8160dc5c07b94286a37589eb92a31632ba6
+PODFILE CHECKSUM: 7d62117a1c516d1da732d24351251871049e0f60
 
 COCOAPODS: 1.10.1
