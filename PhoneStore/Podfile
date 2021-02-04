@@ -9,5 +9,6 @@ target 'PhoneStore' do
   pod 'ObjectMapper'
   pod 'FirebaseUI/Auth'
   pod 'Gemini'
+  pod 'SkeletonView'
 
 end

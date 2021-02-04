@@ -29,6 +29,7 @@ class ListViewController: UIViewController {
     @IBOutlet weak var cantSelectedLabel: UILabel!
     @IBOutlet weak var changeFilterButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var listTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -36,9 +37,15 @@ class ListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        listTableView.isHidden = true
+        loaderIndicator.isHidden = false
+        loaderIndicator.startAnimating()
         if products.count != 0 {
             products.removeAll()
             cantSelectedLabel.isHidden = true
+        }
+        if selectedProduct != nil {
+            selectedProduct = nil
         }
         if productsSelected.count != 0 {
             productsSelected.removeAll()
@@ -129,6 +136,9 @@ class ListViewController: UIViewController {
                 }
             }
             self.listTableView.reloadData()
+            self.listTableView.isHidden = false
+            self.loaderIndicator.stopAnimating()
+            self.loaderIndicator.isHidden = true
         }
     }
     

@@ -28,16 +28,22 @@ class ListTableViewCell: UITableViewCell {
     
     var delegate: CheckMarkDelegate?
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupSkeleton()
+    }
     
     func configure(product: ProductModel) {
         checkView.addShadow(offset: .zero, color: .white, radius: 4, opacity: 0.4)
         checkView.backgroundColor = .systemIndigo
-        let price = "$ " + (product.priceSale ?? "0,00")
+        let price = "$ \(product.priceSale ?? 0.0)"
         checkView.layer.cornerRadius = checkView.bounds.width/2
         checkView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         codeLabel.text = product.code
         descLabel.text = product.description
         conditionLabel.text = product.condition
+        priceLabel.adjustsFontSizeToFitWidth = true
+        priceLabel.minimumScaleFactor = 0.2
         priceLabel.text = price
         id = product.code ?? ""
         isChecked = product.isChecked
@@ -45,7 +51,11 @@ class ListTableViewCell: UITableViewCell {
         checkBoxButton.setImage(UIImage(systemName: imageName, withConfiguration: largeConfig), for: .normal)
         productSelected = product
     }
-
+    
+    func setupSkeleton() {
+        
+    }
+    
     @IBAction func checkBoxTapped(_ sender: UIButton) {
         isChecked.toggle()
         

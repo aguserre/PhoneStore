@@ -30,7 +30,6 @@ class DetailViewController: UIViewController {
             .degree(60)
             .rollEffect(.reverseSineWave)
         
-        setupCollectionViewCellSize()
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
@@ -49,14 +48,8 @@ class DetailViewController: UIViewController {
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.sellButton.layer.insertSublayer(gradientLayer2, at: 0)
         
-    }
-    
-    func setupCollectionViewCellSize() {
-//        let screenSize = prodCollectionView.layer.bounds
-//        let layout = prodCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        
-
-    }
+        calculateTotal()
+}
     
     @IBAction func deleteProduct(_ sender: Any) {
         generator.impactOccurred()
@@ -81,6 +74,16 @@ class DetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func calculateTotal() {
+        var total: Double = 0.0
+        for product in multipSelectedProducts {
+            if let price = product.priceSale {
+                total = price + total
+            }
+        }
+        print(total)
     }
     
     func registerSaleMov() {
@@ -130,17 +133,15 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-                
         let width = collectionView.bounds.width * cellScale
-        let h = collectionView.bounds.height * cellScale
+        let height = collectionView.bounds.height * cellScale
         
-        let insetX = (collectionView.bounds.width - width)/2
-        let insetY = (collectionView.bounds.height - h)/2
+        let insetX = (collectionView.bounds.width - width)/2 + 20
+        let insetY = (collectionView.bounds.height - height)/2
         
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
         
-        return CGSize(width: width, height: h)
+        return CGSize(width: width, height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView,

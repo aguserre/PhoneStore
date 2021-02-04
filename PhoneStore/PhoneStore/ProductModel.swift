@@ -15,8 +15,8 @@ class ProductModel: Mappable {
     var description: String?
     var color: String?
     var condition: String?
-    var priceBuy: String?
-    var priceSale: String?
+    var priceBuy: Double?
+    var priceSale: Double?
     var dateIn: Date?
     var dateOut: Date?
     var isChecked = false

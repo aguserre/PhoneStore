@@ -78,8 +78,8 @@
             filePath = "PhoneStore/ViewController/ListViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "filterTableView(text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -87,32 +87,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5200FC07-5268-4065-85A4-B3B1029027BB"
+            uuid = "299006CC-7C21-4E8D-9964-7B7B0E3C566E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhoneStore/ViewController/DetailViewController.swift"
+            filePath = "PhoneStore/ViewController/ProductCardCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "collectionView(_:numberOfItemsInSection:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "setup(product:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3AD5C0C7-23D5-4065-9217-9293DEC999A7"
+            uuid = "F5930C22-C93C-4AAF-8C40-03F21C9DFD29"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhoneStore/ViewController/ListViewController.swift"
+            filePath = "PhoneStore/ViewController/ProductCardCollectionViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "didCheckBoxTapped(productAdd:)"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "setup(product:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -14,6 +14,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var posTableView: UITableView!
     @IBOutlet weak var seeMoreButton: UIButton!
+    @IBOutlet weak var settingsButton: UIBarButtonItem!
+    @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
     
     var userId: String = ""
     var userLogged: UserModel?
@@ -63,6 +65,9 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        settingsButton.isEnabled = false
+        posTableView.isHidden = true
+        loaderIndicator.startAnimating()
         self.navigationItem.leftBarButtonItem = setupBackButton(target: #selector(logOutTapped))
         clearNavBar()
         posts.removeAll()
@@ -106,6 +111,10 @@ class MainViewController: UIViewController {
         } else {
             setupVendorViewByPOSView()
         }
+        settingsButton.isEnabled = true
+        posTableView.isHidden = false
+        loaderIndicator.stopAnimating()
+        loaderIndicator.isHidden = true
     }
     
     private func setupAdminView() {

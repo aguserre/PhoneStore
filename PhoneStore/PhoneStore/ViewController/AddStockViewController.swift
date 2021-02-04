@@ -58,13 +58,13 @@ class AddStockViewController: UIViewController {
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         let today = formatter1.string(from: date)
-        let  ramdomPrice = String(Int.random(in: 1..<10000))
+        let  ramdomPrice = Double.random(in: 1..<10000)
         let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
                                         "code" : "I_M \(String(Int.random(in: 1..<100)))",
                                         "description" : "Descripcion del producto",
                                         "color" : "Rojo" ,
                                         "condition" : "Usado",
-                                        "priceBuy" : "142",
+                                        "priceBuy" : (Double.random(in: 1..<100)),
                                         "priceSale" : ramdomPrice,
                                         "dateIn" : today,
                                         "dateOut" : " ",

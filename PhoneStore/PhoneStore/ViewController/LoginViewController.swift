@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import SkeletonView
 
 class LoginViewController: UIViewController {
     
@@ -21,6 +22,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        skeletonSetup()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:UIResponder.keyboardWillHideNotification, object: nil)
@@ -45,13 +48,6 @@ class LoginViewController: UIViewController {
         self.headerView.layer.insertSublayer(gradientLayer2, at: 0)
         headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
-//        let gradientLayer4 = CAGradientLayer()
-//        gradientLayer4.frame = backgroundView.frame
-//        gradientLayer4.cornerRadius = 20
-//        gradientLayer4.colors = [UIColor.systemIndigo.cgColor,  UIColor.systemTeal.cgColor]
-//        gradientLayer4.startPoint = CGPoint(x: 0.0, y: 0.5)
-//        gradientLayer4.endPoint = CGPoint(x: 1.0, y: 0.5)
-//        backgroundView.layer.insertSublayer(gradientLayer4, at: 0)
         backgroundView.layer.cornerRadius = 20
         backgroundView.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.4)
         
@@ -77,25 +73,43 @@ class LoginViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    @IBAction func goToSettings(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "goToSettings", sender: nil)
+    func skeletonSetup() {
+        userTextField.isSkeletonable = true
+        userTextField.skeletonCornerRadius = 10
+        passwordTextField.isSkeletonable = true
+        passwordTextField.skeletonCornerRadius = 10
+        loginButton.isSkeletonable = true
     }
     
     @IBAction @objc func checkUser(_ sender: Any) {
+        userTextField.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))
+        passwordTextField.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))
+        loginButton.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
         guard let username = userTextField.text,
               let pass = passwordTextField.text else {
+            userTextField.hideSkeleton()
+            passwordTextField.hideSkeleton()
+            loginButton.hideSkeleton()
             return
         }
         
         Auth.auth().signIn(withEmail: username.lowercased(), password: pass) { (auth, error) in
             if let user = auth?.user {
                 self.userId = user.uid
-                self.performSegue(withIdentifier: "goToMain", sender: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.userTextField.hideSkeleton()
+                    self.passwordTextField.hideSkeleton()
+                    self.loginButton.hideSkeleton()
+                    self.performSegue(withIdentifier: "goToMain", sender: nil)
+                }
             } else {
                 //TODO: Crear alerta
                 print("error login")
+                self.userTextField.hideSkeleton()
+                self.passwordTextField.hideSkeleton()
+                self.loginButton.hideSkeleton()
             }
         }
     }
@@ -125,9 +139,6 @@ class LoginViewController: UIViewController {
            let mainViewController = segue.destination as? MainViewController {
             mainViewController.userId = self.userId
         }
-        if let segueId = segue.identifier,
-           segueId == "goToSettings",
-           let _ = segue.destination as? SettingsViewController { }
     }
 }
 
