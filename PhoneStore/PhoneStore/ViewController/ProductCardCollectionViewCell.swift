@@ -28,11 +28,9 @@ class ProductCardCollectionViewCell: GeminiCell {
         if let price = product.priceSale {
             priceLabel.text = "$ \(price)"
         }
-        let formatter1 = DateFormatter()
-        formatter1.dateStyle = .short
+        
         if let date =  product.dateIn {
-            formatter1.dateStyle = .short
-            dateInLabel.text = formatter1.string(from: date)
+            dateInLabel.text =  date
         }
         
         descriptionBackgroundView.layer.cornerRadius = 20

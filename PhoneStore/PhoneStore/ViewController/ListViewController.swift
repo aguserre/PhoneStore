@@ -37,6 +37,7 @@ class ListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        dataBaseRef = Database.database().reference().child("PROD_ADD")
         listTableView.isHidden = true
         loaderIndicator.isHidden = false
         loaderIndicator.startAnimating()
@@ -110,7 +111,6 @@ class ListViewController: UIViewController {
         gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.stackView.layer.insertSublayer(gradientLayer3, at: 0)
         stackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -120,7 +120,6 @@ class ListViewController: UIViewController {
     }
     
     func refreshData() {
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {

@@ -58,6 +58,12 @@ class DetailViewController: UIViewController {
         headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         calculateTotal()
 }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if dataBaseRef != nil {
+            dataBaseRef.removeAllObservers()
+        }
+    }
     
     @IBAction func deleteProduct(_ sender: Any) {
         generator.impactOccurred()
@@ -66,15 +72,16 @@ class DetailViewController: UIViewController {
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        if self.selectedProduct?.code == postDict["code"] as? String {
-                            self.dataBaseRef.child(snap.key).removeValue(completionBlock: { (error, ref) in
-                                if error != nil {
-                                    print("Error: \(String(describing: error))")
-                                    return
-                                }
-                                self.dataBaseRef.removeAllObservers()
-                                self.registerSaleMov()
-                            })
+                        for prod in self.multipSelectedProducts {
+                            if prod.code == postDict["code"] as? String {
+                                self.dataBaseRef.child(snap.key).removeValue(completionBlock: { (error, ref) in
+                                    if error != nil {
+                                        print("Error: \(String(describing: error))")
+                                        return
+                                    }
+                                    self.registerSaleMov()
+                                })
+                            }
                         }
                     } else {
                         print("Zhenya: failed to convert")
@@ -95,7 +102,7 @@ class DetailViewController: UIViewController {
     }
     
     func registerSaleMov() {
-       
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func logOut(_ sender: Any) {

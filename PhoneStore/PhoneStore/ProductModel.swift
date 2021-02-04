@@ -17,8 +17,8 @@ class ProductModel: Mappable {
     var condition: String?
     var priceBuy: Double?
     var priceSale: Double?
-    var dateIn: Date?
-    var dateOut: Date?
+    var dateIn: String?
+    var dateOut: String?
     var isChecked = false
 
     required init?(map: Map) {}

@@ -58,14 +58,19 @@ class AddStockViewController: UIViewController {
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         let today = formatter1.string(from: date)
-        let  ramdomPrice = Double.random(in: 1..<10000)
+        let  ramdomPriceBuy = Double.random(in: 1..<10000)
+        let roundPriceBuy = Double(round(100*ramdomPriceBuy)/100)
+        
+        let  ramdomPriceSale = Double.random(in: 1..<10000)
+        let roundPriceSale = Double(round(100*ramdomPriceSale)/100)
+        
         let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
                                         "code" : "I_M \(String(Int.random(in: 1..<100)))",
                                         "description" : "Descripcion del producto",
                                         "color" : "Rojo" ,
                                         "condition" : "Usado",
-                                        "priceBuy" : (Double.random(in: 1..<100)),
-                                        "priceSale" : ramdomPrice,
+                                        "priceBuy" : roundPriceBuy,
+                                        "priceSale" : roundPriceSale,
                                         "dateIn" : today,
                                         "dateOut" : " ",
                                         "localInStock" : selectedPos?.name as Any]
@@ -83,7 +88,7 @@ class AddStockViewController: UIViewController {
     }
     
     func registerAddMov(dic: NSDictionary) {
-        
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction @objc func logOut(_ sender: Any) {
