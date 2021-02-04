@@ -1168,7 +1168,7 @@ Q29udHJhc2VuYRAQEA
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                            <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                             <constraints>
                                                 <constraint firstItem="S9H-IH-AcZ" firstAttribute="centerX" secondItem="7wM-uw-ob1" secondAttribute="centerX" id="ATm-Yz-JdJ"/>
                                                 <constraint firstItem="S9H-IH-AcZ" firstAttribute="centerY" secondItem="7wM-uw-ob1" secondAttribute="centerY" id="ePL-dG-yf9"/>

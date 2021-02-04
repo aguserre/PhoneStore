@@ -154,7 +154,7 @@ class ListViewController: UIViewController {
         if let segueId = segue.identifier,
            segueId == "goToDetails",
            let detailsViewController = segue.destination as? DetailViewController {
-            if let p = selectedProduct {
+            if let p = selectedProduct, productsSelected.count <= 1 {
                 productsSelected.append(p)
             }
             detailsViewController.multipSelectedProducts = productsSelected

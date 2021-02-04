@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
     let generator = UIImpactFeedbackGenerator(style: .medium)
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var prodCollectionView: GeminiCollectionView!
-    let cellScale: CGFloat = 0.6
+    let cellScale: CGFloat = 0.7
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,20 +30,7 @@ class DetailViewController: UIViewController {
             .degree(60)
             .rollEffect(.reverseSineWave)
         
-        let screenSize = UIScreen.main.bounds
-        let layout = prodCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        
-        let topPadd: CGFloat = 130
-        let cellWidth = floor(screenSize.width * cellScale)
-        let cellHight = floor(screenSize.height * cellScale)
-        
-        let insetX = (view.bounds.width - cellWidth)/2
-        let insetY = (view.bounds.height - cellHight - topPadd)/2
-        
-        layout.itemSize = CGSize(width: cellWidth, height: cellHight)
-        prodCollectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
+        setupCollectionViewCellSize()
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
@@ -62,6 +49,13 @@ class DetailViewController: UIViewController {
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.sellButton.layer.insertSublayer(gradientLayer2, at: 0)
         
+    }
+    
+    func setupCollectionViewCellSize() {
+//        let screenSize = prodCollectionView.layer.bounds
+//        let layout = prodCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        
+
     }
     
     @IBAction func deleteProduct(_ sender: Any) {
@@ -104,7 +98,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return multipSelectedProducts.count ?? 1
+        return multipSelectedProducts.count
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -117,7 +111,7 @@ extension DetailViewController: UICollectionViewDataSource {
         cell.setup(product: multipSelectedProducts[indexPath.row])
         self.prodCollectionView.animateCell(cell)
         
-        cell.addShadow(offset: .zero, color: .black, radius: 6, opacity: 0.6)
+        cell.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.6)
         cell.layer.cornerRadius = 10
         
         return cell
@@ -132,22 +126,39 @@ extension DetailViewController: UICollectionViewDelegate {
     }
 }
 
+extension DetailViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+                
+        let width = collectionView.bounds.width * cellScale
+        let h = collectionView.bounds.height * cellScale
+        
+        let insetX = (collectionView.bounds.width - width)/2
+        let insetY = (collectionView.bounds.height - h)/2
+        
+        collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
+        
+        return CGSize(width: width, height: h)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout
+        collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+}
+
 extension DetailViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         generator.impactOccurred()
-        let layout = self.prodCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
-        let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
-
-        var offset = targetContentOffset.pointee
-        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-        let roundedIndex = round(index)
-
-        offset = CGPoint(
-          x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left + cellWidthIncludingSpacing / 2 - scrollView.bounds.size.width / 2,
-          y: -scrollView.contentInset.top
-        )
-
-        targetContentOffset.pointee = offset
     }
     
     
