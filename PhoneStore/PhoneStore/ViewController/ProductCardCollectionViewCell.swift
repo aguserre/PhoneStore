@@ -53,8 +53,8 @@ class ProductCardCollectionViewCell: GeminiCell {
             cantitiStepper.maximumValue = Double(cantiti)
         }
         
-        backgroundCantitiView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 04)
-        backgroundCantitiView.layer.cornerRadius = backgroundCantitiView.bounds.height/2
+        backgroundCantitiView.addShadow(offset: .zero, color: .systemTeal, radius: 3, opacity: 0.4)
+        backgroundCantitiView.layer.cornerRadius = 13
         
         descriptionBackgroundView.layer.cornerRadius = 20
         descriptionBackgroundView.addShadow(offset: .zero, color: .systemTeal, radius: 4, opacity: 0.4)

@@ -1503,21 +1503,22 @@ Q29udHJhc2VuYRAQEA
                                                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="yDm-rj-eQf">
                                                     <rect key="frame" x="148" y="364" width="94" height="32"/>
                                                 </stepper>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VUb-Hj-ebZ">
-                                                    <rect key="frame" x="112.5" y="347" width="25" height="25"/>
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VUb-Hj-ebZ">
+                                                    <rect key="frame" x="112" y="346.5" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KO6-mu-zfU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
-                                                            <color key="textColor" systemColor="systemIndigoColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="3z0-6y-JtA"/>
+                                                        <constraint firstAttribute="height" constant="26" id="3z0-6y-JtA"/>
                                                         <constraint firstAttribute="trailing" secondItem="KO6-mu-zfU" secondAttribute="trailing" id="PzC-kd-zuG"/>
-                                                        <constraint firstAttribute="width" constant="25" id="VFQ-b9-r8H"/>
+                                                        <constraint firstAttribute="width" constant="26" id="VFQ-b9-r8H"/>
                                                         <constraint firstItem="KO6-mu-zfU" firstAttribute="top" secondItem="VUb-Hj-ebZ" secondAttribute="top" id="k3z-3n-Ylq"/>
                                                         <constraint firstItem="KO6-mu-zfU" firstAttribute="leading" secondItem="VUb-Hj-ebZ" secondAttribute="leading" id="lnE-fZ-y2s"/>
                                                         <constraint firstAttribute="bottom" secondItem="KO6-mu-zfU" secondAttribute="bottom" id="mgi-Yo-ApY"/>
