@@ -120,12 +120,15 @@ class AddStockViewController: UIViewController {
         var priceBuy: Double = 0.00
         var saleBuy: Double = 0.00
         
-        if let stringPrice = productDic["priceBuy"] as? String, let doublePrice = Double(stringPrice) {
-            priceBuy = doublePrice
+        if let stringPrice = productDic["priceBuy"] as? String {
+            priceBuy = stringPrice.doubleValue
+            
         }
-        if let stringPrice = productDic["priceSale"] as? String, let doublePrice = Double(stringPrice) {
-            saleBuy = doublePrice
+        if let stringPrice = productDic["priceSale"] as? String {
+            saleBuy = stringPrice.doubleValue
         }
+        
+        
 
         let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
                                         "code" : productDic["code"] as Any,
@@ -193,5 +196,21 @@ extension AddStockViewController: UITextFieldDelegate {
         
         print(productDic)
         
+    }
+}
+
+extension String {
+    static let numberFormatter = NumberFormatter()
+    var doubleValue: Double {
+        String.numberFormatter.decimalSeparator = "."
+        if let result =  String.numberFormatter.number(from: self) {
+            return result.doubleValue
+        } else {
+            String.numberFormatter.decimalSeparator = ","
+            if let result = String.numberFormatter.number(from: self) {
+                return result.doubleValue
+            }
+        }
+        return 0
     }
 }

@@ -87,16 +87,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "231C08F3-24C7-44FA-B573-8EE2449BFE7B"
+            uuid = "7FE25B08-7DB6-445B-A03E-DAC0BEB13DF3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhoneStore/ViewController/DetailViewController.swift"
+            filePath = "PhoneStore/ViewController/AddStockViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "cantitiChanged(cantiti:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "saveProduct()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
