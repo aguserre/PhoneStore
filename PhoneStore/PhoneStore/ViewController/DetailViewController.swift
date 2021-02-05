@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var prodCollectionView: GeminiCollectionView!
     @IBOutlet weak var totalLabel: UILabel!
     let cellScale: CGFloat = 0.7
+    var subtotal = 0.00
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +99,7 @@ class DetailViewController: UIViewController {
                 total = price + total
             }
         }
+        subtotal = total
         totalLabel.text = "Total $ \(total)"
     }
     
@@ -130,6 +132,7 @@ extension DetailViewController: UICollectionViewDataSource {
         self.prodCollectionView.animateCell(cell)
         
         cell.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.6)
+        cell.delegate = self
         cell.layer.cornerRadius = 10
         
         return cell
@@ -148,10 +151,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width * cellScale
+        let width = view.bounds.width * cellScale
         let height = collectionView.bounds.height * cellScale
         
-        let insetX = (collectionView.bounds.width - width)/2 + 20
+        let insetX = (collectionView.bounds.width - width)/2 + 10
         let insetY = (collectionView.bounds.height - height)/2
         
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
@@ -177,5 +180,17 @@ extension DetailViewController: UIScrollViewDelegate {
         generator.impactOccurred()
     }
     
+    
+}
+
+extension DetailViewController: CantitiProductChanged {
+    func cantitiChanged(cantiti: Double) {
+        updateValues(newAmount: cantiti)
+    }
+    
+    func updateValues(newAmount: Double) {
+        subtotal = subtotal + newAmount
+        totalLabel.text = "Total $ \(subtotal)"
+    }
     
 }

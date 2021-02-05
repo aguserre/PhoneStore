@@ -20,6 +20,7 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var checkView: UIView!
     @IBOutlet weak var checkBoxButton: UIButton!
+    @IBOutlet weak var cantitiLabel: UILabel!
     
     var productSelected: ProductModel!
     var id = ""
@@ -45,6 +46,7 @@ class ListTableViewCell: UITableViewCell {
         priceLabel.adjustsFontSizeToFitWidth = true
         priceLabel.minimumScaleFactor = 0.2
         priceLabel.text = price
+        cantitiLabel.text = "\(product.cantiti ?? 0)"
         id = product.code ?? ""
         isChecked = product.isChecked
         let imageName = isChecked ? "checkmark" : ""

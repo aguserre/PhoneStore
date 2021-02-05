@@ -80,8 +80,24 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "207"
             endingLineNumber = "207"
-            landmarkName = "ListViewController"
-            landmarkType = "3">
+            landmarkName = "filterTableView(text:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "231C08F3-24C7-44FA-B573-8EE2449BFE7B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneStore/ViewController/DetailViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

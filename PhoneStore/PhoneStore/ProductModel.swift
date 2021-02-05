@@ -19,6 +19,7 @@ class ProductModel: Mappable {
     var priceSale: Double?
     var dateIn: String?
     var dateOut: String?
+    var cantiti: Int?
     var isChecked = false
 
     required init?(map: Map) {}
@@ -33,6 +34,7 @@ class ProductModel: Mappable {
         priceSale <- map["priceSale"]
         dateIn <- map["dateIn"]
         dateOut <- map["dateOut"]
+        cantiti <- map["cantiti"]
         localInStock <- map["localInStock"]
     }
     
@@ -47,6 +49,7 @@ class ProductModel: Mappable {
                 "dateIn" : dateIn as Any,
                 "dateOut" : dateOut as Any,
                 "isChecked" : isChecked as Any,
+                "cantiti" : cantiti as Any,
                 "localInStock" : localInStock as Any] as NSDictionary
     }
 }
