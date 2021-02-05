@@ -61,14 +61,6 @@ class AddStockViewController: UIViewController {
         headerView.layer.insertSublayer(gradientLayer3, at: 0)
         headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
-        let gradientLayer4 = CAGradientLayer()
-        gradientLayer4.frame = backgroundCardView.bounds
-        gradientLayer4.cornerRadius = 10
-        gradientLayer4.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer4.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer4.endPoint = CGPoint(x: 1.0, y: 0.5)
-        backgroundCardView.layer.insertSublayer(gradientLayer4, at: 0)
-        
         addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         backgroundCardView.layer.cornerRadius = 10
         backgroundCardView.addShadow(offset: .zero, color: .systemIndigo, radius: 4, opacity: 0.4)
