@@ -13,6 +13,7 @@
 		0F19895725C64584000E56AF /* MovementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895325C64584000E56AF /* MovementsTableViewCell.swift */; };
 		0F19895B25C646AD000E56AF /* MovementsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895A25C646AD000E56AF /* MovementsModel.swift */; };
 		0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23BDB625C86CE50069AEC1 /* ProductModel.swift */; };
+		0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
@@ -41,6 +42,7 @@
 		0F19895325C64584000E56AF /* MovementsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsTableViewCell.swift; sourceTree = "<group>"; };
 		0F19895A25C646AD000E56AF /* MovementsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsModel.swift; sourceTree = "<group>"; };
 		0F23BDB625C86CE50069AEC1 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
+		0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiedStockViewController.swift; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				0F69285125C09D0800CCE117 /* DetailViewController.swift */,
 				0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */,
 				0F19895225C64584000E56AF /* SettingsViewController.swift */,
+				0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
+				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,
 				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
 				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,

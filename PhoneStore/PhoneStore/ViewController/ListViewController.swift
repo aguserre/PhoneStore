@@ -166,6 +166,7 @@ class ListViewController: UIViewController {
             if let p = selectedProduct, productsSelected.count <= 1 {
                 productsSelected.append(p)
             }
+            detailsViewController.userLogged = userLogged
             detailsViewController.multipSelectedProducts = productsSelected
             
         }

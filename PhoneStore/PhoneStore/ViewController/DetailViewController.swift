@@ -15,6 +15,7 @@ class DetailViewController: UIViewController {
     var selectedProduct: ProductModel?
     var multipSelectedProducts = [ProductModel]()
     var dataBaseRef: DatabaseReference!
+    var userLogged: UserModel?
     let generator = UIImpactFeedbackGenerator(style: .medium)
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var sellButton: UIButton!
@@ -64,6 +65,11 @@ class DetailViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("Volvi de modificar stock")
+    }
+    
     @IBAction func deleteProduct(_ sender: Any) {
         generator.impactOccurred()
         dataBaseRef = Database.database().reference().child("PROD_ADD")
@@ -98,6 +104,7 @@ class DetailViewController: UIViewController {
                 return
             }
             self.registerSaleMov()
+            self.dismiss(animated: true, completion: nil)
         })
     }
     
@@ -109,6 +116,8 @@ class DetailViewController: UIViewController {
             if error != nil {
                 print("Imposible actualizar la cantidad")
             }
+            self.registerSaleMov()
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -125,6 +134,14 @@ class DetailViewController: UIViewController {
     
     func registerSaleMov() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "goToModifStock",
+           let modifViewController = segue.destination as? ModifiedStockViewController {
+            modifViewController.product = selectedProduct
+        }
     }
     
     @IBAction func logOut(_ sender: Any) {
@@ -163,6 +180,13 @@ extension DetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? ProductCardCollectionViewCell {
             self.prodCollectionView.animateCell(cell)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedProduct = multipSelectedProducts[indexPath.row]
+        if userLogged?.type == UserType.admin.rawValue {
+            performSegue(withIdentifier: "goToModifStock", sender: nil)
         }
     }
 }
