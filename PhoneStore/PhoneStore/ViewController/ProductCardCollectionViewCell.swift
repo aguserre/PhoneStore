@@ -6,7 +6,7 @@
 //
 
 protocol CantitiProductChanged : class {
-    func cantitiChanged(cantiti: Double)
+    func cantitiChanged(newAmount: Double, cantiti: Int, key: String)
 }
 
 import UIKit
@@ -26,6 +26,8 @@ class ProductCardCollectionViewCell: GeminiCell {
     @IBOutlet weak var backgroundCantitiView: UIView!
     @IBOutlet weak var cantitiStepper: UIStepper!
     @IBOutlet weak var cantitiLabel: UILabel!
+    var productId = ""
+    var newCantiti = 0
     let generator = UIImpactFeedbackGenerator(style: .medium)
     var unityPrice: Double = 0.00
     var count = 0.00
@@ -37,7 +39,7 @@ class ProductCardCollectionViewCell: GeminiCell {
         conditionLabel.text = product.condition
         descriptionLabel.text = product.description
         colorLabel.text = product.color
-        
+        productId = product.productId
         count = cantitiStepper.value
         
         if let price = product.priceSale {
@@ -79,6 +81,6 @@ class ProductCardCollectionViewCell: GeminiCell {
         let totalWithSign = cantitiStepper.value > count ? unityPrice : -unityPrice
         
         count = cantitiStepper.value
-        delegate?.cantitiChanged(cantiti: totalWithSign)
+        delegate?.cantitiChanged(newAmount: totalWithSign, cantiti: Int(cantitiStepper.value), key: productId)
     }
 }

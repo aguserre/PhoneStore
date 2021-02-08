@@ -10,6 +10,7 @@ import ObjectMapper
 class ProductModel: Mappable {
         
     var id: String?
+    var productId: String = ""
     var localInStock: String?
     var code: String?
     var description: String?
@@ -20,12 +21,14 @@ class ProductModel: Mappable {
     var dateIn: String?
     var dateOut: String?
     var cantiti: Int?
+    var cantitiToSell = 1
     var isChecked = false
 
     required init?(map: Map) {}
     
     func mapping(map: Map) {
         id <- map["id"]
+        productId <- map["productId"]
         code <- map["code"]
         description <- map["description"]
         color <- map["color"]
@@ -40,6 +43,7 @@ class ProductModel: Mappable {
     
     func toDictionary() -> NSDictionary {
         return ["id":id as Any,
+                "productId" : productId as Any,
                 "code" : code as Any,
                 "description" : description as Any,
                 "color" : color as Any,
@@ -50,6 +54,7 @@ class ProductModel: Mappable {
                 "dateOut" : dateOut as Any,
                 "isChecked" : isChecked as Any,
                 "cantiti" : cantiti as Any,
+                "cantitiToSell" : cantitiToSell as Any,
                 "localInStock" : localInStock as Any] as NSDictionary
     }
 }

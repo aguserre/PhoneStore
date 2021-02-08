@@ -128,9 +128,10 @@ class AddStockViewController: UIViewController {
             saleBuy = stringPrice.doubleValue
         }
         
-        
+        let key = dataBaseRef.key
 
         let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
+                                        "productId":key as Any,
                                         "code" : productDic["code"] as Any,
                                         "description" : productDic["description"] as Any,
                                         "color" : productDic["color"] as Any,

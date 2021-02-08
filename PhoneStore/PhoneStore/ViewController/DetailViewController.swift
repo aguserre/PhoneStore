@@ -27,12 +27,10 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         self.hideKeyboardWhenTappedAround()
-        
         prodCollectionView.gemini
             .rollRotationAnimation()
             .degree(60)
             .rollEffect(.reverseSineWave)
-        
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
@@ -74,20 +72,42 @@ class DetailViewController: UIViewController {
                 for snap in snapshot {
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         for prod in self.multipSelectedProducts {
-                            if prod.code == postDict["code"] as? String {
-                                self.dataBaseRef.child(snap.key).removeValue(completionBlock: { (error, ref) in
-                                    if error != nil {
-                                        print("Error: \(String(describing: error))")
-                                        return
-                                    }
-                                    self.registerSaleMov()
-                                })
+                            
+                            if prod.code == postDict["code"] as? String,
+                               let cantiti = postDict["cantiti"] as? Int {
+                                if cantiti == prod.cantitiToSell {
+                                    self.deleteProduct(key: snap.key)
+                                } else {
+                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell)
+                                }
                             }
                         }
                     } else {
                         print("Zhenya: failed to convert")
                     }
                 }
+            }
+        }
+    }
+    
+    func deleteProduct(key: String) {
+        print("Se quedo sin stock del producto \(key)")
+        self.dataBaseRef.child(key).removeValue(completionBlock: { (error, ref) in
+            if error != nil {
+                print("Error: \(String(describing: error))")
+                return
+            }
+            self.registerSaleMov()
+        })
+    }
+    
+    func updateProductCantiti(key: String, newCantiti: Int) {
+        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
+        let post = ["cantiti": newCantiti]
+        
+        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
+            if error != nil {
+                print("Imposible actualizar la cantidad")
             }
         }
     }
@@ -184,8 +204,13 @@ extension DetailViewController: UIScrollViewDelegate {
 }
 
 extension DetailViewController: CantitiProductChanged {
-    func cantitiChanged(cantiti: Double) {
-        updateValues(newAmount: cantiti)
+    func cantitiChanged(newAmount: Double, cantiti: Int, key: String) {
+        for p in 0..<multipSelectedProducts.count {
+            if multipSelectedProducts[p].productId == key {
+                multipSelectedProducts[p].cantitiToSell = cantiti
+            }
+        }
+        updateValues(newAmount: newAmount)
     }
     
     func updateValues(newAmount: Double) {
