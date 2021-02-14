@@ -14,10 +14,10 @@ class MovementsTableViewCell: UITableViewCell {
     
 
     func configure(mov: MovementsModel) {
-        infoLabel.text = mov.productDescription
+        infoLabel.text = mov.code
         typeLabel.text = mov.movementType
         
-        typeLabel.textColor = typeLabel.text?.lowercased() == "venta" ? .red : .green
+        typeLabel.textColor = typeLabel.text?.lowercased() == MovementType.out.rawValue ? .red : .green
         
     }
     

@@ -151,6 +151,10 @@ class MainViewController: UIViewController {
         }
     }
     
+    @IBAction func goToMovements(_ sender: Any) {
+        generator.impactOccurred()
+        performSegue(withIdentifier: "goToMovements", sender: nil)
+    }
     
     @IBAction func goToSettings(_ sender: UIBarButtonItem) {
         generator.impactOccurred()
@@ -173,6 +177,12 @@ class MainViewController: UIViewController {
             } else {
                 settingsVC.userTypeView = .vendor
             }
+        }
+        
+        if let segueId = segue.identifier,
+           segueId == "goToMovements",
+           let movementsVC = segue.destination as? MovementsViewController {
+            movementsVC.posts = posts
         }
     }
     

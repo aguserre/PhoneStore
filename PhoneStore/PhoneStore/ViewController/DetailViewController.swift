@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var sellButton: UIButton!
     @IBOutlet weak var prodCollectionView: GeminiCollectionView!
     @IBOutlet weak var totalLabel: UILabel!
+    var purchaseTotalAmount = 0.0
     let cellScale: CGFloat = 0.7
     var subtotal = 0.00
 
@@ -82,9 +83,9 @@ class DetailViewController: UIViewController {
                             if prod.code == postDict["code"] as? String,
                                let cantiti = postDict["cantiti"] as? Int {
                                 if cantiti == prod.cantitiToSell {
-                                    self.deleteProduct(key: snap.key)
+                                    self.deleteProduct(key: snap.key, prod: prod)
                                 } else {
-                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell)
+                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod)
                                 }
                             }
                         }
@@ -96,29 +97,29 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func deleteProduct(key: String) {
+    func deleteProduct(key: String, prod: ProductModel) {
         print("Se quedo sin stock del producto \(key)")
         self.dataBaseRef.child(key).removeValue(completionBlock: { (error, ref) in
             if error != nil {
                 print("Error: \(String(describing: error))")
                 return
             }
-            self.registerSaleMov()
+            self.registerSaleMov(prod: prod, movType: .out)
             self.dismiss(animated: true, completion: nil)
         })
     }
     
-    func updateProductCantiti(key: String, newCantiti: Int) {
-        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
-        let post = ["cantiti": newCantiti]
-        
-        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
-            if error != nil {
-                print("Imposible actualizar la cantidad")
-            }
-            self.registerSaleMov()
-            self.dismiss(animated: true, completion: nil)
-        }
+    func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
+//        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
+//        let post = ["cantiti": newCantiti]
+//
+//        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
+//            if error != nil {
+//                print("Imposible actualizar la cantidad")
+//            }
+        self.registerSaleMov(prod: prod, movType: .out)
+            //self.dismiss(animated: true, completion: nil)
+//    }
     }
     
     func calculateTotal() {
@@ -132,8 +133,12 @@ class DetailViewController: UIViewController {
         totalLabel.text = "Total $ \(total)"
     }
     
-    func registerSaleMov() {
-        navigationController?.popViewController(animated: true)
+    func registerSaleMov(prod: ProductModel, movType: MovementType) {
+        dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
+        let mov = generateMovment(prod: prod, movType: movType, amount: purchaseTotalAmount)
+        dataBaseRef.setValue(mov?.toDictionary()) { (error, ref) in
+            print("Success register out mov")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -239,7 +244,31 @@ extension DetailViewController: CantitiProductChanged {
     
     func updateValues(newAmount: Double) {
         subtotal = subtotal + newAmount
+        purchaseTotalAmount = subtotal
         totalLabel.text = "Total $ \(subtotal)"
     }
     
+}
+
+extension UIViewController {
+    func generateMovment(prod: ProductModel, movType: MovementType, amount: Double) -> MovementsModel? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YY/MM/dd"
+        
+        
+        
+        let movDic = ["id": prod.id  ?? "",
+                      "productDescription": prod.description ?? "",
+                      "movementType": movType.rawValue,
+                      "localId": prod.localInStock as Any,
+                      "code" : prod.code as Any,
+                      "condition" : prod.condition as Any,
+                      "totalAmount" : amount as Any,
+                      "dateOut" : dateFormatter.string(from: Date()),
+                      "cantitiPurchase" : prod.cantitiToSell as Any]
+        guard let mov = MovementsModel(JSON: movDic) else {
+            return nil
+        }
+        return mov
+    }
 }

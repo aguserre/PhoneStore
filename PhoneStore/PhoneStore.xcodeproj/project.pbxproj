@@ -19,6 +19,7 @@
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
+		0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F93E46D25D90935000DBBF7 /* ChartCollectionViewCell.swift */; };
 		0F9CDCF825C7992500086067 /* PosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CDCF725C7992500086067 /* PosTableViewCell.swift */; };
 		0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4125BF683A00B325B2 /* AppDelegate.swift */; };
 		0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */; };
@@ -48,6 +49,7 @@
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0F93E46D25D90935000DBBF7 /* ChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F9CDCF725C7992500086067 /* PosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosTableViewCell.swift; sourceTree = "<group>"; };
 		0FA63E3E25BF683A00B325B2 /* PhoneStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FA63E4125BF683A00B325B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				0F9CDCF725C7992500086067 /* PosTableViewCell.swift */,
 				0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */,
 				0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */,
+				0F93E46D25D90935000DBBF7 /* ChartCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
+				0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
