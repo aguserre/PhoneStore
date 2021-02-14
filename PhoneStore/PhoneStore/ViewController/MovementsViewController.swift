@@ -21,6 +21,7 @@ class MovementsViewController: UIViewController {
     @IBOutlet weak var backGroundTableView: UIView!
     let generator = UIImpactFeedbackGenerator(style: .medium)
     var senderFilter = UIButton()
+    var movSelected: MovementsModel?
     var filter: FilterSelection = .none
     var dataBaseRef: DatabaseReference!
     var posts = [PointOfSale]()
@@ -189,6 +190,14 @@ class MovementsViewController: UIViewController {
         }
        return days
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "showMovDetail",
+           let detailViewController = segue.destination as? MovementDetailViewController {
+            detailViewController.mov = movSelected
+        }
+    }
 }
 
 extension MovementsViewController: UICollectionViewDelegate {
@@ -250,7 +259,10 @@ extension MovementsViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension MovementsViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        movSelected = movements[indexPath.row]
+        performSegue(withIdentifier: "showMovDetail", sender: nil)
+    }
     
     
 }

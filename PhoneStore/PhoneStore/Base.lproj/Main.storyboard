@@ -1090,18 +1090,19 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="movementsTableView" destination="wCi-l3-w46" id="fqw-JM-NjA"/>
                         <outlet property="otherDateButton" destination="57g-ce-LUz" id="feb-YZ-Wcn"/>
                         <outlet property="weekButton" destination="yRm-yt-2LP" id="RDj-op-b47"/>
+                        <segue destination="XY2-On-YM2" kind="showDetail" identifier="showMovDetail" id="e2Q-j8-9EX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a84-gr-yJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3352.1739130434785" y="699.10714285714278"/>
         </scene>
-        <!--View Controller-->
+        <!--Movement Detail View Controller-->
         <scene sceneID="6i3-YT-7vz">
             <objects>
-                <viewController id="XY2-On-YM2" sceneMemberID="viewController">
+                <viewController id="XY2-On-YM2" customClass="MovementDetailViewController" customModule="PhoneStore" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u1e-yA-pKL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="6PH-VP-cps"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1109,7 +1110,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lYb-BM-nj3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3352" y="1403"/>
+            <point key="canvasLocation" x="3352" y="1430"/>
         </scene>
         <!--Add Stock View Controller-->
         <scene sceneID="78I-y6-diW">

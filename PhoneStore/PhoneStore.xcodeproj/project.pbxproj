@@ -26,6 +26,7 @@
 		0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4725BF683A00B325B2 /* Main.storyboard */; };
 		0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4A25BF683B00B325B2 /* Assets.xcassets */; };
 		0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */; };
+		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
 		0FF1064725BFB13E00B2656D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */; };
 		0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF1065D25BFBDC800B2656D /* PhoneModel.swift */; };
 		0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */; };
@@ -58,6 +59,7 @@
 		0FA63E4A25BF683B00B325B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FA63E4D25BF683B00B325B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA63E4F25BF683B00B325B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
 		0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FF1065D25BFBDC800B2656D /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
 		0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementModel.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				0FF3F3C725C1013100F6D0AA /* AddStockViewController.swift */,
 				0F19895225C64584000E56AF /* SettingsViewController.swift */,
 				0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */,
+				0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
+				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,
 				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
