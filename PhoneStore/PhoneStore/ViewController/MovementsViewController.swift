@@ -16,7 +16,6 @@ class MovementsViewController: UIViewController {
     @IBOutlet weak var weekButton: UIButton!
     @IBOutlet weak var monthButton: UIButton!
     @IBOutlet weak var otherDateButton: UIButton!
-    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var chartCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewHightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backGroundTableView: UIView!
@@ -42,6 +41,7 @@ class MovementsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         dataBaseRef = Database.database().reference().child("PROD_MOV")
         getMovementsData()
         

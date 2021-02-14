@@ -9,16 +9,22 @@ import UIKit
 
 class MovementsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var imageTypeLabel: UIImageView!
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var totalAmountMovementLabel: UILabel!
     
 
     func configure(mov: MovementsModel) {
         infoLabel.text = mov.code
-        typeLabel.text = mov.movementType
-        
-        typeLabel.textColor = typeLabel.text?.lowercased() == MovementType.out.rawValue ? .red : .green
-        
+        typeLabel.text = mov.localId?.capitalized
+        dateLabel.text = mov.dateOut
+        totalAmountMovementLabel.text = "$\(mov.totalAmount ?? 0)"
+        let imageName = mov.movementType == "out" ? "arrow.up" : "arrow.down"
+        let colorImage: UIColor = imageName == "out" ? .red : .green
+        imageTypeLabel.image = UIImage(systemName: imageName)
+        imageTypeLabel.tintColor = colorImage
     }
     
 }
