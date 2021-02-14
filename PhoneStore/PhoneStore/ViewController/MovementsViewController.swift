@@ -15,14 +15,19 @@ class MovementsViewController: UIViewController {
     @IBOutlet weak var dayButton: UIButton!
     @IBOutlet weak var weekButton: UIButton!
     @IBOutlet weak var monthButton: UIButton!
+    @IBOutlet weak var otherDateButton: UIButton!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var chartCollectionView: UICollectionView!
+    @IBOutlet weak var collectionViewHightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backGroundTableView: UIView!
     let generator = UIImpactFeedbackGenerator(style: .medium)
     var senderFilter = UIButton()
     var filter: FilterSelection = .none
     var dataBaseRef: DatabaseReference!
     var posts = [PointOfSale]()
+    var total: Double = 0.0
+    var totalPerPos = [[String:Double]]()
+    var maxAmount: Double = 0.0
     
     var filterArray = [Int]()
     var isShowingCollectionView = false
@@ -49,10 +54,30 @@ class MovementsViewController: UIViewController {
         weekButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         dayButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         monthButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        weekButton.layer.cornerRadius = 10
-        monthButton.layer.cornerRadius = 10
-        dayButton.layer.cornerRadius = 10
+        otherDateButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        weekButton.layer.cornerRadius = 5
+        monthButton.layer.cornerRadius = 5
+        dayButton.layer.cornerRadius = 5
+        otherDateButton.layer.cornerRadius = 5
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.collectionViewHightConstraint.constant = 180
+            self.view.layoutIfNeeded()
+        }) { (success) in
+            UIView.animate(withDuration: 1) {
+                for pos in self.posts {
+                    self.total = self.getTotalMovementsFromLocal(localId: pos.id ?? "")
+                    let dic = [pos.name ?? "" : self.total]
+                    self.totalPerPos.append(dic)
+                }
+                self.chartCollectionView.delegate = self
+                self.chartCollectionView.dataSource = self
+            }
+        }
     }
     
     @IBAction func seeMoreAction(_ sender: Any) {
@@ -90,27 +115,19 @@ class MovementsViewController: UIViewController {
                         }
                     }
                 }
-                
-                for post in self.posts {
-                    self.getTotalMovementsFromLocal(localId: post.id ?? "")
-                }
                 self.movementsTableView.reloadData()
             }
         }
     }
     
-    func getTotalMovementsFromLocal(localId: String) {
+    func getTotalMovementsFromLocal(localId: String) -> Double {
         let filterPost = movements.filter({$0.id == localId})
         let filterOutMov = filterPost.filter({$0.movementType == MovementType.out.rawValue})
         let filterAmount = filterOutMov.map({$0.totalAmount ?? 0})
-        
-        let total = filterAmount.reduce(0, +)
-        
-        
                 
-       
+        total = filterAmount.reduce(0, +)
         
-        print(total)
+        return total
     }
     
     func monthButtonAction() {
@@ -180,13 +197,27 @@ extension MovementsViewController: UICollectionViewDelegate {
 
 extension MovementsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return totalPerPos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartCollectionViewCell", for: indexPath) as! ChartCollectionViewCell
         
-        cell.setupCell(name: posts[indexPath.row].name ?? "Sin nombre", total: 80)
+        let item = totalPerPos[indexPath.row]
+        var nameKey = ""
+        var valueV = 0.0
+        
+        for (key, value) in item {
+            nameKey = key
+            valueV = value
+            if value > maxAmount {
+                maxAmount = value
+            }
+        }
+            
+        cell.setupCell(name: nameKey,
+                       total: CGFloat(valueV),
+                       maxAmount: maxAmount)
         
         return cell
     }
@@ -196,7 +227,8 @@ extension MovementsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cantiti = CGFloat(posts.count)
+        
+        let cantiti: CGFloat = CGFloat(posts.count > 5 ? 5 : Double(posts.count))
         let width = (collectionView.bounds.width)/cantiti
         let height = collectionView.bounds.height
         

@@ -105,21 +105,19 @@ class DetailViewController: UIViewController {
                 return
             }
             self.registerSaleMov(prod: prod, movType: .out)
-            self.dismiss(animated: true, completion: nil)
         })
     }
     
     func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
-//        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
-//        let post = ["cantiti": newCantiti]
-//
-//        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
-//            if error != nil {
-//                print("Imposible actualizar la cantidad")
-//            }
+        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
+        let post = ["cantiti": newCantiti]
+
+        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
+            if error != nil {
+                print("Imposible actualizar la cantidad")
+            }
         self.registerSaleMov(prod: prod, movType: .out)
-            //self.dismiss(animated: true, completion: nil)
-//    }
+        }
     }
     
     func calculateTotal() {
@@ -137,7 +135,7 @@ class DetailViewController: UIViewController {
         dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
         let mov = generateMovment(prod: prod, movType: movType, amount: purchaseTotalAmount)
         dataBaseRef.setValue(mov?.toDictionary()) { (error, ref) in
-            print("Success register out mov")
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
