@@ -26,18 +26,26 @@ class MovementsViewController: UIViewController {
     var dataBaseRef: DatabaseReference!
     var posts = [PointOfSale]()
     var total: Double = 0.0
+    var dic = [String:Double]()
+    var dicSorted = [[String:Double]]()
     var totalPerPos = [[String:Double]]()
     var maxAmount: Double = 0.0
+    var amounts = [Double]()
+    var nameKey = ""
+    var valueV = 0.0
     
-    var filterArray = [Int]()
+    var filterNumber = 0
     var isShowingCollectionView = false
         
     @IBOutlet weak var movementsTableView: UITableView!
     var movements = [MovementsModel]()
+    var movementsWithoutFilters = [MovementsModel]()
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        if dataBaseRef != nil {
+            dataBaseRef.removeAllObservers()
+        }
     }
     
     override func viewDidLoad() {
@@ -45,8 +53,6 @@ class MovementsViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         dataBaseRef = Database.database().reference().child("PROD_MOV")
         getMovementsData()
-        
-        expandCollection(expand: isShowingCollectionView, showCells: filterArray)
         
         backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         backGroundTableView.layer.cornerRadius = 20
@@ -69,12 +75,15 @@ class MovementsViewController: UIViewController {
             self.collectionViewHightConstraint.constant = 180
             self.view.layoutIfNeeded()
         }) { (success) in
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 1) { [self] in
                 for pos in self.posts {
                     self.total = self.getTotalMovementsFromLocal(localId: pos.id ?? "")
-                    let dic = [pos.name ?? "" : self.total]
+                    self.dic = [pos.name ?? "" : self.total]
                     self.totalPerPos.append(dic)
                 }
+                self.dicSorted = totalPerPos
+                self.sortData()
+                self.maxAmount = self.getMaxValue()
                 self.chartCollectionView.delegate = self
                 self.chartCollectionView.dataSource = self
             }
@@ -88,9 +97,7 @@ class MovementsViewController: UIViewController {
     
     @IBAction private func selectSender(sender: UIButton) {
         generator.impactOccurred()
-        if filter == .none {
-            isShowingCollectionView.toggle()
-        }
+
         senderFilter = sender
         filter = FilterSelection(rawValue: sender.tag) ?? FilterSelection(rawValue: 0)!
         
@@ -102,7 +109,7 @@ class MovementsViewController: UIViewController {
         case.month:
             monthButtonAction()
         default:
-            expandCollection(expand: false, showCells: [])
+            print("F")
         }
     }
     
@@ -116,6 +123,7 @@ class MovementsViewController: UIViewController {
                         }
                     }
                 }
+                self.movementsWithoutFilters = self.movements
                 self.movementsTableView.reloadData()
             }
         }
@@ -131,34 +139,72 @@ class MovementsViewController: UIViewController {
         return total
     }
     
+    func yearButtonAction() {
+        filter = .month
+        filterNumber = filterByCurrentYear()
+    }
+    
     func monthButtonAction() {
         filter = .month
-        expandCollection(expand: isShowingCollectionView, showCells: getMonths())
+        filterNumber = filterByCurrentMonth()
     }
     
     func weekButtonAction() {
         filter = .week
-        expandCollection(expand: isShowingCollectionView, showCells: getWeeks())
+        filterNumber = filterByCurrentWeek()
     }
     
     func dayButtonAction() {
         filter = .day
-        filterArray = getDays()
-        expandCollection(expand: isShowingCollectionView, showCells: getDays())
+        filterNumber = filterByToday()
+        filterTableView(filterBy: filter, number: filterNumber)
     }
     
-    func expandCollection(expand: Bool, showCells: [Int]) {
-        if expand == false {
-            filterArray.removeAll()
-        } else {
-            filterArray = showCells
+    func filterTableView(filterBy: FilterSelection, number: Int) {
+        let today = Date()
+        let formatter1 = DateFormatter()
+        formatter1.dateStyle = .short
+        formatter1.dateFormat = "yy/MM/dd"
+        
+        switch filterBy {
+        case .day:
+            movements = movements.filter({$0.dateOut == formatter1.string(from: today)})
+        case .month:
+            print("")
+        case .week:
+            print("")
+        case .none:
+            print("")
+        case .other:
+            print("")
         }
-        let const: CGFloat = expand ? 60 : 0
+        
         UIView.animate(withDuration: 0.3) {
+            self.movementsTableView.reloadData()
             self.view.layoutIfNeeded()
         } completion: { (success) in
             
         }
+    }
+    
+    func filterByToday() -> Int{
+        let calendar = Calendar.current
+        return calendar.component(.day, from: Date())
+    }
+    
+    func filterByCurrentMonth() -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.month, from: Date())
+    }
+    
+    func filterByCurrentWeek() -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.weekOfMonth, from: Date())
+    }
+    
+    func filterByCurrentYear() -> Int {
+        let calendar = Calendar.current
+        return calendar.component(.year, from: Date())
     }
     
     func getMonths() -> [Int] {
@@ -191,6 +237,36 @@ class MovementsViewController: UIViewController {
        return days
     }
     
+    func getMaxValue() -> Double {
+        if amounts.isEmpty {
+            for item in totalPerPos {
+                for (_, value) in item {
+                    amounts.append(value)
+                }
+            }
+            maxAmount = amounts.max() ?? 0
+        }
+        
+        return maxAmount
+    }
+    
+    func sortData() {
+        dicSorted.sort {
+            item1, item2 in
+            var amount1 = 0.0
+            var amount2 = 0.0
+            
+            if let date1 = item1.values.first {
+                amount1 = date1
+            }
+            if let date2 = item2.values.first {
+                amount2 = date2
+            }
+            
+            return amount1 > amount2
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "showMovDetail",
@@ -206,26 +282,24 @@ extension MovementsViewController: UICollectionViewDelegate {
 
 extension MovementsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return totalPerPos.count
+        return dicSorted.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartCollectionViewCell", for: indexPath) as! ChartCollectionViewCell
         
-        let item = totalPerPos[indexPath.row]
-        var nameKey = ""
-        var valueV = 0.0
+        var nameS = ""
+        var valueD = 0.0
         
-        for (key, value) in item {
-            nameKey = key
-            valueV = value
-            if value > maxAmount {
-                maxAmount = value
-            }
+        
+        
+        for (key, value) in dicSorted[indexPath.row] {
+            nameS = key
+            valueD = value
         }
-            
-        cell.setupCell(name: nameKey,
-                       total: CGFloat(valueV),
+        
+        cell.setupCell(name: nameS,
+                       total: CGFloat(valueD),
                        maxAmount: maxAmount)
         
         return cell
