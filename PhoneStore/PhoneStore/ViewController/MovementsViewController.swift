@@ -147,11 +147,13 @@ class MovementsViewController: UIViewController {
     func monthButtonAction() {
         filter = .month
         filterNumber = filterByCurrentMonth()
+        filterTableView(filterBy: filter, number: filterNumber)
     }
     
     func weekButtonAction() {
         filter = .week
         filterNumber = filterByCurrentWeek()
+        filterTableView(filterBy: filter, number: filterNumber)
     }
     
     func dayButtonAction() {
@@ -161,22 +163,33 @@ class MovementsViewController: UIViewController {
     }
     
     func filterTableView(filterBy: FilterSelection, number: Int) {
-        let today = Date()
+        movements = movementsWithoutFilters
+        
+        var today = Date()
+        var lastDays = [String]()
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         formatter1.dateFormat = "yy/MM/dd"
         
+        if filterBy != .day {
+            let days = filterBy == .week ? -6 : -30
+            lastDays = (days...0).map { delta -> String in
+                let tomorrow = Calendar.current.date(byAdding: .day, value: -1, to: today)
+                let stringDate : String = formatter1.string(from: today)
+                today = tomorrow!
+                
+                return stringDate
+            }
+        }
         switch filterBy {
         case .day:
             movements = movements.filter({$0.dateOut == formatter1.string(from: today)})
-        case .month:
-            print("")
-        case .week:
-            print("")
-        case .none:
-            print("")
-        case .other:
-            print("")
+            print(movements.count)
+        default:
+            movements = movements.filter { (mov) -> Bool in
+                lastDays.contains(where: {$0 == mov.dateOut})
+            }
+            print(movements.count)
         }
         
         UIView.animate(withDuration: 0.3) {
