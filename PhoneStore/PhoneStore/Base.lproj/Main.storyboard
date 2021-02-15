@@ -1074,7 +1074,7 @@ Q29udHJhc2VuYRAQEA
                                 <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="medium"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
-                                    <action selector="shareData:" destination="P7f-4N-hJJ" id="ODS-hU-DDJ"/>
+                                    <action selector="shareOptions:" destination="P7f-4N-hJJ" id="HH8-ra-1UD"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem id="tzO-RQ-gVe">

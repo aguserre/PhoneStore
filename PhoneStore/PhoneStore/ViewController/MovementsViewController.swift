@@ -34,7 +34,7 @@ class MovementsViewController: UIViewController {
     var amounts = [Double]()
     var nameKey = ""
     var valueV = 0.0
-    
+    let filename = "Movimientos.csv"
     var filterNumber = 0
     var isShowingCollectionView = false
         
@@ -120,8 +120,26 @@ class MovementsViewController: UIViewController {
         getMovementsData()
     }
     
-    @IBAction func shareData(_ sender: Any) {
-        let filename = "Movimientos.csv"
+    @IBAction func shareOptions(_ sender: UIBarButtonItem) {
+        let actionSheetController: UIAlertController = UIAlertController(title: "Que desea compartir?", message: nil, preferredStyle: .actionSheet)
+        
+        let actionFull: UIAlertAction = UIAlertAction(title: "Todos los movimientos", style: .default) { action -> Void in
+            self.shareData(dataToShare: self.movementsWithoutFilters)
+        }
+        actionSheetController.addAction(actionFull)
+        
+        let actionFilter: UIAlertAction = UIAlertAction(title: "Movimientos filtrados", style: .default) { action -> Void in
+            self.shareData(dataToShare: self.movements)
+        }
+        actionSheetController.addAction(actionFilter)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancelar", style: .cancel) { action -> Void in }
+        actionSheetController.addAction(cancelAction)
+        
+        present(actionSheetController, animated: true)
+    }
+    
+    private func shareData(dataToShare: [MovementsModel]) {
         let docDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let docURL = URL(fileURLWithPath: docDirectoryPath).appendingPathComponent(filename)
         
@@ -134,7 +152,7 @@ class MovementsViewController: UIViewController {
         csvWriter?.writeField("FECHA DE VENTA")
         csvWriter?.finishLine()
         
-        for (elements) in movements.enumerated() {
+        for (elements) in dataToShare.enumerated() {
             csvWriter?.writeField(elements.element.localId)
             csvWriter?.writeField(elements.element.movementType)
             csvWriter?.writeField(elements.element.totalAmount)
@@ -142,20 +160,31 @@ class MovementsViewController: UIViewController {
             
             csvWriter?.finishLine()
         }
-        
         csvWriter?.closeStream()
         
         let buffer = (output.property(forKey: .dataWrittenToMemoryStreamKey) as? Data)
-        
         do {
             try buffer?.write(to: docURL)
+            share()
         } catch {
             print(error.localizedDescription)
         }
-        
     }
     
- 
+    private func share() {
+        let file = getDocumentsDirectory().appending("/\(filename)")
+        let fileURL = URL(fileURLWithPath: file)
+        
+        let vc = UIActivityViewController(activityItems: [fileURL], applicationActivities: [])
+
+        self.present(vc, animated: true)
+    }
+    
+    func getDocumentsDirectory() -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
     
     private func getMovementsData() {
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
