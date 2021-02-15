@@ -103,32 +103,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5ED0A490-3F57-4603-89C2-E349972A4301"
+            uuid = "5EB64A31-C043-4420-86CD-D17D75F89706"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhoneStore/ViewController/MovementsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "createCSV(from:)"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "shareData(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AB9A7B9C-C2FE-4845-8E22-C9063467B662"
+            uuid = "16969309-59EA-4C8A-9B2F-9F0FFD16B7AE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhoneStore/ViewController/MovementsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "createCSV(from:)"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "shareData(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

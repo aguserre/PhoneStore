@@ -14,6 +14,7 @@
 		0F19895B25C646AD000E56AF /* MovementsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19895A25C646AD000E56AF /* MovementsModel.swift */; };
 		0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23BDB625C86CE50069AEC1 /* ProductModel.swift */; };
 		0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */; };
+		0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EEE2625DA63910070E781 /* CHCSVParser.m */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
@@ -45,6 +46,9 @@
 		0F19895A25C646AD000E56AF /* MovementsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementsModel.swift; sourceTree = "<group>"; };
 		0F23BDB625C86CE50069AEC1 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiedStockViewController.swift; sourceTree = "<group>"; };
+		0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneStore-Bridging-Header.h"; sourceTree = "<group>"; };
+		0F2EEE2625DA63910070E781 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
+		0F2EEE2725DA63910070E781 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +123,9 @@
 		0FA63E4025BF683A00B325B2 /* PhoneStore */ = {
 			isa = PBXGroup;
 			children = (
+				0F2EEE2725DA63910070E781 /* CHCSVParser.h */,
+				0F2EEE2625DA63910070E781 /* CHCSVParser.m */,
+				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
 				0FF106DB25BFE5FE00B2656D /* ViewController */,
 				0FF1065725BFBDA100B2656D /* Model */,
 				0FA63E4125BF683A00B325B2 /* AppDelegate.swift */,
@@ -212,6 +219,7 @@
 				TargetAttributes = {
 					0FA63E3D25BF683A00B325B2 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
 					};
 				};
 			};
@@ -331,6 +339,7 @@
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
 				0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */,
 				0F19895425C64584000E56AF /* MovementsViewController.swift in Sources */,
+				0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */,
 				0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */,
 				0F19895B25C646AD000E56AF /* MovementsModel.swift in Sources */,
 				0FA63E4425BF683A00B325B2 /* SceneDelegate.swift in Sources */,
@@ -481,6 +490,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TXGG4M9RK8;
 				INFOPLIST_FILE = PhoneStore/Info.plist;
@@ -490,6 +500,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stockApp.PhoneStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PhoneStore/PhoneStore-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -501,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TXGG4M9RK8;
 				INFOPLIST_FILE = PhoneStore/Info.plist;
@@ -510,6 +523,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stockApp.PhoneStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PhoneStore/PhoneStore-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

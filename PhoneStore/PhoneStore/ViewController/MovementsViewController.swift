@@ -121,26 +121,41 @@ class MovementsViewController: UIViewController {
     }
     
     @IBAction func shareData(_ sender: Any) {
+        let filename = "Movimientos.csv"
+        let docDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let docURL = URL(fileURLWithPath: docDirectoryPath).appendingPathComponent(filename)
         
-        createCSV(from: posDictionary)
+        let output = OutputStream.toMemory()
+        let csvWriter = CHCSVWriter(outputStream: output, encoding: String.Encoding.utf8.rawValue, delimiter: ",".utf16.first!)
+        
+        csvWriter?.writeField("NOMBRE LOCAL")
+        csvWriter?.writeField("TIPO DE MOVIMIENTO")
+        csvWriter?.writeField("MONTO DE VENTA")
+        csvWriter?.writeField("FECHA DE VENTA")
+        csvWriter?.finishLine()
+        
+        for (elements) in movements.enumerated() {
+            csvWriter?.writeField(elements.element.localId)
+            csvWriter?.writeField(elements.element.movementType)
+            csvWriter?.writeField(elements.element.totalAmount)
+            csvWriter?.writeField(elements.element.dateOut)
+            
+            csvWriter?.finishLine()
+        }
+        
+        csvWriter?.closeStream()
+        
+        let buffer = (output.property(forKey: .dataWrittenToMemoryStreamKey) as? Data)
+        
+        do {
+            try buffer?.write(to: docURL)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
     }
     
-    func createCSV(from recArray:[Dictionary<String, AnyObject>]) {
-            var csvString = "\("Employee ID"),\("Employee Name")\n\n"
-            for dct in recArray {
-                csvString = csvString.appending("\(String(describing: dct["EmpID"]!)) ,\(String(describing: dct["EmpName"]!))\n")
-            }
-            
-            let fileManager = FileManager.default
-            do {
-                let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
-                let fileURL = path.appendingPathComponent("CSVRec.csv")
-                try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
-            } catch {
-                print("error creating file")
-            }
-
-        }
+ 
     
     private func getMovementsData() {
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
