@@ -22,13 +22,14 @@ class MovementsViewController: UIViewController {
     let generator = UIImpactFeedbackGenerator(style: .medium)
     var senderFilter = UIButton()
     var movSelected: MovementsModel?
-    var filter: FilterSelection = .none
+    var filter: FilterSelection = .day
     var dataBaseRef: DatabaseReference!
     var posts = [PointOfSale]()
     var total: Double = 0.0
     var dic = [String:Double]()
     var dicSorted = [[String:Double]]()
     var totalPerPos = [[String:Double]]()
+    var posDictionary: [Dictionary<String, AnyObject>] = Array()
     var maxAmount: Double = 0.0
     var amounts = [Double]()
     var nameKey = ""
@@ -76,14 +77,14 @@ class MovementsViewController: UIViewController {
             self.view.layoutIfNeeded()
         }) { (success) in
             UIView.animate(withDuration: 1) { [self] in
-                for pos in self.posts {
-                    self.total = self.getTotalMovementsFromLocal(localId: pos.id ?? "")
-                    self.dic = [pos.name ?? "" : self.total]
-                    self.totalPerPos.append(dic)
-                }
-                self.dicSorted = totalPerPos
-                self.sortData()
-                self.maxAmount = self.getMaxValue()
+//                for pos in self.posts {
+//                    self.total = self.getTotalMovementsFromLocal(localId: pos.id ?? "")
+//                    self.dic = [pos.name ?? "" : self.total]
+//                    self.totalPerPos.append(dic)
+//                }
+//                self.dicSorted = totalPerPos
+//                self.sortData()
+//                self.maxAmount = self.getMaxValue()
                 self.chartCollectionView.delegate = self
                 self.chartCollectionView.dataSource = self
             }
@@ -113,6 +114,34 @@ class MovementsViewController: UIViewController {
         }
     }
     
+    @IBAction func updateData(_ sender: Any) {
+        movements.removeAll()
+        movementsWithoutFilters.removeAll()
+        getMovementsData()
+    }
+    
+    @IBAction func shareData(_ sender: Any) {
+        
+        createCSV(from: posDictionary)
+    }
+    
+    func createCSV(from recArray:[Dictionary<String, AnyObject>]) {
+            var csvString = "\("Employee ID"),\("Employee Name")\n\n"
+            for dct in recArray {
+                csvString = csvString.appending("\(String(describing: dct["EmpID"]!)) ,\(String(describing: dct["EmpName"]!))\n")
+            }
+            
+            let fileManager = FileManager.default
+            do {
+                let path = try fileManager.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                let fileURL = path.appendingPathComponent("CSVRec.csv")
+                try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+            } catch {
+                print("error creating file")
+            }
+
+        }
+    
     private func getMovementsData() {
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
@@ -124,7 +153,7 @@ class MovementsViewController: UIViewController {
                     }
                 }
                 self.movementsWithoutFilters = self.movements
-                self.movementsTableView.reloadData()
+                self.dayButtonAction()
             }
         }
     }
@@ -146,27 +175,49 @@ class MovementsViewController: UIViewController {
     
     func monthButtonAction() {
         filter = .month
-        filterNumber = filterByCurrentMonth()
-        filterTableView(filterBy: filter, number: filterNumber)
+        getDatesToFilter(filterBy: filter)
     }
     
     func weekButtonAction() {
         filter = .week
-        filterNumber = filterByCurrentWeek()
-        filterTableView(filterBy: filter, number: filterNumber)
+        getDatesToFilter(filterBy: filter)
     }
     
     func dayButtonAction() {
         filter = .day
-        filterNumber = filterByToday()
-        filterTableView(filterBy: filter, number: filterNumber)
+        getDatesToFilter(filterBy: filter)
     }
     
-    func filterTableView(filterBy: FilterSelection, number: Int) {
+    func filterTableView(dates: [String]) {
         movements = movementsWithoutFilters
         
+        movements = movements.filter { (mov) -> Bool in
+            dates.contains(where: {$0 == mov.dateOut})
+        }
+        amounts.removeAll()
+        totalPerPos.removeAll()
+        for pos in posts {
+            total = getTotalMovementsFromLocal(localId: pos.id ?? "")
+            dic = [pos.name ?? "" : total]
+            totalPerPos.append(dic)
+        }
+        dicSorted = totalPerPos
+        sortData()
+        maxAmount = getMaxValue()
+        
+        UIView.animate(withDuration: 0.3) {
+            self.movementsTableView.reloadData()
+            self.chartCollectionView.reloadData()
+            self.view.layoutIfNeeded()
+        } completion: { (success) in
+            
+        }
+    }
+    
+    func getDatesToFilter(filterBy: FilterSelection){
         var today = Date()
         var lastDays = [String]()
+
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         formatter1.dateFormat = "yy/MM/dd"
@@ -180,24 +231,10 @@ class MovementsViewController: UIViewController {
                 
                 return stringDate
             }
+        } else {
+            lastDays.append(formatter1.string(from: today))
         }
-        switch filterBy {
-        case .day:
-            movements = movements.filter({$0.dateOut == formatter1.string(from: today)})
-            print(movements.count)
-        default:
-            movements = movements.filter { (mov) -> Bool in
-                lastDays.contains(where: {$0 == mov.dateOut})
-            }
-            print(movements.count)
-        }
-        
-        UIView.animate(withDuration: 0.3) {
-            self.movementsTableView.reloadData()
-            self.view.layoutIfNeeded()
-        } completion: { (success) in
-            
-        }
+        filterTableView(dates: lastDays)
     }
     
     func filterByToday() -> Int{
@@ -303,8 +340,6 @@ extension MovementsViewController: UICollectionViewDataSource {
         
         var nameS = ""
         var valueD = 0.0
-        
-        
         
         for (key, value) in dicSorted[indexPath.row] {
             nameS = key

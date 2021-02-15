@@ -22,7 +22,7 @@ class MovementsTableViewCell: UITableViewCell {
         dateLabel.text = mov.dateOut
         totalAmountMovementLabel.text = "$\(mov.totalAmount ?? 0)"
         let imageName = mov.movementType == "out" ? "arrow.up" : "arrow.down"
-        let colorImage: UIColor = imageName == "out" ? .red : .green
+        let colorImage: UIColor = mov.movementType == "out" ? .red : .green
         imageTypeLabel.image = UIImage(systemName: imageName)
         imageTypeLabel.tintColor = colorImage
     }

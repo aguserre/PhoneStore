@@ -1073,10 +1073,16 @@ Q29udHJhc2VuYRAQEA
                             <barButtonItem id="QkZ-XK-eaZ">
                                 <imageReference key="image" image="square.and.arrow.up" catalog="system" symbolScale="medium"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="shareData:" destination="P7f-4N-hJJ" id="ODS-hU-DDJ"/>
+                                </connections>
                             </barButtonItem>
                             <barButtonItem id="tzO-RQ-gVe">
                                 <imageReference key="image" image="arrow.triangle.2.circlepath" catalog="system" symbolScale="medium"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="updateData:" destination="P7f-4N-hJJ" id="fud-KJ-6Yl"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>

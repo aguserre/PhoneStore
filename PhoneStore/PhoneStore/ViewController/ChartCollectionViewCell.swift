@@ -14,8 +14,11 @@ class ChartCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var totalLabel: UILabel!
     
     func setupCell(name: String, total: CGFloat, maxAmount: Double) {
-
+        if barView != nil {
+            barView.removeFromSuperview()
+        }
         barView = UIView()
+        
         barView.backgroundColor = .random()
         contentView.addSubview(barView)
         barView.translatesAutoresizingMaskIntoConstraints = false
