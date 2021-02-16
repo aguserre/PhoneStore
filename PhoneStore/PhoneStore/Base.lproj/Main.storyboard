@@ -931,8 +931,8 @@ Q29udHJhc2VuYRAQEA
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="wCi-l3-w46" secondAttribute="trailing" id="Irf-N1-qMf"/>
+                                    <constraint firstAttribute="bottom" secondItem="wCi-l3-w46" secondAttribute="bottom" id="b1N-3k-bO8"/>
                                     <constraint firstItem="wCi-l3-w46" firstAttribute="leading" secondItem="4T3-od-h1w" secondAttribute="leading" id="nG3-Ci-b68"/>
-                                    <constraint firstAttribute="bottom" secondItem="wCi-l3-w46" secondAttribute="bottom" id="pbJ-Mf-0Yp"/>
                                     <constraint firstItem="wCi-l3-w46" firstAttribute="top" secondItem="4T3-od-h1w" secondAttribute="top" constant="20" id="wCZ-OC-BfM"/>
                                 </constraints>
                             </view>
@@ -1032,17 +1032,28 @@ Q29udHJhc2VuYRAQEA
                                                     <action selector="selectSenderWithSender:" destination="P7f-4N-hJJ" eventType="touchUpInside" id="7Je-bp-Y83"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57g-ce-LUz">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ozO-z0-rgg">
                                                 <rect key="frame" x="313.5" y="0.0" width="100.5" height="40"/>
+                                                <subviews>
+                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="eyE-B1-YHx">
+                                                        <rect key="frame" x="0.0" y="0.0" width="100.5" height="40"/>
+                                                        <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                                        <color key="tintColor" systemColor="systemTealColor"/>
+                                                        <date key="minimumDate" timeIntervalSinceReferenceDate="631191600">
+                                                            <!--2021-01-01 11:00:00 +0000-->
+                                                        </date>
+                                                    </datePicker>
+                                                </subviews>
                                                 <color key="backgroundColor" systemColor="systemIndigoColor"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                                <state key="normal" title="Otro">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="selectSenderWithSender:" destination="P7f-4N-hJJ" eventType="touchUpInside" id="yZt-bX-YIB"/>
-                                                </connections>
-                                            </button>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="eyE-B1-YHx" secondAttribute="trailing" id="BEk-6C-10X"/>
+                                                    <constraint firstAttribute="height" constant="40" id="JI2-oW-rf7"/>
+                                                    <constraint firstAttribute="width" constant="100.5" id="Pqd-Je-Zuk"/>
+                                                    <constraint firstItem="eyE-B1-YHx" firstAttribute="top" secondItem="ozO-z0-rgg" secondAttribute="top" id="Y5k-xc-VWT"/>
+                                                    <constraint firstAttribute="bottom" secondItem="eyE-B1-YHx" secondAttribute="bottom" id="lPE-rM-fEz"/>
+                                                    <constraint firstItem="eyE-B1-YHx" firstAttribute="leading" secondItem="ozO-z0-rgg" secondAttribute="leading" id="pdD-qu-tlk"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -1058,7 +1069,6 @@ Q29udHJhc2VuYRAQEA
                         <constraints>
                             <constraint firstItem="CdX-Ri-Z86" firstAttribute="leading" secondItem="eIW-uQ-uKE" secondAttribute="leading" id="51Y-6V-gf8"/>
                             <constraint firstItem="4T3-od-h1w" firstAttribute="top" secondItem="CdX-Ri-Z86" secondAttribute="bottom" id="BEB-af-aKO"/>
-                            <constraint firstAttribute="bottom" secondItem="4T3-od-h1w" secondAttribute="bottom" id="BeO-h6-sLv"/>
                             <constraint firstItem="CdX-Ri-Z86" firstAttribute="trailing" secondItem="eIW-uQ-uKE" secondAttribute="trailing" id="TwP-PS-Cm6"/>
                             <constraint firstItem="3da-Ic-mzS" firstAttribute="leading" secondItem="eIW-uQ-uKE" secondAttribute="leading" id="Txb-ao-t1n"/>
                             <constraint firstItem="4T3-od-h1w" firstAttribute="trailing" secondItem="eIW-uQ-uKE" secondAttribute="trailing" id="VRO-oB-YR5"/>
@@ -1066,6 +1076,7 @@ Q29udHJhc2VuYRAQEA
                             <constraint firstItem="4T3-od-h1w" firstAttribute="leading" secondItem="eIW-uQ-uKE" secondAttribute="leading" id="dMd-uI-KU0"/>
                             <constraint firstItem="CdX-Ri-Z86" firstAttribute="top" secondItem="3da-Ic-mzS" secondAttribute="bottom" constant="20" id="mMc-Kz-V92"/>
                             <constraint firstItem="3da-Ic-mzS" firstAttribute="top" secondItem="eIW-uQ-uKE" secondAttribute="top" id="rBn-fc-xyQ"/>
+                            <constraint firstAttribute="bottom" secondItem="4T3-od-h1w" secondAttribute="bottom" id="vS0-NH-Ng4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Movimientos" id="I56-Nr-2J6">
@@ -1090,11 +1101,12 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="backGroundTableView" destination="4T3-od-h1w" id="2nL-Vv-ZpK"/>
                         <outlet property="chartCollectionView" destination="CdX-Ri-Z86" id="o9x-nZ-T3h"/>
                         <outlet property="collectionViewHightConstraint" destination="l0g-do-1iB" id="HPj-dO-ql7"/>
+                        <outlet property="datePicker" destination="eyE-B1-YHx" id="8KF-b7-IAc"/>
+                        <outlet property="datePickerBackgroundView" destination="ozO-z0-rgg" id="kaj-Zq-e35"/>
                         <outlet property="dayButton" destination="HYj-kD-1Yd" id="Ob6-7B-fxD"/>
                         <outlet property="filterStackView" destination="3da-Ic-mzS" id="b1b-XJ-4Ro"/>
                         <outlet property="monthButton" destination="DY9-ZT-3EJ" id="anh-Ak-rJh"/>
                         <outlet property="movementsTableView" destination="wCi-l3-w46" id="fqw-JM-NjA"/>
-                        <outlet property="otherDateButton" destination="57g-ce-LUz" id="feb-YZ-Wcn"/>
                         <outlet property="weekButton" destination="yRm-yt-2LP" id="RDj-op-b47"/>
                         <segue destination="XY2-On-YM2" kind="showDetail" identifier="showMovDetail" id="e2Q-j8-9EX"/>
                     </connections>

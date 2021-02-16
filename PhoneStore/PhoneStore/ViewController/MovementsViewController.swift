@@ -15,7 +15,8 @@ class MovementsViewController: UIViewController {
     @IBOutlet weak var dayButton: UIButton!
     @IBOutlet weak var weekButton: UIButton!
     @IBOutlet weak var monthButton: UIButton!
-    @IBOutlet weak var otherDateButton: UIButton!
+    @IBOutlet weak var datePickerBackgroundView: UIView!
+    @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var chartCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewHightConstraint: NSLayoutConstraint!
     @IBOutlet weak var backGroundTableView: UIView!
@@ -35,6 +36,7 @@ class MovementsViewController: UIViewController {
     var nameKey = ""
     var valueV = 0.0
     let filename = "Movimientos.csv"
+    var selectedDate: Date?
     var filterNumber = 0
     var isShowingCollectionView = false
         
@@ -54,7 +56,7 @@ class MovementsViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         dataBaseRef = Database.database().reference().child("PROD_MOV")
         getMovementsData()
-        
+        setupDatePicker()
         backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         backGroundTableView.layer.cornerRadius = 20
         backGroundTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -62,11 +64,11 @@ class MovementsViewController: UIViewController {
         weekButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         dayButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         monthButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        otherDateButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        datePickerBackgroundView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         weekButton.layer.cornerRadius = 5
         monthButton.layer.cornerRadius = 5
         dayButton.layer.cornerRadius = 5
-        otherDateButton.layer.cornerRadius = 5
+        datePickerBackgroundView.layer.cornerRadius = 5
         
     }
     
@@ -77,14 +79,6 @@ class MovementsViewController: UIViewController {
             self.view.layoutIfNeeded()
         }) { (success) in
             UIView.animate(withDuration: 1) { [self] in
-//                for pos in self.posts {
-//                    self.total = self.getTotalMovementsFromLocal(localId: pos.id ?? "")
-//                    self.dic = [pos.name ?? "" : self.total]
-//                    self.totalPerPos.append(dic)
-//                }
-//                self.dicSorted = totalPerPos
-//                self.sortData()
-//                self.maxAmount = self.getMaxValue()
                 self.chartCollectionView.delegate = self
                 self.chartCollectionView.dataSource = self
             }
@@ -212,9 +206,9 @@ class MovementsViewController: UIViewController {
         return total
     }
     
-    func yearButtonAction() {
-        filter = .month
-        filterNumber = filterByCurrentYear()
+    func otherButtonAction(date: Date) {
+        filter = .other
+        getDatesToFilter(filterBy: filter, date: date)
     }
     
     func monthButtonAction() {
@@ -231,6 +225,20 @@ class MovementsViewController: UIViewController {
         filter = .day
         getDatesToFilter(filterBy: filter)
     }
+    
+    func setupDatePicker() {
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+    }
+    
+    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yy/MM/dd"
+        selectedDate = sender.date
+        guard let date = selectedDate else { return }
+        otherButtonAction(date: date)
+    }
+
     
     func filterTableView(dates: [String]) {
         movements = movementsWithoutFilters
@@ -258,15 +266,20 @@ class MovementsViewController: UIViewController {
         }
     }
     
-    func getDatesToFilter(filterBy: FilterSelection){
+    func getDatesToFilter(filterBy: FilterSelection, date: Date? = nil) {
         var today = Date()
+        
+        if let newDate = date {
+            today = newDate
+        }
+        
         var lastDays = [String]()
 
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
         formatter1.dateFormat = "yy/MM/dd"
         
-        if filterBy != .day {
+        if filterBy != .day && filterBy != .other {
             let days = filterBy == .week ? -6 : -30
             lastDays = (days...0).map { delta -> String in
                 let tomorrow = Calendar.current.date(byAdding: .day, value: -1, to: today)
