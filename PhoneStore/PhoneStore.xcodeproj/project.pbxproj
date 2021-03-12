@@ -16,6 +16,8 @@
 		0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */; };
 		0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EEE2625DA63910070E781 /* CHCSVParser.m */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
+		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
+		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
@@ -50,6 +52,8 @@
 		0F2EEE2625DA63910070E781 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		0F2EEE2725DA63910070E781 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -88,6 +92,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F4EEC2225FC19C3008BCFDE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0F4EEC2325FC19F6008BCFDE /* Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		0F4EEC2625FC1DF0008BCFDE /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		0F69283825C05DD700CCE117 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +143,7 @@
 		0FA63E4025BF683A00B325B2 /* PhoneStore */ = {
 			isa = PBXGroup;
 			children = (
+				0F4EEC2625FC1DF0008BCFDE /* Service */,
 				0F2EEE2725DA63910070E781 /* CHCSVParser.h */,
 				0F2EEE2625DA63910070E781 /* CHCSVParser.m */,
 				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
@@ -142,6 +163,7 @@
 		0FF1065725BFBDA100B2656D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0F4EEC2225FC19C3008BCFDE /* Extension */,
 				0F19895A25C646AD000E56AF /* MovementsModel.swift */,
 				0FF1065D25BFBDC800B2656D /* PhoneModel.swift */,
 				0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */,
@@ -332,9 +354,11 @@
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
 				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
+				0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,
 				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
+				0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */,
 				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
 				0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */,
