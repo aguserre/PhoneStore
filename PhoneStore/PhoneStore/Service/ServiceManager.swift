@@ -13,6 +13,7 @@ typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = (() -> Void)
+typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
 
 class ServiceManager: NSObject {
     
@@ -210,7 +211,7 @@ class ServiceManager: NSObject {
     
     private func generateMovment(prod: ProductModel, movType: MovementType, amount: Double) -> MovementsModel? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YY/MM/dd"
+        dateFormatter.dateFormat = "dd/MM/yy"
         let movDic = ["id": prod.id  ?? "",
                       "productDescription": prod.description ?? "",
                       "movementType": movType.rawValue,
@@ -279,6 +280,24 @@ class ServiceManager: NSObject {
                                         "localInStock" : saveToPOS.name as Any]
         
         return ProductModel(JSON: prodDic)
+    }
+    
+    func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
+        dataBaseRef = Database.database().reference().child("PROD_MOV")
+        var movs = [MovementsModel]()
+        checkDatabaseReference()
+        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
+            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let posDic = snap.value as? [String : AnyObject] {
+                        if let posObject = MovementsModel(JSON: posDic) {
+                            movs.append(posObject)
+                        }
+                    }
+                }
+                completion(movs)
+            }
+        }
     }
     
 }

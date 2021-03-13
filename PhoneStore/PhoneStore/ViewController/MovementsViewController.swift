@@ -6,25 +6,23 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 
-class MovementsViewController: UIViewController {
+final class MovementsViewController: UIViewController {
 
-    @IBOutlet weak var filterStackView: UIStackView!
-    @IBOutlet weak var dayButton: UIButton!
-    @IBOutlet weak var weekButton: UIButton!
-    @IBOutlet weak var monthButton: UIButton!
-    @IBOutlet weak var datePickerBackgroundView: UIView!
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var chartCollectionView: UICollectionView!
-    @IBOutlet weak var collectionViewHightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var backGroundTableView: UIView!
-    let generator = UIImpactFeedbackGenerator(style: .medium)
+    @IBOutlet private weak var filterStackView: UIStackView!
+    @IBOutlet private weak var dayButton: UIButton!
+    @IBOutlet private weak var weekButton: UIButton!
+    @IBOutlet private weak var monthButton: UIButton!
+    @IBOutlet private weak var datePickerBackgroundView: UIView!
+    @IBOutlet private weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var chartCollectionView: UICollectionView!
+    @IBOutlet private weak var collectionViewHightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var backGroundTableView: UIView!
     var senderFilter = UIButton()
+    let serviceManager = ServiceManager()
     var movSelected: MovementsModel?
     var filter: FilterSelection = .day
-    var dataBaseRef: DatabaseReference!
     var posts = [PointOfSale]()
     var total: Double = 0.0
     var dic = [String:Double]()
@@ -40,21 +38,15 @@ class MovementsViewController: UIViewController {
     var filterNumber = 0
     var isShowingCollectionView = false
         
-    @IBOutlet weak var movementsTableView: UITableView!
+    @IBOutlet private weak var movementsTableView: UITableView!
     var movements = [MovementsModel]()
     var movementsWithoutFilters = [MovementsModel]()
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if dataBaseRef != nil {
-            dataBaseRef.removeAllObservers()
-        }
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        dataBaseRef = Database.database().reference().child("PROD_MOV")
+        
         getMovementsData()
         setupDatePicker()
         backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
@@ -85,17 +77,11 @@ class MovementsViewController: UIViewController {
         }
     }
     
-    @IBAction func seeMoreAction(_ sender: Any) {
-        generator.impactOccurred()
-        print("Filtro especifico")
-    }
-    
     @IBAction private func selectSender(sender: UIButton) {
-        generator.impactOccurred()
-
+        generateImpactWhenTouch()
         senderFilter = sender
-        filter = FilterSelection(rawValue: sender.tag) ?? FilterSelection(rawValue: 0)!
         
+        filter = FilterSelection(rawValue: sender.tag) ?? FilterSelection(rawValue: 0)!
         switch filter {
         case .day:
             dayButtonAction()
@@ -181,22 +167,16 @@ class MovementsViewController: UIViewController {
     }
     
     private func getMovementsData() {
-        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
-            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let posDic = snap.value as? [String : AnyObject] {
-                        if let posObject = MovementsModel(JSON: posDic) {
-                            self.movements.append(posObject)
-                        }
-                    }
-                }
-                self.movementsWithoutFilters = self.movements
+        serviceManager.getMovements { (movs) in
+            if let movements = movs {
+                self.movementsWithoutFilters = movements
+                self.movements = movements
                 self.dayButtonAction()
             }
         }
     }
     
-    func getTotalMovementsFromLocal(localId: String) -> Double {
+    private func getTotalMovementsFromLocal(localId: String) -> Double {
         let filterPost = movements.filter({$0.id == localId})
         let filterOutMov = filterPost.filter({$0.movementType == MovementType.out.rawValue})
         let filterAmount = filterOutMov.map({$0.totalAmount ?? 0})
@@ -206,45 +186,48 @@ class MovementsViewController: UIViewController {
         return total
     }
     
-    func otherButtonAction(date: Date) {
+    private func otherButtonAction(date: Date) {
         filter = .other
         getDatesToFilter(filterBy: filter, date: date)
     }
     
-    func monthButtonAction() {
+    private func monthButtonAction() {
         filter = .month
         getDatesToFilter(filterBy: filter)
     }
     
-    func weekButtonAction() {
+    private func weekButtonAction() {
         filter = .week
         getDatesToFilter(filterBy: filter)
     }
     
-    func dayButtonAction() {
+    private func dayButtonAction() {
         filter = .day
         getDatesToFilter(filterBy: filter)
     }
     
-    func setupDatePicker() {
+    private func setupDatePicker() {
         datePicker.timeZone = NSTimeZone.local
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
     
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker){
         let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy/MM/dd"
+        dateFormatter.dateFormat = "dd/MM/yy"
         selectedDate = sender.date
         guard let date = selectedDate else { return }
         otherButtonAction(date: date)
     }
 
     
-    func filterTableView(dates: [String]) {
+    private func filterTableView(dates: [String]) {
         movements = movementsWithoutFilters
-        
         movements = movements.filter { (mov) -> Bool in
             dates.contains(where: {$0 == mov.dateOut})
+        }
+        if movements.count == 0 {
+            presentAlertController(title: "Sin movimientos", message: "No se registran movimientos para la fecha elegida", delegate: self, completion: nil)
+            return
         }
         amounts.removeAll()
         totalPerPos.removeAll()
@@ -266,7 +249,7 @@ class MovementsViewController: UIViewController {
         }
     }
     
-    func getDatesToFilter(filterBy: FilterSelection, date: Date? = nil) {
+    private func getDatesToFilter(filterBy: FilterSelection, date: Date? = nil) {
         var today = Date()
         
         if let newDate = date {
@@ -277,7 +260,7 @@ class MovementsViewController: UIViewController {
 
         let formatter1 = DateFormatter()
         formatter1.dateStyle = .short
-        formatter1.dateFormat = "yy/MM/dd"
+        formatter1.dateFormat = "dd/MM/yy"
         
         if filterBy != .day && filterBy != .other {
             let days = filterBy == .week ? -6 : -30
@@ -294,57 +277,7 @@ class MovementsViewController: UIViewController {
         filterTableView(dates: lastDays)
     }
     
-    func filterByToday() -> Int{
-        let calendar = Calendar.current
-        return calendar.component(.day, from: Date())
-    }
-    
-    func filterByCurrentMonth() -> Int {
-        let calendar = Calendar.current
-        return calendar.component(.month, from: Date())
-    }
-    
-    func filterByCurrentWeek() -> Int {
-        let calendar = Calendar.current
-        return calendar.component(.weekOfMonth, from: Date())
-    }
-    
-    func filterByCurrentYear() -> Int {
-        let calendar = Calendar.current
-        return calendar.component(.year, from: Date())
-    }
-    
-    func getMonths() -> [Int] {
-        var months = [Int]()
-        if let monthCant = Calendar.current.ordinality(of: .month, in: .year, for: Date()) {
-            for month in 1...monthCant {
-                months.append(month)
-            }
-        }
-        return months
-    }
-    
-    func getWeeks() -> [Int] {
-        var weeks = [Int]()
-        if let weekCant = Calendar.current.ordinality(of: .weekday, in: .month, for: Date()) {
-            for day in 1...weekCant {
-                weeks.append(day)
-            }
-        }
-        return weeks
-    }
-    
-    func getDays() -> [Int] {
-        var days = [Int]()
-        if let dayMonth = Calendar.current.ordinality(of: .day, in: .month, for: Date()) {
-            for day in 1...dayMonth {
-                days.append(day)
-            }
-        }
-       return days
-    }
-    
-    func getMaxValue() -> Double {
+    private func getMaxValue() -> Double {
         if amounts.isEmpty {
             for item in totalPerPos {
                 for (_, value) in item {
@@ -357,7 +290,7 @@ class MovementsViewController: UIViewController {
         return maxAmount
     }
     
-    func sortData() {
+    private func sortData() {
         dicSorted.sort {
             item1, item2 in
             var amount1 = 0.0
@@ -443,7 +376,6 @@ extension MovementsViewController: UITableViewDelegate {
         performSegue(withIdentifier: "showMovDetail", sender: nil)
     }
     
-    
 }
 
 extension MovementsViewController: UITableViewDataSource {
@@ -457,6 +389,6 @@ extension MovementsViewController: UITableViewDataSource {
         cell.configure(mov: movements[indexPath.row])
         
         return cell
-    
     }
+    
 }
