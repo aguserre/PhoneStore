@@ -6,17 +6,14 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     
     var user: UserModel?
     var userLogged: UserModel?
     var pos: PointOfSale?
     var selectedPos: PointOfSale?
     var posArray = [PointOfSale]()
-    var baseRef: DatabaseReference!
     var viewState: StateExpandView? = .userExpanded
     var userTypeView: UserType? = .vendor
     private let serviceManager = ServiceManager()
@@ -25,15 +22,15 @@ class SettingsViewController: UIViewController {
     let placeHolderUser = ["Nombre completo", "Email", "Password", "Documento"]
     let placeHolderPos = ["Nombre del Punto de Venta", "Ubicacion"]
     var userDic = [String : Any]()
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var backgroundContactView: UIView!
+    @IBOutlet private weak var addButton: UIButton!
+    @IBOutlet private weak var backgroundContactView: UIView!
     
-    @IBOutlet weak var posSelectionButton: UIButton!
-    @IBOutlet weak var rolSegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var posSelectionButton: UIButton!
+    @IBOutlet private weak var rolSegmentedControl: UISegmentedControl!
     
-    @IBOutlet weak var textFieldsTableView: UITableView!
+    @IBOutlet private weak var textFieldsTableView: UITableView!
     private var textFields = [UITextField]()
-    @IBOutlet weak var addTypeSelectedControl: UISegmentedControl!
+    @IBOutlet private weak var addTypeSelectedControl: UISegmentedControl!
     enum StateExpandView {
         case userExpanded, posExpanded
     }
@@ -70,14 +67,7 @@ class SettingsViewController: UIViewController {
         expandViewSetup(type: .userExpanded)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if baseRef != nil {
-            baseRef.removeAllObservers()
-        }
-    }
-    
-    func expandViewAnimation(expand: Bool) {
+    private func expandViewAnimation(expand: Bool) {
         UIView.animate(withDuration: 0.5) {
             if expand {
                 self.addButton.setTitle("Guardar", for: .normal)
@@ -104,7 +94,7 @@ class SettingsViewController: UIViewController {
         textFieldsTableView.reloadData()
     }
     
-    func setupTextFields() {
+    private func setupTextFields() {
         let totalTextFields = viewState == .userExpanded ? 4 : 2
         textFields.removeAll()
         switch viewState {
@@ -123,7 +113,7 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    @IBAction func add(_ sender: UIButton) {
+    @IBAction private func add(_ sender: UIButton) {
         generateImpactWhenTouch()
         let typeViewExpanded: StateExpandView  = addTypeSelectedControl.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded
         let typeRawValue: UserType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .vendor : .admin
@@ -182,25 +172,18 @@ class SettingsViewController: UIViewController {
     }
     
     private func presentActionSheet() {
-        baseRef = Database.database().reference().child("POS_ADD")
-        baseRef.observeSingleEvent(of: .value) { (snap) in
-            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let posDic = snap.value as? [String : AnyObject] {
-                        if let posObject = PointOfSale(JSON: posDic) {
-                            self.posArray.append(posObject)
-                        }
-                    }
-                }
+        serviceManager.getPOSFullList { (pos, error) in
+            if let pos = pos {
+                self.posArray = pos
                 self.presentSelectionPosActionSheet()
             }
+            if let error = error {
+                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+            }
         }
-            
-        // create an actionSheet
-
     }
     
-    func presentSelectionPosActionSheet() {
+    private func presentSelectionPosActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: "Elegi una opcion", message: nil, preferredStyle: .actionSheet)
 
         for pos in posArray {
@@ -218,23 +201,23 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    @IBAction func selectAsign(_ sender: Any) {
+    @IBAction private func selectAsign(_ sender: Any) {
         generateImpactWhenTouch()
         presentActionSheet()
     }
     
-    @IBAction func typeChanged(_ sender: UISegmentedControl) {
+    @IBAction private func typeChanged(_ sender: UISegmentedControl) {
         generateImpactWhenTouch()
         textFields.removeAll()
         userDic = [:]
         expandViewSetup(type: sender.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded)
     }
     
-    @IBAction func typeUserChange(_ sender: Any) {
+    @IBAction private func typeUserChange(_ sender: Any) {
         generateImpactWhenTouch()
     }
     
-    @objc func logOut(_ sender: Any) {
+    @objc private func logOut(_ sender: Any) {
         serviceManager.logOut(delegate: self)
     }
 

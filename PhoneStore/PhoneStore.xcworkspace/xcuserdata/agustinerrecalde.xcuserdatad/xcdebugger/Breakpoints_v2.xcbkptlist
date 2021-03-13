@@ -14,8 +14,8 @@
             filePath = "PhoneStore/ViewController/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "add(_:)"
             landmarkType = "7">
          </BreakpointContent>
