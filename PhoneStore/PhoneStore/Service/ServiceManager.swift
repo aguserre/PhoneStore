@@ -197,6 +197,17 @@ class ServiceManager: NSObject {
         dataBaseRef.setValue(mov?.toDictionary())
     }
     
+    func registerAddMov(product: ProductModel) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
+        var amount = 0.0
+        if let priceBuy = product.priceBuy, let cantiti = product.cantiti {
+            amount = priceBuy * Double(cantiti)
+        }
+        let mov = generateMovment(prod: product, movType: .new, amount: amount)
+        dataBaseRef.setValue(mov?.toDictionary())
+    }
+    
     private func generateMovment(prod: ProductModel, movType: MovementType, amount: Double) -> MovementsModel? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YY/MM/dd"
@@ -213,6 +224,61 @@ class ServiceManager: NSObject {
             return nil
         }
         return mov
+    }
+    
+    func saveProduct(productDic: [String : Any],
+                     condition: String,
+                     saveToPOS: PointOfSale,
+                     cantiti: Int) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("PROD_ADD").childByAutoId()
+        let productToSave = createProduct(productDic: productDic, condition: condition, saveToPOS: saveToPOS, cantiti: cantiti)
+        
+        dataBaseRef.setValue(productToSave?.toDictionary()) { (error, ref) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                if let product = productToSave {
+                    self.registerAddMov(product: product)
+                }
+            }
+        }
+    }
+    
+    private func createProduct(productDic: [String : Any],
+                               condition: String,
+                               saveToPOS: PointOfSale,
+                               cantiti: Int) -> ProductModel? {
+        let date = Date()
+        let formatter1 = DateFormatter()
+        formatter1.dateStyle = .short
+        let today = formatter1.string(from: date)
+        var priceBuy: Double = 0.00
+        var saleBuy: Double = 0.00
+        
+        if let stringPrice = productDic["priceBuy"] as? String {
+            priceBuy = stringPrice.doubleValue
+        }
+        if let stringPrice = productDic["priceSale"] as? String {
+            saleBuy = stringPrice.doubleValue
+        }
+        
+        let key = dataBaseRef.key
+
+        let prodDic: [String : Any] =  ["id":saveToPOS.id as Any,
+                                        "productId":key as Any,
+                                        "code" : productDic["code"] as Any,
+                                        "description" : productDic["description"] as Any,
+                                        "color" : productDic["color"] as Any,
+                                        "condition" : condition,
+                                        "priceBuy" : priceBuy,
+                                        "priceSale" : saleBuy,
+                                        "dateIn" : today,
+                                        "dateOut" : "",
+                                        "cantiti" : cantiti as Any,
+                                        "localInStock" : saveToPOS.name as Any]
+        
+        return ProductModel(JSON: prodDic)
     }
     
 }

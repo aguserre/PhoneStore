@@ -6,16 +6,13 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 
-class AddStockViewController: UIViewController {
+final class AddStockViewController: UIViewController {
 
-    var dataBaseRef: DatabaseReference!
     var selectedPos: PointOfSale?
     var userLogged: UserModel?
+    let serviceManager = ServiceManager()
     var isEmptyProductList = false
-    let generator = UIImpactFeedbackGenerator(style: .medium)
     enum ProductTextFieldData: Int {
         case codeTextField = 0
         case colorTextField = 1
@@ -24,66 +21,48 @@ class AddStockViewController: UIViewController {
         case salePriceTextField = 4
     }
     var productDic = [String : Any]()
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet private weak var addButton: UIButton!
     
     //StackView
-    @IBOutlet weak var backgroundCardView: UIView!
-    @IBOutlet weak var codeTextField: UITextField!
-    @IBOutlet weak var cantitiStepper: UIStepper!
-    @IBOutlet weak var colorTextField: UITextField!
-    @IBOutlet weak var conditionSelector: UISwitch!
-    @IBOutlet weak var cantitiLabel: UILabel!
-    @IBOutlet weak var descriptionTextField: UITextField!
-    @IBOutlet weak var buyPriceTextField: UITextField!
-    @IBOutlet weak var salePriceTextField: UITextField!
-    @IBOutlet weak var backgroundConditionView: UIView!
-    @IBOutlet weak var posSelectButton: UIView!
+    @IBOutlet private weak var backgroundCardView: UIView!
+    @IBOutlet private weak var codeTextField: UITextField!
+    @IBOutlet private weak var cantitiStepper: UIStepper!
+    @IBOutlet private weak var colorTextField: UITextField!
+    @IBOutlet private weak var conditionSelector: UISwitch!
+    @IBOutlet private weak var cantitiLabel: UILabel!
+    @IBOutlet private weak var descriptionTextField: UITextField!
+    @IBOutlet private weak var buyPriceTextField: UITextField!
+    @IBOutlet private weak var salePriceTextField: UITextField!
+    @IBOutlet private weak var backgroundConditionView: UIView!
+    @IBOutlet private weak var posSelectButton: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         hideKeyboardWhenTappedAround()
         setupTextfieldsDelegate()
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
-        dataBaseRef = Database.database().reference().child("PROD_ADD").childByAutoId()
-        setupStepper()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.frame = headerView.bounds
-        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-        headerView.layer.insertSublayer(gradientLayer3, at: 0)
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        
-        addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        backgroundCardView.layer.cornerRadius = 10
-        backgroundCardView.addShadow(offset: .zero, color: .systemIndigo, radius: 4, opacity: 0.4)
-        backgroundConditionView.layer.cornerRadius = 10
-        posSelectButton.layer.cornerRadius = 10
-        
-        let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.addButton.bounds
-        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.addButton.layer.insertSublayer(gradientLayer2, at: 0)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    private func setupView() {
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
+        setupStepper()
+
+        view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
+        headerView.layer.insertSublayer(createCustomGradiend(view: headerView), at: 0)
+        addButton.layer.insertSublayer(createCustomGradiend(view: addButton), at: 0)
         
-        dataBaseRef.removeAllObservers()
+        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        backgroundCardView.addShadow(offset: .zero, color: .systemIndigo, radius: 4, opacity: 0.4)
+        
+        backgroundCardView.layer.cornerRadius = 10
+        backgroundConditionView.layer.cornerRadius = 10
+        posSelectButton.layer.cornerRadius = 10
     }
     
     @IBAction func addProduct(_ sender: Any) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         saveProduct()
     }
     
@@ -95,7 +74,7 @@ class AddStockViewController: UIViewController {
         salePriceTextField.delegate = self
     }
     
-    func setupStepper() {
+    private func setupStepper() {
         cantitiStepper.addTarget(self, action: #selector(stepperChanged), for: .valueChanged)
         
         guard let cost = Double(cantitiLabel.text!) else {
@@ -106,64 +85,22 @@ class AddStockViewController: UIViewController {
         cantitiStepper.value = cost
     }
     
-    @objc func stepperChanged() {
+    @objc private func stepperChanged() {
         cantitiLabel.text = String(format: "%.0f", cantitiStepper.value)
     }
     
-    func saveProduct() {
-        let date = Date()
-        let formatter1 = DateFormatter()
-        formatter1.dateStyle = .short
-        let today = formatter1.string(from: date)
-        let condition = conditionSelector.isOn ? "Usado" : "Nuevo"
-        var priceBuy: Double = 0.00
-        var saleBuy: Double = 0.00
-        
-        if let stringPrice = productDic["priceBuy"] as? String {
-            priceBuy = stringPrice.doubleValue
-            
-        }
-        if let stringPrice = productDic["priceSale"] as? String {
-            saleBuy = stringPrice.doubleValue
-        }
-        
-        let key = dataBaseRef.key
-
-        let prodDic: [String : Any] =  ["id":selectedPos?.id as Any,
-                                        "productId":key as Any,
-                                        "code" : productDic["code"] as Any,
-                                        "description" : productDic["description"] as Any,
-                                        "color" : productDic["color"] as Any,
-                                        "condition" : condition,
-                                        "priceBuy" : priceBuy,
-                                        "priceSale" : saleBuy,
-                                        "dateIn" : today,
-                                        "dateOut" : "",
-                                        "cantiti" : Int(cantitiLabel.text ?? "0") as Any,
-                                        "localInStock" : selectedPos?.name as Any]
-
-        let p = ProductModel(JSON: prodDic)
-        dataBaseRef.setValue(p?.toDictionary()) { (error, ref) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                if let dic = p?.toDictionary() {
-                    self.registerAddMov(dic: dic)
-                }
-            }
+    private func saveProduct() {
+        if let pos = selectedPos, let cantiti = Int(cantitiLabel.text ?? "1") {
+            serviceManager.saveProduct(productDic: productDic,
+                                       condition: conditionSelector.isOn ? "Usado" : "Nuevo",
+                                       saveToPOS: pos,
+                                       cantiti: cantiti)
         }
     }
     
-    func registerAddMov(dic: NSDictionary) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction @objc func logOut(_ sender: Any) {
-        generator.impactOccurred()
-        do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
-        
-        navigationController?.popToRootViewController(animated: true)
+    @IBAction @objc private func logOut(_ sender: Any) {
+        generateImpactWhenTouch()
+        serviceManager.logOut(delegate: self)
     }
 }
 
@@ -195,22 +132,5 @@ extension AddStockViewController: UITextFieldDelegate {
         }
         
         print(productDic)
-        
-    }
-}
-
-extension String {
-    static let numberFormatter = NumberFormatter()
-    var doubleValue: Double {
-        String.numberFormatter.decimalSeparator = "."
-        if let result =  String.numberFormatter.number(from: self) {
-            return result.doubleValue
-        } else {
-            String.numberFormatter.decimalSeparator = ","
-            if let result = String.numberFormatter.number(from: self) {
-                return result.doubleValue
-            }
-        }
-        return 0
     }
 }
