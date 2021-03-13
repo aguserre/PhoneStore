@@ -13,8 +13,8 @@ class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var contentViewCell: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     
-    func setupTextfields(textFieldDelegate: UITextFieldDelegate,tag: Int, backColor: UIColor, placeHolder: String) {
-        contentViewCell.backgroundColor = backColor
+    func setupTextfields(textFieldDelegate: UITextFieldDelegate,tag: Int, placeHolder: String) {
+        contentViewCell.backgroundColor = .clear
         textFieldCell.text = ""
         textFieldCell.delegate = textFieldDelegate
         textFieldCell.tag = tag

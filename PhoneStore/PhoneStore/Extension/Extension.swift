@@ -58,7 +58,7 @@ extension UIViewController {
         let newBackButton = UIBarButtonItem(barButtonSystemItem: .close,
                                             target: self,
                                             action:target)
-        newBackButton.tintColor = .black
+        newBackButton.tintColor = .white
         return newBackButton
     }
     
@@ -67,10 +67,28 @@ extension UIViewController {
     }
     
     func clearNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.barTintColor = .systemIndigo
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = .white
+        
+        navigationController?.navigationBar.layer.masksToBounds = false
+        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
+        navigationController?.navigationBar.layer.shadowOpacity = 0.4
+        navigationController?.navigationBar.layer.shadowOffset = .zero
+        navigationController?.navigationBar.layer.shadowRadius = 4
+    }
+    
+    func setNavTitle(title: String) {
+        let string = title
+        let titleLbl = UILabel()
+        let titleLblColor = UIColor.white
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 15)!,
+                                                         NSAttributedString.Key.foregroundColor: titleLblColor]
+        titleLbl.attributedText = NSAttributedString(string: string, attributes: attributes)
+        titleLbl.sizeToFit()
+        
+        navigationItem.titleView = titleLbl
     }
     
 }
@@ -87,6 +105,9 @@ extension UIView {
         backgroundColor = nil
         layer.backgroundColor =  backgroundCGColor
     }
+    
+
+    
 }
 
 extension String {

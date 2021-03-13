@@ -55,22 +55,14 @@ final class ListViewController: UIViewController {
         cantSelectedLabel.isHidden = true
         cantSelectedLabel.backgroundColor = .systemIndigo
         cantSelectedLabel.layer.cornerRadius = cantSelectedLabel.bounds.width/2
-        
-        let string = selectedPos?.name?.capitalized ?? "Stock"
-        let titleLbl = UILabel()
-        let titleLblColor = UIColor.white
-        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 20)!,
-                                                         NSAttributedString.Key.foregroundColor: titleLblColor]
-        titleLbl.attributedText = NSAttributedString(string: string, attributes: attributes)
-        titleLbl.sizeToFit()
-        self.navigationItem.titleView = titleLbl
+
+        setNavTitle(title: selectedPos?.name?.capitalized ?? "Stock")
 
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         backgroundHeaderView.layer.insertSublayer(createCustomGradiend(view: backgroundHeaderView), at: 0)
         stackView.layer.insertSublayer(createCustomGradiend(view: stackView), at: 0)
         
         stackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        backgroundHeaderView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         cantSelectedLabel.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         if userLogged?.type != UserType.admin.rawValue {

@@ -17,18 +17,16 @@ class SettingsViewController: UIViewController {
     var selectedPos: PointOfSale?
     var posArray = [PointOfSale]()
     var baseRef: DatabaseReference!
-    var viewState: StateExpandView? = .hidden
+    var viewState: StateExpandView? = .userExpanded
     var userTypeView: UserType? = .vendor
-    let generator = UIImpactFeedbackGenerator(style: .medium)
+    private let serviceManager = ServiceManager()
     
     var placeholders = [String]()
     let placeHolderUser = ["Nombre completo", "Email", "Password", "Documento"]
     let placeHolderPos = ["Nombre del Punto de Venta", "Ubicacion"]
     var userDic = [String : Any]()
-    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var backgroundContactView: UIView!
-    @IBOutlet weak var hightBackgroundView: NSLayoutConstraint!
     
     @IBOutlet weak var posSelectionButton: UIButton!
     @IBOutlet weak var rolSegmentedControl: UISegmentedControl!
@@ -37,7 +35,7 @@ class SettingsViewController: UIViewController {
     private var textFields = [UITextField]()
     @IBOutlet weak var addTypeSelectedControl: UISegmentedControl!
     enum StateExpandView {
-        case hidden, userExpanded, posExpanded
+        case userExpanded, posExpanded
     }
     
     enum UserTextFieldData: Int {
@@ -58,37 +56,18 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.headerView.bounds
-        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.headerView.layer.insertSublayer(gradientLayer2, at: 0)
-        
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        backgroundContactView.layer.insertSublayer(createCustomGradiend(view: backgroundContactView), at: 0)
+        setNavTitle(title: "Configuracion")
         
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         addButton.isHidden = userTypeView == .admin ? false : true
         
         if !addButton.isHidden {
-            let gradientLayer3 = CAGradientLayer()
-            gradientLayer3.frame = addButton.bounds
-            gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-            gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
-            gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-            self.addButton.layer.insertSublayer(gradientLayer3, at: 0)
-            
+            addButton.layer.insertSublayer(createCustomGradiend(view: addButton), at: 0)
             addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         }
         
-        expandViewSetup(type: .hidden)
+        expandViewSetup(type: .userExpanded)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,11 +80,9 @@ class SettingsViewController: UIViewController {
     func expandViewAnimation(expand: Bool) {
         UIView.animate(withDuration: 0.5) {
             if expand {
-                self.hightBackgroundView.constant = self.view.bounds.height - self.headerView.bounds.height
                 self.addButton.setTitle("Guardar", for: .normal)
                 self.addButton.tag = 0
             } else {
-                self.hightBackgroundView.constant = 0
                 self.addButton.setTitle("Agregar", for: .normal)
                 self.addButton.tag = 1
             }
@@ -147,76 +124,26 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func add(_ sender: UIButton) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         let typeViewExpanded: StateExpandView  = addTypeSelectedControl.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded
         let typeRawValue: UserType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .vendor : .admin
         
-        if sender.tag == 1 {
-            expandViewSetup(type: typeViewExpanded)
-        } else {
-            if typeViewExpanded == .userExpanded {
-                
-                if typeRawValue == .vendor,
-                   selectedPos?.id == nil  {
-                    print("Debe seleccionar un local")
-                    return
-                }
-                
-                let selectedPosId = selectedPos?.id ?? ""
-                
-            
-                user = UserModel(JSON: userDic)
-                guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
-                    print("Error de registracion")
-                    return
-                }
-                
-                Auth.auth().createUser(withEmail: email, password: pass ) { (auth, error) in
-                guard let user = auth?.user else {
-                    print(error?.localizedDescription)
-                    return
-                }
-                    
-                
-                    
-                let newUserDic: [String : Any] = ["id":user.uid,
-                                                "email": user.email as Any,
-                                                "username": self.userDic["username"] as Any,
-                                                "dni":self.userDic["dni"] as Any,
-                                                "type": typeRawValue.rawValue,
-                                                "localAutorized":selectedPosId]
-
-                let userModel = UserModel(JSON: newUserDic)?.toDictionary()
-                self.baseRef = Database.database().reference().child("USER_ADD").child(user.uid)
-                self.baseRef.setValue(userModel) { (error, ref) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        print("Save SUCCESS")
-                        self.expandViewSetup(type: .hidden)
-                    }
-                }
-                }
-            } else {
-                let typeRawValue: POSType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .movil : .kStatic
-                self.baseRef = Database.database().reference().child("POS_ADD").childByAutoId()
-                let key = baseRef.key
-                let newPosDic: [String : Any] = ["id": key as Any,
-                                                 "name": userDic["name"] as Any,
-                                                 "type": typeRawValue.rawValue,
-                                                "localized" : userDic["localized"] as Any]
-
-                let posModel = PointOfSale(JSON: newPosDic)
-                
-                self.baseRef.setValue(posModel?.toDictionary()) { (error, ref) in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    } else {
-                        print("Save SUCCESS")
-                        self.expandViewSetup(type: .hidden)
-                    }
-                }
+        if typeViewExpanded == .userExpanded {
+            if typeRawValue == .vendor,
+               selectedPos?.id == nil  {
+                print("Debe seleccionar un local")
+                return
             }
+            let selectedPosId = selectedPos?.id ?? ""
+            user = UserModel(JSON: userDic)
+            guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
+                print("Error de registracion")
+                return
+            }
+            serviceManager.createNewUser(delegate: self, userDic: userDic, email: email, pass: pass, userType: typeRawValue, posAsignedId: selectedPosId)
+        } else {
+            let typeRawValue: POSType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .movil : .kStatic
+            serviceManager.saveNewPOS(delegate: self,userDic: userDic, userType: typeRawValue)
         }
     }
     
@@ -228,22 +155,6 @@ class SettingsViewController: UIViewController {
         case .posExpanded:
             setupPosView()
             viewState = .posExpanded
-        case .hidden:
-            setupHiddenView()
-            viewState = .hidden
-        }
-    }
-    
-    func changeViewColor() {
-        switch viewState {
-        case .userExpanded:
-            backgroundContactView.backgroundColor = .systemIndigo
-            textFieldsTableView.backgroundColor = .systemIndigo
-        case .posExpanded:
-            backgroundContactView.backgroundColor = .systemTeal
-            textFieldsTableView.backgroundColor = .systemTeal
-        default:
-            backgroundContactView.backgroundColor = .clear
         }
     }
     
@@ -255,7 +166,6 @@ class SettingsViewController: UIViewController {
         posSelectionButton.setTitle("Asignar punto de venta", for: .normal)
         posSelectionButton.isHidden = false
         textFieldsTableView.isHidden = false
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(showHiddenViewAction))
         setupTextFields()
         expandViewAnimation(expand: true)
     }
@@ -267,17 +177,8 @@ class SettingsViewController: UIViewController {
         rolSegmentedControl.isHidden = false
         posSelectionButton.isHidden = true
         textFieldsTableView.isHidden = false
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(showHiddenViewAction))
         setupTextFields()
         expandViewAnimation(expand: true)
-    }
-    
-    private func setupHiddenView() {
-        posSelectionButton.isHidden = true
-        rolSegmentedControl.isHidden = true
-        textFieldsTableView.isHidden = true
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
-        expandViewAnimation(expand: false)
     }
     
     private func presentActionSheet() {
@@ -297,10 +198,6 @@ class SettingsViewController: UIViewController {
             
         // create an actionSheet
 
-    }
-        
-    @objc func showHiddenViewAction() {
-        setupHiddenView()
     }
     
     func presentSelectionPosActionSheet() {
@@ -322,34 +219,23 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func selectAsign(_ sender: Any) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         presentActionSheet()
     }
     
-    
-    @IBAction func cancelAction(_ sender: UIButton) {
-        generator.impactOccurred()
-        setupHiddenView()
-    }
-    
     @IBAction func typeChanged(_ sender: UISegmentedControl) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         textFields.removeAll()
         userDic = [:]
         expandViewSetup(type: sender.selectedSegmentIndex == 0 ? .userExpanded : .posExpanded)
-        changeViewColor()
     }
     
     @IBAction func typeUserChange(_ sender: Any) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
     }
     
     @objc func logOut(_ sender: Any) {
-        generator.impactOccurred()
-        do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
-        
-        navigationController?.popToRootViewController(animated: true)
+        serviceManager.logOut(delegate: self)
     }
 
 }
@@ -362,14 +248,13 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldTableViewCell", for: indexPath) as! TextFieldTableViewCell
         
-        let color = backgroundContactView.backgroundColor
         if viewState == .userExpanded {
             placeholders = placeHolderUser
         } else {
             placeholders = placeHolderPos
         }
        
-        cell.setupTextfields(textFieldDelegate: self, tag: indexPath.row, backColor: color ?? .clear, placeHolder: placeholders[indexPath.row])
+        cell.setupTextfields(textFieldDelegate: self, tag: indexPath.row, placeHolder: placeholders[indexPath.row])
         
         return cell
     }
@@ -382,8 +267,7 @@ extension SettingsViewController: UITextFieldDelegate {
     }
     
     @objc func valueChanged(_ textField: UITextField){
-        if self.viewState == .userExpanded {
-            
+        if self.viewState == .userExpanded, textField.text != "" {
             switch textField.tag {
             case UserTextFieldData.nameTextField.rawValue:
                 userDic["username"] = textField.text
@@ -392,15 +276,14 @@ extension SettingsViewController: UITextFieldDelegate {
                 userDic["email"] = textField.text
                 textField.keyboardType = .emailAddress
             case UserTextFieldData.passwordTextField.rawValue:
+                textField.keyboardType = .alphabet
                 userDic["password"] = textField.text
-                textField.isSecureTextEntry = true
             case UserTextFieldData.documentTextField.rawValue:
                 userDic["dni"] = textField.text
                 textField.keyboardType = .numberPad
             default:
                 break
             }
-            
             print(userDic)
         } else if self.viewState == .posExpanded {
             switch textField.tag {
@@ -413,7 +296,6 @@ extension SettingsViewController: UITextFieldDelegate {
             default:
                 break
             }
-            
             print(userDic)
         }
     }

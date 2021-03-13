@@ -321,4 +321,59 @@ class ServiceManager: NSObject {
             }
         }
     }
+    
+    func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: String) {
+        Auth.auth().createUser(withEmail: email, password: pass) { (auth, error) in
+            guard let user = auth?.user else {
+                print(error?.localizedDescription)
+                return
+            }
+            
+            let newUserDic: [String : Any] = ["id":user.uid,
+                                            "email": user.email as Any,
+                                            "username": userDic["username"] as Any,
+                                            "dni":userDic["dni"] as Any,
+                                            "type": userType.rawValue,
+                                            "localAutorized":posAsignedId]
+            
+            let userModel = UserModel(JSON: newUserDic)?.toDictionary()
+            self.saveUserInDB(delegate: delegate, id: user.uid, userModel: userModel)
+        }
+    }
+    
+    private func saveUserInDB(delegate: UIViewController, id: String, userModel: NSDictionary?) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("USER_ADD").child(id)
+        dataBaseRef.setValue(userModel) { (error, ref) in
+            if let error = error {
+                delegate.presentAlertController(title: "Error", message: error.localizedDescription, delegate: delegate, completion: nil)
+            } else {
+                delegate.presentAlertController(title: "Guardado", message: "Se guardaron los datos", delegate: delegate) { (action) in
+                    delegate.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
+    
+    func saveNewPOS(delegate: UIViewController, userDic: [String : Any], userType: POSType) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("POS_ADD").childByAutoId()
+        let key = dataBaseRef.key
+        let newPosDic: [String : Any] = ["id": key as Any,
+                                         "name": userDic["name"] as Any,
+                                         "type": userType.rawValue,
+                                        "localized" : userDic["localized"] as Any]
+
+        let posModel = PointOfSale(JSON: newPosDic)
+        dataBaseRef.setValue(posModel?.toDictionary()) { (error, ref) in
+            if let error = error {
+                delegate.presentAlertController(title: "Error", message: error.localizedDescription, delegate: delegate, completion: nil)
+            } else {
+                delegate.presentAlertController(title: "Guardado", message: "Se guardaron los datos", delegate: delegate) { (action) in
+                    delegate.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
+    
 }

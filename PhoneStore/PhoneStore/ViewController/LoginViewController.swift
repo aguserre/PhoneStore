@@ -12,7 +12,6 @@ final class LoginViewController: UIViewController {
     
     @IBOutlet private weak var userTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
-    @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var loginButtonConstant: NSLayoutConstraint!
     @IBOutlet private weak var backgroundView: UIView!
@@ -45,10 +44,8 @@ final class LoginViewController: UIViewController {
     
     private func setupView() {
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
-        headerView.layer.insertSublayer(createCustomGradiend(view: headerView), at: 0)
         loginButton.layer.insertSublayer(createCustomGradiend(view: loginButton), at: 0)
-
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        
         backgroundView.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.4)
         loginButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
 

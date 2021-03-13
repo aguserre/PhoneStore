@@ -9,7 +9,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    @IBOutlet private weak var shadowView: UIView!
     @IBOutlet private weak var posTableView: UITableView!
     @IBOutlet private weak var seeMoreButton: UIButton!
     @IBOutlet private weak var settingsButton: UIBarButtonItem!
@@ -38,6 +37,7 @@ final class MainViewController: UIViewController {
         loaderIndicator.startAnimating()
         self.navigationItem.leftBarButtonItem = setupBackButton(target: #selector(logOutTapped))
         clearNavBar()
+        setNavTitle(title: "Puntos de Venta")
         posts.removeAll()
         setupUserByID(id: userId)
     }
@@ -49,10 +49,7 @@ final class MainViewController: UIViewController {
     
     private func setupView() {
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
-        shadowView.layer.insertSublayer(createCustomGradiend(view: shadowView), at: 0)
         seeMoreButton.layer.insertSublayer(createCustomGradiend(view: seeMoreButton), at: 0)
-
-        shadowView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         seeMoreButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
@@ -117,7 +114,12 @@ final class MainViewController: UIViewController {
     
     @IBAction private func goToSettings(_ sender: UIBarButtonItem) {
         generateImpactWhenTouch()
-        performSegue(withIdentifier: "goToSettings", sender: nil)
+        if userLogged?.type == UserType.admin.rawValue {
+            performSegue(withIdentifier: "goToSettings", sender: nil)
+        } else {
+            presentAlertController(title: "Error", message: "No cuenta con permisos para agregar usuarios/pos", delegate: self, completion: nil)
+        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
