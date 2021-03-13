@@ -1322,35 +1322,18 @@ Q29udHJhc2VuYRAQEA
                                     <action selector="deleteProduct:" destination="U6i-Sr-7wL" eventType="touchUpInside" id="nJr-Da-Hq2"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Xh-ur-gAr">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="130"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Productos seleccionados" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ccb-24-3TF">
-                                        <rect key="frame" x="55.5" y="95" width="303" height="30"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="ccb-24-3TF" secondAttribute="bottom" constant="5" id="CUj-VF-1Lo"/>
-                                    <constraint firstAttribute="height" constant="130" id="GcQ-nJ-o8V"/>
-                                    <constraint firstItem="ccb-24-3TF" firstAttribute="centerX" secondItem="6Xh-ur-gAr" secondAttribute="centerX" id="rdP-4b-hrA"/>
-                                </constraints>
-                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eG7-wx-VNU" customClass="GeminiCollectionView" customModule="Gemini">
-                                <rect key="frame" x="0.0" y="140" width="414" height="686"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="738"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Mdb-sY-TEG">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Mdb-sY-TEG">
                                     <size key="itemSize" width="250" height="400"/>
-                                    <size key="estimatedItemSize" width="250" height="400"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="ProductCardCollectionViewCell" id="JIV-f9-BO5" customClass="ProductCardCollectionViewCell" customModule="PhoneStore" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="143" width="250" height="400"/>
+                                        <rect key="frame" x="10" y="169" width="250" height="400"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="7wM-uw-ob1">
                                             <rect key="frame" x="0.0" y="0.0" width="250" height="400"/>
@@ -1547,13 +1530,10 @@ Q29udHJhc2VuYRAQEA
                         <viewLayoutGuide key="safeArea" id="KIy-LQ-AXC"/>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
-                            <constraint firstItem="6Xh-ur-gAr" firstAttribute="top" secondItem="7at-0x-XG3" secondAttribute="top" id="4gx-rA-wJm"/>
-                            <constraint firstItem="6Xh-ur-gAr" firstAttribute="trailing" secondItem="KIy-LQ-AXC" secondAttribute="trailing" id="9ST-Bd-8jC"/>
-                            <constraint firstItem="eG7-wx-VNU" firstAttribute="top" secondItem="6Xh-ur-gAr" secondAttribute="bottom" constant="10" id="EMP-Kp-Scp"/>
+                            <constraint firstItem="eG7-wx-VNU" firstAttribute="top" secondItem="KIy-LQ-AXC" secondAttribute="top" id="EoN-Ss-ds5"/>
                             <constraint firstItem="0et-Ym-r8J" firstAttribute="bottom" secondItem="7at-0x-XG3" secondAttribute="bottom" id="Fhl-pR-Z6V"/>
                             <constraint firstItem="eG7-wx-VNU" firstAttribute="centerX" secondItem="7at-0x-XG3" secondAttribute="centerX" id="MDp-QI-OlK"/>
                             <constraint firstItem="0et-Ym-r8J" firstAttribute="leading" secondItem="KIy-LQ-AXC" secondAttribute="leading" id="NSb-wu-HJw"/>
-                            <constraint firstItem="6Xh-ur-gAr" firstAttribute="leading" secondItem="KIy-LQ-AXC" secondAttribute="leading" id="Nf2-y8-2tI"/>
                             <constraint firstItem="KIy-LQ-AXC" firstAttribute="trailing" secondItem="0et-Ym-r8J" secondAttribute="trailing" id="S28-GO-Dva"/>
                             <constraint firstItem="eG7-wx-VNU" firstAttribute="width" secondItem="7at-0x-XG3" secondAttribute="width" id="lis-UO-Xl7"/>
                             <constraint firstItem="0et-Ym-r8J" firstAttribute="top" secondItem="eG7-wx-VNU" secondAttribute="bottom" id="wp3-fV-UbP"/>
@@ -1567,10 +1547,8 @@ Q29udHJhc2VuYRAQEA
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="headerView" destination="6Xh-ur-gAr" id="P6p-10-rbv"/>
                         <outlet property="prodCollectionView" destination="eG7-wx-VNU" id="ORU-eL-h57"/>
                         <outlet property="sellButton" destination="0et-Ym-r8J" id="QTF-OJ-KIL"/>
-                        <outlet property="totalLabel" destination="ccb-24-3TF" id="vxP-s5-fCm"/>
                         <segue destination="0PC-cK-8fs" kind="showDetail" identifier="goToModifStock" id="7fc-gf-pdZ"/>
                     </connections>
                 </viewController>

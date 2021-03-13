@@ -14,10 +14,8 @@ final class DetailViewController: UIViewController {
     var multipSelectedProducts = [ProductModel]()
     var userLogged: UserModel?
     let serviceManager = ServiceManager()
-    @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var sellButton: UIButton!
     @IBOutlet private weak var prodCollectionView: GeminiCollectionView!
-    @IBOutlet private weak var totalLabel: UILabel!
     var purchaseTotalAmount = 0.0
     let cellScale: CGFloat = 0.7
     var subtotal = 0.00
@@ -43,10 +41,8 @@ final class DetailViewController: UIViewController {
         
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         sellButton.layer.insertSublayer(createCustomGradiend(view: sellButton), at: 0)
-        headerView.layer.insertSublayer(createCustomGradiend(view: headerView), at: 0)
         
         sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
     @IBAction private func deleteProduct(_ sender: Any) {
@@ -64,7 +60,7 @@ final class DetailViewController: UIViewController {
             }
         }
         subtotal = total
-        totalLabel.text = "Total $ \(total)"
+        setNavTitle(title: "Total $ \(total)")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -123,10 +119,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.bounds.width * cellScale
+        let width = collectionView.bounds.width * cellScale
         let height = collectionView.bounds.height * cellScale
         
-        let insetX = (collectionView.bounds.width - width)/2 + 10
+        let insetX = (collectionView.bounds.width - width)/2
         let insetY = (collectionView.bounds.height - height)/2
         
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
@@ -168,7 +164,7 @@ extension DetailViewController: CantitiProductChanged {
     func updateValues(newAmount: Double) {
         subtotal = subtotal + newAmount
         purchaseTotalAmount = subtotal
-        totalLabel.text = "Total $ \(subtotal)"
+        setNavTitle(title: "Total $ \(subtotal)")
     }
     
 }
