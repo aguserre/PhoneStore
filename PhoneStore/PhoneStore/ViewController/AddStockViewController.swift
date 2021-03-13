@@ -14,6 +14,7 @@ class AddStockViewController: UIViewController {
     var dataBaseRef: DatabaseReference!
     var selectedPos: PointOfSale?
     var userLogged: UserModel?
+    var isEmptyProductList = false
     let generator = UIImpactFeedbackGenerator(style: .medium)
     enum ProductTextFieldData: Int {
         case codeTextField = 0
@@ -73,8 +74,6 @@ class AddStockViewController: UIViewController {
         gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
         self.addButton.layer.insertSublayer(gradientLayer2, at: 0)
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -71,32 +71,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "40998746-C4C9-456F-AC49-27191429223D"
+            uuid = "A1D3CA35-B3E6-42BE-8007-1E1A9A4D5908"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhoneStore/ViewController/ListViewController.swift"
+            filePath = "PhoneStore/Service/ServiceManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
-            landmarkName = "filterTableView(text:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CA8BB4B0-4D4C-4791-8C32-00D10ADA72E9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhoneStore/ViewController/DetailViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "deleteProduct(key:prod:)"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "deleteProduct(delegate:productsList:withTotalAmount:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

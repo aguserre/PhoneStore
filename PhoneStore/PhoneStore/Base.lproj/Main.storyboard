@@ -777,19 +777,8 @@ Q29udHJhc2VuYRAQEA
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="i6f-UE-9q4">
                                 <rect key="frame" x="0.0" y="826" width="414" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pbi-od-8S9">
-                                        <rect key="frame" x="0.0" y="0.0" width="202" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                        <state key="normal" title="Cambiar filtro">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="changeSpecificFilter:" destination="grb-UL-4xB" eventType="touchUpInside" id="3yc-b4-bxz"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ift-hE-xlJ">
-                                        <rect key="frame" x="212" y="0.0" width="202" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="Agregar">
@@ -830,7 +819,6 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="backgroundHeaderView" destination="iNJ-qA-Tb5" id="80s-Qd-KQB"/>
                         <outlet property="cantSelectedLabel" destination="AxV-va-GR1" id="hpe-dA-Acl"/>
                         <outlet property="cartButton" destination="do7-r3-pBm" id="2Oo-8Z-IoS"/>
-                        <outlet property="changeFilterButton" destination="Pbi-od-8S9" id="a65-GR-nQc"/>
                         <outlet property="listTableView" destination="EXT-qH-r5c" id="edN-bA-dTk"/>
                         <outlet property="loaderIndicator" destination="r8V-jg-OAU" id="1Ow-77-Un0"/>
                         <outlet property="searchBar" destination="TwS-W0-Hvy" id="izc-be-vNS"/>

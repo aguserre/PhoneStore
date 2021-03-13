@@ -6,38 +6,79 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
     
     var products = [ProductModel]()
     var productsSelected = [ProductModel]()
     var productsFilter = [ProductModel]()
-    
     var selectedPos: PointOfSale?
     var userLogged: UserModel?
-    let generator = UIImpactFeedbackGenerator(style: .medium)
     var selectedProduct: ProductModel?
-    @IBOutlet weak var backgroundHeaderView: UIView!
-    
+    var isEmptyProductList = false
     var isSearching = false
-    var dataBaseRef: DatabaseReference!
+    let serviceManager = ServiceManager()
     var isKeyboardShowing = false
-    @IBOutlet weak var cartButton: UIButton!
-    @IBOutlet weak var cantSelectedLabel: UILabel!
-    @IBOutlet weak var changeFilterButton: UIButton!
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
     
-    @IBOutlet weak var listTableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet private weak var backgroundHeaderView: UIView!
+    @IBOutlet private weak var cartButton: UIButton!
+    @IBOutlet private weak var cantSelectedLabel: UILabel!
+    @IBOutlet private weak var addButton: UIButton!
+    @IBOutlet private weak var loaderIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var listTableView: UITableView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var stackView: UIStackView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        if isEmptyProductList {
+            navigationController?.popViewController(animated: true)
+        }
+        checkDataWillAppear()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
+        setupView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupView() {
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
+        
+        cantSelectedLabel.isHidden = true
+        cantSelectedLabel.backgroundColor = .systemIndigo
+        cantSelectedLabel.layer.cornerRadius = cantSelectedLabel.bounds.width/2
+        
+        let string = selectedPos?.name?.capitalized ?? "Stock"
+        let titleLbl = UILabel()
+        let titleLblColor = UIColor.white
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 20)!,
+                                                         NSAttributedString.Key.foregroundColor: titleLblColor]
+        titleLbl.attributedText = NSAttributedString(string: string, attributes: attributes)
+        titleLbl.sizeToFit()
+        self.navigationItem.titleView = titleLbl
+
+        view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
+        backgroundHeaderView.layer.insertSublayer(createCustomGradiend(view: backgroundHeaderView), at: 0)
+        stackView.layer.insertSublayer(createCustomGradiend(view: stackView), at: 0)
+        
+        stackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        backgroundHeaderView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        cantSelectedLabel.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        
+        if userLogged?.type != UserType.admin.rawValue {
+            addButton.isHidden = true
+        }
+    }
+    
+    private func checkDataWillAppear() {
         listTableView.isHidden = true
         loaderIndicator.isHidden = false
         loaderIndicator.startAnimating()
@@ -51,111 +92,51 @@ class ListViewController: UIViewController {
         if productsSelected.count != 0 {
             productsSelected.removeAll()
         }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         refreshData()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
-        let string = selectedPos?.name?.capitalized ?? "Stock"
-        
-        cantSelectedLabel.isHidden = true
-        cantSelectedLabel.backgroundColor = .systemIndigo
-        cantSelectedLabel.layer.cornerRadius = cantSelectedLabel.bounds.width/2
-        cantSelectedLabel.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        
-        let titleLbl = UILabel()
-            let titleLblColor = UIColor.white
-
-        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Medium", size: 20)!,
-                                                         NSAttributedString.Key.foregroundColor: titleLblColor]
-
-        titleLbl.attributedText = NSAttributedString(string: string, attributes: attributes)
-        titleLbl.sizeToFit()
-        
-        self.navigationItem.titleView = titleLbl
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(blurEffectView, at: 0)
-        
-        let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.backgroundHeaderView.bounds
-        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.backgroundHeaderView.layer.insertSublayer(gradientLayer2, at: 0)
-        
-        backgroundHeaderView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        if userLogged?.type != UserType.admin.rawValue {
-            addButton.isHidden = true
-        }
-        
-        let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.frame = self.stackView.bounds
-        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.stackView.layer.insertSublayer(gradientLayer3, at: 0)
-        stackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-        dataBaseRef.removeAllObservers()
-    }
-    
-    func refreshData() {
-        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let prodDict = snap.value as? Dictionary<String, AnyObject> {
-                        if let p = ProductModel(JSON: prodDict) {
-                            if self.selectedPos?.id == p.id {
-                                self.products.append(p)
-                            }
+    private func refreshData() {
+        if !isEmptyProductList {
+            serviceManager.getProductList(posId: selectedPos?.id ?? "") { (products, error) in
+                if let products = products {
+                    self.products = products
+                    self.listTableView.reloadData()
+                    self.listTableView.isHidden = false
+                    self.loaderIndicator.stopAnimating()
+                    self.loaderIndicator.isHidden = true
+                }
+                if let error = error {
+                    self.presentAlertController(title: "Error", message: error, delegate: self) { (action) in
+                        if self.userLogged?.type == UserType.vendor.rawValue {
+                            self.navigationController?.popViewController(animated: true)
+                        } else {
+                            self.isEmptyProductList = true
+                            self.performSegue(withIdentifier: "goToAddStock", sender: nil)
                         }
-                    } else {
-                        print("Zhenya: failed to convert")
                     }
                 }
             }
-            self.listTableView.reloadData()
-            self.listTableView.isHidden = false
-            self.loaderIndicator.stopAnimating()
-            self.loaderIndicator.isHidden = true
         }
     }
     
-    @IBAction func addStockAction(_ sender: Any) {
-        generator.impactOccurred()
+    @IBAction private func addStockAction(_ sender: Any) {
+        generateImpactWhenTouch()
         goToAddStock()
     }
     
-    @objc func goToAddStock() {
-        generator.impactOccurred()
+    @objc private func goToAddStock() {
+        generateImpactWhenTouch()
+        isEmptyProductList = false
         performSegue(withIdentifier: "goToAddStock", sender: nil)
     }
     
-    @objc func keyboardWillAppear() {
+    @objc private func keyboardWillAppear() {
         isKeyboardShowing = true
     }
 
-    @objc func keyboardWillDisappear() {
+    @objc private func keyboardWillDisappear() {
         isKeyboardShowing = false
     }
     
@@ -173,29 +154,23 @@ class ListViewController: UIViewController {
         if let segueId = segue.identifier,
            segueId == "goToAddStock",
            let addVc = segue.destination as? AddStockViewController {
+            addVc.isEmptyProductList = isEmptyProductList
             addVc.selectedPos = selectedPos
             addVc.userLogged = userLogged
         }
     }
     
-    @IBAction func changeSpecificFilter(_ sender: Any) {
-        generator.impactOccurred()
-    }
-    
-    @IBAction func cartTapped(_ sender: Any) {
-        generator.impactOccurred()
+    @IBAction private func cartTapped(_ sender: Any) {
+        generateImpactWhenTouch()
         performSegue(withIdentifier: "goToDetails", sender: nil)
     }
     
-    @IBAction func logOut(_ sender: Any) {
-        generator.impactOccurred()
-        do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
-        
-        navigationController?.popToRootViewController(animated: true)
+    @IBAction private func logOut(_ sender: Any) {
+        generateImpactWhenTouch()
+        serviceManager.logOut(delegate: self)
     }
     
-    func filterTableView(text: String) {
+    private func filterTableView(text: String) {
         listTableView.reloadData()
         productsFilter = products
         productsFilter = productsFilter.filter { (product) -> Bool in
@@ -225,7 +200,7 @@ extension ListViewController: UISearchBarDelegate {
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         if isKeyboardShowing {
             view.endEditing(true)
             return
@@ -268,7 +243,7 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: CheckMarkDelegate {
     func didCheckBoxTapped(productAdd: ProductModel) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         productsSelected.append(productAdd)
         updateCartCantiti()
         for p in products {
@@ -279,7 +254,7 @@ extension ListViewController: CheckMarkDelegate {
     }
     
     func didDeselectCheck(productAdd: ProductModel) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         if let index = productsSelected.firstIndex(where: {$0.code == productAdd.code}) {
             for p in products {
                 if p.code == productAdd.code {

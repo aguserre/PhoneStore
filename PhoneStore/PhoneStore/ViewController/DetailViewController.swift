@@ -6,64 +6,26 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 import Gemini
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
 
     var selectedProduct: ProductModel?
     var multipSelectedProducts = [ProductModel]()
-    var dataBaseRef: DatabaseReference!
     var userLogged: UserModel?
-    let generator = UIImpactFeedbackGenerator(style: .medium)
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var sellButton: UIButton!
-    @IBOutlet weak var prodCollectionView: GeminiCollectionView!
-    @IBOutlet weak var totalLabel: UILabel!
+    let serviceManager = ServiceManager()
+    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet private weak var sellButton: UIButton!
+    @IBOutlet private weak var prodCollectionView: GeminiCollectionView!
+    @IBOutlet private weak var totalLabel: UILabel!
     var purchaseTotalAmount = 0.0
     let cellScale: CGFloat = 0.7
     var subtotal = 0.00
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
-        self.hideKeyboardWhenTappedAround()
-        prodCollectionView.gemini
-            .rollRotationAnimation()
-            .degree(60)
-            .rollEffect(.reverseSineWave)
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        
-        let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.sellButton.bounds
-        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.sellButton.layer.insertSublayer(gradientLayer2, at: 0)
-        
-        let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.frame = self.headerView.bounds
-        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.headerView.layer.insertSublayer(gradientLayer3, at: 0)
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        setupView()
         calculateTotal()
-}
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if dataBaseRef != nil {
-            dataBaseRef.removeAllObservers()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,56 +33,30 @@ class DetailViewController: UIViewController {
         print("Volvi de modificar stock")
     }
     
-    @IBAction func deleteProduct(_ sender: Any) {
-        generator.impactOccurred()
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
-        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let postDict = snap.value as? Dictionary<String, AnyObject> {
-                        for prod in self.multipSelectedProducts {
-                            
-                            if prod.code == postDict["code"] as? String,
-                               let cantiti = postDict["cantiti"] as? Int {
-                                if cantiti == prod.cantitiToSell {
-                                    self.deleteProduct(key: snap.key, prod: prod)
-                                } else {
-                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod)
-                                }
-                            }
-                        }
-                    } else {
-                        print("Zhenya: failed to convert")
-                    }
-                }
-            }
+    private func setupView() {
+        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
+        hideKeyboardWhenTappedAround()
+        prodCollectionView.gemini
+            .rollRotationAnimation()
+            .degree(60)
+            .rollEffect(.reverseSineWave)
+        
+        view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
+        sellButton.layer.insertSublayer(createCustomGradiend(view: sellButton), at: 0)
+        headerView.layer.insertSublayer(createCustomGradiend(view: headerView), at: 0)
+        
+        sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+    }
+    
+    @IBAction private func deleteProduct(_ sender: Any) {
+        generateImpactWhenTouch()
+        serviceManager.deleteProduct(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
-    func deleteProduct(key: String, prod: ProductModel) {
-        print("Se quedo sin stock del producto \(key)")
-        self.dataBaseRef.child(key).removeValue(completionBlock: { (error, ref) in
-            if error != nil {
-                print("Error: \(String(describing: error))")
-                return
-            }
-            self.registerSaleMov(prod: prod, movType: .out)
-        })
-    }
-    
-    func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
-        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
-        let post = ["cantiti": newCantiti]
-
-        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
-            if error != nil {
-                print("Imposible actualizar la cantidad")
-            }
-        self.registerSaleMov(prod: prod, movType: .out)
-        }
-    }
-    
-    func calculateTotal() {
+    private func calculateTotal() {
         var total: Double = 0.0
         for product in multipSelectedProducts {
             if let price = product.priceSale {
@@ -131,14 +67,6 @@ class DetailViewController: UIViewController {
         totalLabel.text = "Total $ \(total)"
     }
     
-    func registerSaleMov(prod: ProductModel, movType: MovementType) {
-        dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
-        let mov = generateMovment(prod: prod, movType: movType, amount: purchaseTotalAmount)
-        dataBaseRef.setValue(mov?.toDictionary()) { (error, ref) in
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueId = segue.identifier,
            segueId == "goToModifStock",
@@ -147,12 +75,9 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @IBAction func logOut(_ sender: Any) {
-        generator.impactOccurred()
-        do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
-        
-        navigationController?.popToRootViewController(animated: true)
+    @IBAction private func logOut(_ sender: Any) {
+        generateImpactWhenTouch()
+        serviceManager.logOut(delegate: self)
     }
 }
 
@@ -220,13 +145,13 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
+    
 }
 
 extension DetailViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
     }
-    
     
 }
 
@@ -246,27 +171,4 @@ extension DetailViewController: CantitiProductChanged {
         totalLabel.text = "Total $ \(subtotal)"
     }
     
-}
-
-extension UIViewController {
-    func generateMovment(prod: ProductModel, movType: MovementType, amount: Double) -> MovementsModel? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YY/MM/dd"
-        
-        
-        
-        let movDic = ["id": prod.id  ?? "",
-                      "productDescription": prod.description ?? "",
-                      "movementType": movType.rawValue,
-                      "localId": prod.localInStock as Any,
-                      "code" : prod.code as Any,
-                      "condition" : prod.condition as Any,
-                      "totalAmount" : amount as Any,
-                      "dateOut" : dateFormatter.string(from: Date()),
-                      "cantitiPurchase" : prod.cantitiToSell as Any]
-        guard let mov = MovementsModel(JSON: movDic) else {
-            return nil
-        }
-        return mov
-    }
 }
