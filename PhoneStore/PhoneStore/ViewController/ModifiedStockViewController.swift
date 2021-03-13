@@ -6,24 +6,26 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
-class ModifiedStockViewController: UIViewController {
+final class ModifiedStockViewController: UIViewController {
 
-    @IBOutlet weak var backView: UIView!
-    @IBOutlet weak var productTitleLabel: UILabel!
-    @IBOutlet weak var productCantitiLabel: UILabel!
-    @IBOutlet weak var stockToAddLabel: UILabel!
-    @IBOutlet weak var stepperCantiti: UIStepper!
-    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet private weak var backView: UIView!
+    @IBOutlet private weak var productTitleLabel: UILabel!
+    @IBOutlet private weak var productCantitiLabel: UILabel!
+    @IBOutlet private weak var stockToAddLabel: UILabel!
+    @IBOutlet private weak var stepperCantiti: UIStepper!
+    @IBOutlet private weak var addButton: UIButton!
     
-    var dataBaseRef: DatabaseReference!
+    private let serviceManager = ServiceManager()
     var product: ProductModel?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        setupView()
+    }
+    
+    private func setupView() {
         stepperCantiti.value = 0
         if let productName = product?.code {
             productTitleLabel.text = productName
@@ -37,30 +39,12 @@ class ModifiedStockViewController: UIViewController {
         addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        if dataBaseRef != nil {
-            dataBaseRef.removeAllObservers()
-        }
-    }
-    
-    @objc func stepperChanged(_ sender: Any) {
+    @objc private func stepperChanged(_ sender: Any) {
         stockToAddLabel.text = String(format: "%.0f", stepperCantiti.value)
     }
     
-    @IBAction func update(_ sender: Any) {
-        if let productId = product?.productId {
-            var totalCant: Int = 0
-            if let actualCantiti = product?.cantiti {
-                totalCant = Int(stepperCantiti.value) + actualCantiti
-            }
-            
-            let newCantiti = ["cantiti": totalCant]
-            dataBaseRef.child(productId).updateChildValues(newCantiti) { (error, ref) in
-                if error != nil {
-                    print("Imposible actualizar la cantidad de stock en este momento")
-                }
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
+    @IBAction private func update(_ sender: Any) {
+        serviceManager.updateCantiti(delegate: self, product: self.product, newCantiti: Int(self.stepperCantiti.value))
     }
+        
 }

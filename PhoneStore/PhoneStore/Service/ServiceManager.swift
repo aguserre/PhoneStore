@@ -283,9 +283,9 @@ class ServiceManager: NSObject {
     }
     
     func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
+        checkDatabaseReference()
         dataBaseRef = Database.database().reference().child("PROD_MOV")
         var movs = [MovementsModel]()
-        checkDatabaseReference()
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -300,4 +300,25 @@ class ServiceManager: NSObject {
         }
     }
     
+    func updateCantiti(delegate: UIViewController, product: ProductModel?, newCantiti: Int) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        var totalCant: Int = 0
+        if let actualCantiti = product?.cantiti {
+            totalCant = Int(newCantiti) + actualCantiti
+        }
+        let newCantiti = ["cantiti": totalCant]
+        guard let id = product?.productId else {
+            return
+        }
+        dataBaseRef.child(id).updateChildValues(newCantiti) { (error, ref) in
+            if error != nil {
+                delegate.presentAlertController(title: "Error", message: "mposible actualizar la cantidad de stock en este momento", delegate: delegate, completion: nil)
+                return
+            }
+            delegate.presentAlertController(title: "Guardado con exito", message: "", delegate: delegate) { (action) in
+                delegate.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
 }

@@ -132,5 +132,117 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6568F8B0-3A71-4F52-B5E7-2F59210589EE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneStore/Service/ServiceManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "updateCantiti(delegate:product:newCantiti:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6568F8B0-3A71-4F52-B5E7-2F59210589EE - 8b4c09451678ce91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhoneStore.ServiceManager.updateCantiti(delegate: __C.UIViewController, product: Swift.Optional&lt;PhoneStore.ProductModel&gt;, newCantiti: Swift.Int) -&gt; ()"
+                  moduleName = "PhoneStore"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agustinerrecalde/Documents/xCode%20Projects/PhoneStoreVdef/PhoneStore/PhoneStore/PhoneStore/Service/ServiceManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "314"
+                  endingLineNumber = "314"
+                  offsetFromSymbolStart = "1357">
+               </Location>
+               <Location
+                  uuid = "6568F8B0-3A71-4F52-B5E7-2F59210589EE - befbb4a1d7754852"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, __C.FIRDatabaseReference) -&gt; () in PhoneStore.ServiceManager.updateCantiti(delegate: __C.UIViewController, product: Swift.Optional&lt;PhoneStore.ProductModel&gt;, newCantiti: Swift.Int) -&gt; ()"
+                  moduleName = "PhoneStore"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agustinerrecalde/Documents/xCode%20Projects/PhoneStoreVdef/PhoneStore/PhoneStore/PhoneStore/Service/ServiceManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "118">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "36CAA721-2E76-4B33-9086-B72028DE43F1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneStore/Service/ServiceManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
+            landmarkName = "updateCantiti(delegate:product:newCantiti:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88FDFEB9-D9EA-4E61-9F21-DD80AED409EE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhoneStore/Service/ServiceManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "updateCantiti(delegate:product:newCantiti:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "88FDFEB9-D9EA-4E61-9F21-DD80AED409EE - befbb4a1d77549d6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;, __C.FIRDatabaseReference) -&gt; () in PhoneStore.ServiceManager.updateCantiti(delegate: __C.UIViewController, product: Swift.Optional&lt;PhoneStore.ProductModel&gt;, newCantiti: Swift.Int) -&gt; ()"
+                  moduleName = "PhoneStore"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agustinerrecalde/Documents/xCode%20Projects/PhoneStoreVdef/PhoneStore/PhoneStore/PhoneStore/Service/ServiceManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "319"
+                  endingLineNumber = "319"
+                  offsetFromSymbolStart = "294">
+               </Location>
+               <Location
+                  uuid = "88FDFEB9-D9EA-4E61-9F21-DD80AED409EE - 3d8aef5b093fd4fb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.UIAlertAction) -&gt; () in closure #1 (Swift.Optional&lt;Swift.Error&gt;, __C.FIRDatabaseReference) -&gt; () in PhoneStore.ServiceManager.updateCantiti(delegate: __C.UIViewController, product: Swift.Optional&lt;PhoneStore.ProductModel&gt;, newCantiti: Swift.Int) -&gt; ()"
+                  moduleName = "PhoneStore"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/agustinerrecalde/Documents/xCode%20Projects/PhoneStoreVdef/PhoneStore/PhoneStore/PhoneStore/Service/ServiceManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "320"
+                  endingLineNumber = "320"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
