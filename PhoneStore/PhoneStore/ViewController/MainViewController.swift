@@ -6,65 +6,33 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FirebaseAuth
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
-    @IBOutlet weak var shadowView: UIView!
-    @IBOutlet weak var posTableView: UITableView!
-    @IBOutlet weak var seeMoreButton: UIButton!
-    @IBOutlet weak var settingsButton: UIBarButtonItem!
-    @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var shadowView: UIView!
+    @IBOutlet private weak var posTableView: UITableView!
+    @IBOutlet private weak var seeMoreButton: UIButton!
+    @IBOutlet private weak var settingsButton: UIBarButtonItem!
+    @IBOutlet private weak var loaderIndicator: UIActivityIndicatorView!
     
     var userId: String = ""
     var userLogged: UserModel?
     var users = [UserModel]()
     var posts = [PointOfSale]()
     var selectedPost: PointOfSale?
-    var dataBaseRef: DatabaseReference!
-    let generator = UIImpactFeedbackGenerator(style: .medium)
-
+    let serviceManager = ServiceManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.insertSubview(blurEffectView, at: 0)
-        
-        let gradientLayer2 = CAGradientLayer()
-        gradientLayer2.frame = self.shadowView.bounds
-        gradientLayer2.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer2.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer2.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.shadowView.layer.insertSublayer(gradientLayer2, at: 0)
-        
-        let shadowSize: CGFloat = 20
-        let contactRect = CGRect(x: -shadowSize, y: shadowView.bounds.height - (shadowSize * 0.4), width: shadowView.bounds.width + shadowSize * 2, height: shadowSize)
-        shadowView.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
-        shadowView.layer.shadowRadius = 4
-        shadowView.layer.shadowOpacity = 0.2
-        
-        let gradientLayer3 = CAGradientLayer()
-        gradientLayer3.frame = self.seeMoreButton.bounds
-        gradientLayer3.colors = [UIColor.systemTeal.cgColor,  UIColor.systemIndigo.cgColor]
-        gradientLayer3.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer3.endPoint = CGPoint(x: 1.0, y: 0.5)
-        self.seeMoreButton.layer.insertSublayer(gradientLayer3, at: 0)
-        seeMoreButton.addShadow(offset: CGSize(width: 0.0, height : -5.0), color: .black, radius: 4, opacity: 0.2)
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupelementsView()
+    }
+    
+    private func setupelementsView() {
         settingsButton.isEnabled = false
         posTableView.isHidden = true
         loaderIndicator.startAnimating()
@@ -77,31 +45,31 @@ class MainViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationItem.hidesBackButton = false
-        dataBaseRef.removeAllObservers()
+    }
+    
+    private func setupView() {
+        view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
+        shadowView.layer.insertSublayer(createCustomGradiend(view: shadowView), at: 0)
+        seeMoreButton.layer.insertSublayer(createCustomGradiend(view: seeMoreButton), at: 0)
+
+        shadowView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        seeMoreButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
     private func setupUserByID(id: String) {
-        dataBaseRef = Database.database().reference().child("USER_ADD")
-        dataBaseRef.observeSingleEvent(of: .value) { [self] (snapshot) in
-            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let userDic = snap.value as? [String : AnyObject] {
-                        if let userObject = UserModel(JSON: userDic) {
-                            self.users.append(userObject)
-                        }
-                    }
-                }
-                selectUserLogged(users: self.users)
+        serviceManager.setupUserByID(id: id) { (user, error) in
+            if let error = error {
+                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                return
+            }
+            if let user = user {
+                self.selectUserLogged(users: user)
             }
         }
     }
     
-    private func selectUserLogged(users: [UserModel]) {
-        for user in users {
-            if user.id == userId {
-                userLogged = user
-            }
-        }
+    private func selectUserLogged(users: UserModel) {
+        userLogged = users
         prepareViewByUser(user: userLogged)
     }
     
@@ -118,46 +86,37 @@ class MainViewController: UIViewController {
     }
     
     private func setupAdminView() {
-        dataBaseRef = Database.database().reference().child("POS_ADD")
-        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
-            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let posDic = snap.value as? [String : AnyObject] {
-                        if let posObject = PointOfSale(JSON: posDic) {
-                            self.posts.append(posObject)
-                        }
-                    }
-                }
+        serviceManager.getPOSFullList { (pos, error) in
+            if let pos = pos {
+                self.posts = pos
                 self.posTableView.reloadData()
+            }
+            if let error = error {
+                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
             }
         }
     }
     
     private func setupVendorViewByPOSView() {
-        dataBaseRef = Database.database().reference().child("POS_ADD")
-        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
-            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
-                for snap in snapshot {
-                    if let posDic = snap.value as? [String : AnyObject] {
-                        if let posObject = PointOfSale(JSON: posDic),
-                           let userId = self.userLogged?.localAutorized,
-                           userId == posObject.id {
-                            self.posts.append(posObject)
-                        }
-                    }
-                }
+        seeMoreButton.isHidden = true
+        serviceManager.getSpecificPOS(id: userLogged?.localAutorized ?? "") { (pos, error) in
+            if let pos = pos {
+                self.posts = pos
                 self.posTableView.reloadData()
+            }
+            if let error = error {
+                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
             }
         }
     }
     
-    @IBAction func goToMovements(_ sender: Any) {
-        generator.impactOccurred()
+    @IBAction private func goToMovements(_ sender: Any) {
+        generateImpactWhenTouch()
         performSegue(withIdentifier: "goToMovements", sender: nil)
     }
     
-    @IBAction func goToSettings(_ sender: UIBarButtonItem) {
-        generator.impactOccurred()
+    @IBAction private func goToSettings(_ sender: UIBarButtonItem) {
+        generateImpactWhenTouch()
         performSegue(withIdentifier: "goToSettings", sender: nil)
     }
     
@@ -206,18 +165,15 @@ class MainViewController: UIViewController {
     }
     
     @objc func logOutTapped() {
-        do { try Auth.auth().signOut() }
-        catch { print("already logged out") }
-        
-        navigationController?.popToRootViewController(animated: true)
+        self.serviceManager.logOut(delegate: self)
     }
     
     @IBAction func movmentsActionButton(_ sender: Any) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
     }
     
     @IBAction @objc func logOut(_ sender: Any) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         logOutTapped()
     }
 }
@@ -238,31 +194,8 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        generator.impactOccurred()
+        generateImpactWhenTouch()
         selectedPost = posts[indexPath.row]
         performSegue(withIdentifier: "goToList", sender: nil)
     }
 }
-
-extension UIViewController {
-    func setupBackButton(target: Selector?) -> UIBarButtonItem {
-        let newBackButton = UIBarButtonItem(barButtonSystemItem: .close,
-                                            target: self,
-                                            action:target)
-        newBackButton.tintColor = .black
-        return newBackButton
-    }
-    
-    func setupRightButton(target: Selector?) -> UIBarButtonItem {
-        setupBackButton(target: target)
-    }
-    
-    func clearNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.navigationBar.tintColor = .black
-    }
-    
-}
-

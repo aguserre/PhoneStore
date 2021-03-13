@@ -27,10 +27,24 @@ extension UIViewController {
         view.endEditing(true)
     }
     
-    func presentAlertController(title: String, message:String, delegate: UIViewController, completion: ((UIAlertAction) -> Void)?) {
+    func createDefaultAlert(title: String, message:String, completion: ((UIAlertAction) -> Void)?) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: .default, handler: completion)
         alert.addAction(action)
+        
+        return alert
+    }
+    
+    func presentAlertController(title: String, message:String, delegate: UIViewController, completion: ((UIAlertAction) -> Void)?) {
+        let alert = createDefaultAlert(title: title, message: message, completion: completion)
+        
+        delegate.present(alert, animated: true, completion: nil)
+    }
+    
+    func presentAlertControllerWithCancel(title: String, message:String, delegate: UIViewController, completion: ((UIAlertAction) -> Void)?) {
+        let alert = createDefaultAlert(title: title, message: message, completion: completion)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
         
         delegate.present(alert, animated: true, completion: nil)
     }
@@ -38,6 +52,25 @@ extension UIViewController {
     func generateImpactWhenTouch() {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
+    }
+    
+    func setupBackButton(target: Selector?) -> UIBarButtonItem {
+        let newBackButton = UIBarButtonItem(barButtonSystemItem: .close,
+                                            target: self,
+                                            action:target)
+        newBackButton.tintColor = .black
+        return newBackButton
+    }
+    
+    func setupRightButton(target: Selector?) -> UIBarButtonItem {
+        setupBackButton(target: target)
+    }
+    
+    func clearNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.tintColor = .black
     }
     
 }
