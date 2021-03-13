@@ -13,6 +13,7 @@ final class AddStockViewController: UIViewController {
     var userLogged: UserModel?
     let serviceManager = ServiceManager()
     var isEmptyProductList = false
+    var isExpanded = false
     enum ProductTextFieldData: Int {
         case codeTextField = 0
         case colorTextField = 1
@@ -21,7 +22,6 @@ final class AddStockViewController: UIViewController {
         case salePriceTextField = 4
     }
     var productDic = [String : Any]()
-    @IBOutlet private weak var headerView: UIView!
     @IBOutlet private weak var addButton: UIButton!
     
     //StackView
@@ -36,12 +36,47 @@ final class AddStockViewController: UIViewController {
     @IBOutlet private weak var salePriceTextField: UITextField!
     @IBOutlet private weak var backgroundConditionView: UIView!
     @IBOutlet private weak var posSelectButton: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         hideKeyboardWhenTappedAround()
         setupTextfieldsDelegate()
+        setNavTitle(title: "Nuevo producto")
+        setupObservers()
+    }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:UIResponder.keyboardWillHideNotification, object: nil)
+        hideKeyboardWhenTappedAround()
+    }
+    
+    @objc private func keyboardWillShow(notification:NSNotification) {
+        let userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        if !isExpanded {
+            self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + keyboardFrame.height/2)
+            isExpanded = true
+        }
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc private func keyboardWillHide(notification:NSNotification) {
+        let userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height - keyboardFrame.height/2)
+        isExpanded = false
+        UIView.animate(withDuration: 1, delay: 0.5) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     private func setupView() {
@@ -49,10 +84,8 @@ final class AddStockViewController: UIViewController {
         setupStepper()
 
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
-        headerView.layer.insertSublayer(createCustomGradiend(view: headerView), at: 0)
         addButton.layer.insertSublayer(createCustomGradiend(view: addButton), at: 0)
         
-        headerView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         addButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         backgroundCardView.addShadow(offset: .zero, color: .systemIndigo, radius: 4, opacity: 0.4)
         
