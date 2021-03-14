@@ -18,7 +18,7 @@ final class SuccessViewController: UIViewController {
     }
     var result: Result = .success
     private let successAnimationView = AnimationView(name: "success")
-    private let failureAnimationView = AnimationView(name: "failure")
+    private let failureAnimationView = AnimationView(name: "fail")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +44,11 @@ final class SuccessViewController: UIViewController {
         }
     }
     
-    private func setupViewAfterAnimation() {
+    private func setupViewAfterSuccessAnimation(animationView: AnimationView) {
         UIView.animate(withDuration: 0.4) {
             let safearea = self.view.safeAreaInsets.top
-            self.successAnimationView.frame.origin.y = safearea
-            self.successAnimationView.frame.origin.x = (self.view.bounds.size.width - self.successAnimationView.frame.size.width) / 2.0
+            animationView.frame.origin.y = safearea
+            animationView.frame.origin.x = (self.view.bounds.size.width - animationView.frame.size.width) / 2.0
             self.view.layoutIfNeeded()
         } completion: { (success) in
             UIView.animate(withDuration: 0.4) {
@@ -60,24 +60,36 @@ final class SuccessViewController: UIViewController {
         }
     }
     
-    private func setupSuccessView() {
-        successAnimationView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-        successAnimationView.center = self.view.center
-        successAnimationView.contentMode = .scaleAspectFit
-        successAnimationView.loopMode = .playOnce
-        successAnimationView.animationSpeed = 0.5
-        view.addSubview(successAnimationView)
+    private func setupViewAfterFailureAnimation(animationView: AnimationView) {
         
-        successAnimationView.play { (finish) in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.newSaleButton.isHidden = false
-                self.setupViewAfterAnimation()
-            }
-        }
+    }
+    
+    private func setupSuccessView() {
+        configureAnimation(animationView: successAnimationView)
     }
     
     private func setupFailureView() {
+        configureAnimation(animationView: failureAnimationView)
+    }
+    
+    private func configureAnimation(animationView: AnimationView) {
+        animationView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+        animationView.center = self.view.center
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.animationSpeed = 0.5
+        view.addSubview(animationView)
         
+        animationView.play { (finish) in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.newSaleButton.isHidden = false
+                if self.result == .success {
+                    self.setupViewAfterSuccessAnimation(animationView: animationView)
+                } else {
+                    self.setupViewAfterFailureAnimation(animationView: animationView)
+                }
+            }
+        }
     }
 
 }

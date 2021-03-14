@@ -51,7 +51,7 @@ final class DetailViewController: UIViewController {
             self.presentAlertControllerWithCancel(title: "Cliente", message: "Desea guardar datos del cliente?", delegate: self) { (action) in
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let newViewController = storyBoard.instantiateViewController(withIdentifier: "SuccessViewController") as! SuccessViewController
-                newViewController.result = .success
+                newViewController.result = .failure
                 self.navigationController?.pushViewController(newViewController, animated: true)
             }
        // }

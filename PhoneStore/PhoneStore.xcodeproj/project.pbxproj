@@ -21,6 +21,7 @@
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
 		0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */; };
 		0F569A1525FDC925008A9F2B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1425FDC925008A9F2B /* success.json */; };
+		0F569A1B25FDE97F008A9F2B /* fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1A25FDE97F008A9F2B /* fail.json */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
@@ -59,6 +60,7 @@
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		0F569A1425FDC925008A9F2B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
+		0F569A1A25FDE97F008A9F2B /* fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fail.json; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */,
 				0FA63E4F25BF683B00B325B2 /* Info.plist */,
 				0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */,
+				0F569A1A25FDE97F008A9F2B /* fail.json */,
 				0F569A1425FDC925008A9F2B /* success.json */,
 			);
 			path = PhoneStore;
@@ -274,6 +277,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F569A1B25FDE97F008A9F2B /* fail.json in Resources */,
 				0F569A1525FDC925008A9F2B /* success.json in Resources */,
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
 				0FF1064725BFB13E00B2656D /* GoogleService-Info.plist in Resources */,
