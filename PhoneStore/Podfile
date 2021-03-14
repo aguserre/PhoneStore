@@ -10,5 +10,6 @@ target 'PhoneStore' do
   pod 'FirebaseUI/Auth'
   pod 'Gemini'
   pod 'SkeletonView'
+  pod 'lottie-ios'
 
 end

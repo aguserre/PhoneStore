@@ -19,6 +19,8 @@
 		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
 		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
+		0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */; };
+		0F569A1525FDC925008A9F2B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1425FDC925008A9F2B /* success.json */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
@@ -55,6 +57,8 @@
 		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
+		0F569A1425FDC925008A9F2B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */,
 				0FA63E4F25BF683B00B325B2 /* Info.plist */,
 				0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */,
+				0F569A1425FDC925008A9F2B /* success.json */,
 			);
 			path = PhoneStore;
 			sourceTree = "<group>";
@@ -186,6 +191,7 @@
 				0F19895225C64584000E56AF /* SettingsViewController.swift */,
 				0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */,
 				0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */,
+				0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -268,6 +274,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F569A1525FDC925008A9F2B /* success.json in Resources */,
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
 				0FF1064725BFB13E00B2656D /* GoogleService-Info.plist in Resources */,
 				0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */,
@@ -351,6 +358,7 @@
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
 				0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */,
+				0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
 				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
