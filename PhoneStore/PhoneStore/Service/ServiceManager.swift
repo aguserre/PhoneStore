@@ -12,7 +12,7 @@ typealias ServiceManagerFinishedLogOut = ((Error?) -> Void)
 typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
-typealias ServiceManagerFinishUpdateProduct = (() -> Void)
+typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
 
 class ServiceManager: NSObject {
@@ -148,19 +148,19 @@ class ServiceManager: NSObject {
                                let cantiti = postDict["cantiti"] as? Int {
                                 if cantiti == prod.cantitiToSell {
                                     self.deleteProduct(key: snap.key, prod: prod, amount: withTotalAmount)
-                                    completion()
+                                    completion(nil)
                                 } else {
                                     self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod, amount: withTotalAmount)
-                                    completion()
+                                    completion(nil)
                                 }
                             }
                         }
                     } else {
-                        print("Zhenya: failed to convert")
+                        completion("Error")
                     }
                 }
             } else {
-                delegate.presentAlertController(title: "Error", message: "Hubo un error al actualizar el producto", delegate: delegate, completion: nil)
+                completion("Error")
             }
         }
     }

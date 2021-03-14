@@ -47,14 +47,17 @@ final class DetailViewController: UIViewController {
     
     @IBAction private func deleteProduct(_ sender: Any) {
         generateImpactWhenTouch()
-        //serviceManager.deleteProduct(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) {
-            self.presentAlertControllerWithCancel(title: "Cliente", message: "Desea guardar datos del cliente?", delegate: self) { (action) in
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "SuccessViewController") as! SuccessViewController
+        serviceManager.deleteProduct(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) { (error) in
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "SuccessViewController") as! SuccessViewController
+            if let _ = error {
                 newViewController.result = .failure
-                self.navigationController?.pushViewController(newViewController, animated: true)
+            } else {
+                newViewController.result = .success
             }
-       // }
+            
+            self.navigationController?.pushViewController(newViewController, animated: true)
+        }
     }
     
     private func calculateTotal() {

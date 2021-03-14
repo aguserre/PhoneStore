@@ -52,6 +52,7 @@ final class SuccessViewController: UIViewController {
             self.view.layoutIfNeeded()
         } completion: { (success) in
             UIView.animate(withDuration: 0.4) {
+                self.newSaleButton.isHidden = false
                 self.topConstraint.constant = 160
                 self.view.layoutIfNeeded()
             } completion: { (finish) in
@@ -77,12 +78,11 @@ final class SuccessViewController: UIViewController {
         animationView.center = self.view.center
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .playOnce
-        animationView.animationSpeed = 0.5
+        animationView.animationSpeed = 0.8
         view.addSubview(animationView)
         
         animationView.play { (finish) in
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.newSaleButton.isHidden = false
                 if self.result == .success {
                     self.setupViewAfterSuccessAnimation(animationView: animationView)
                 } else {
