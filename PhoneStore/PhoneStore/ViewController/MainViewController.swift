@@ -178,6 +178,8 @@ final class MainViewController: UIViewController {
         generateImpactWhenTouch()
         logOutTapped()
     }
+    
+    @IBAction func unwind( _ seg: UIStoryboardSegue) { }
 }
 
 extension MainViewController: UITableViewDataSource {

@@ -49,6 +49,15 @@ extension UIViewController {
         delegate.present(alert, animated: true, completion: nil)
     }
     
+    func presentAlertControllerWithDoubleAction(title: String, message:String, delegate: UIViewController, completionSuccess: ((UIAlertAction) -> Void)?, completionFailed: ((UIAlertAction) -> Void)?) {
+        let alert = createDefaultAlert(title: title, message: message, completion: completionSuccess)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: completionFailed)
+        alert.addAction(cancelAction)
+        
+        delegate.present(alert, animated: true, completion: nil)
+    }
+    
+    
     func generateImpactWhenTouch() {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()

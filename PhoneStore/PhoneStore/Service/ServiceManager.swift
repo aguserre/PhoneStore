@@ -14,6 +14,7 @@ typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
+typealias ServiceManagerFinishedSaveClient = ((ClientModel?, Error?) -> Void)
 
 class ServiceManager: NSObject {
     
@@ -325,7 +326,6 @@ class ServiceManager: NSObject {
     func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: String) {
         Auth.auth().createUser(withEmail: email, password: pass) { (auth, error) in
             guard let user = auth?.user else {
-                print(error?.localizedDescription)
                 return
             }
             
@@ -372,6 +372,39 @@ class ServiceManager: NSObject {
                 delegate.presentAlertController(title: "Guardado", message: "Se guardaron los datos", delegate: delegate) { (action) in
                     delegate.navigationController?.popViewController(animated: true)
                 }
+            }
+        }
+    }
+    
+    func saveClient(client: ClientModel, completion: @escaping ServiceManagerFinishedSaveClient) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("CLI_ADD").childByAutoId()
+        if let clientKey = dataBaseRef.key {
+            let clientDic = client.toDictionary(withKey: clientKey)
+            dataBaseRef.setValue(clientDic) { (error, ref) in
+                if let error = error {
+                    completion(nil, error)
+                } else {
+                    completion(client, nil)
+                }
+            }
+        }
+    }
+    
+    func checkClientExist(clientDoc: Int, completion: @escaping (Bool) -> Void) {
+        checkDatabaseReference()
+        var exist = false
+        dataBaseRef = Database.database().reference().child("CLI_ADD")
+        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
+            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let posDic = snap.value as? [String : AnyObject] {
+                        if let cliObject = ClientModel(JSON: posDic), cliObject.document == clientDoc {
+                            exist = true
+                        }
+                    }
+                }
+                completion(exist)
             }
         }
     }

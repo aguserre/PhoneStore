@@ -302,12 +302,15 @@ Q29udHJhc2VuYRAQEA
                                 <state key="normal" title="Nueva venta">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="goToMain:" destination="RsQ-bL-Ikj" eventType="touchUpInside" id="g49-Vi-5yo"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbH-0i-do5">
                                 <rect key="frame" x="0.0" y="94" width="414" height="732"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Desea guardar datos del cliente?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F3M-ch-A4u">
-                                        <rect key="frame" x="0.0" y="10" width="414" height="20"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Datos del cliente" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F3M-ch-A4u">
+                                        <rect key="frame" x="35" y="10" width="344" height="20"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -327,19 +330,36 @@ Q29udHJhc2VuYRAQEA
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zkh-lI-fhd">
+                                        <rect key="frame" x="379" y="5" width="30" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="4d7-Ar-Vnu"/>
+                                            <constraint firstAttribute="height" constant="30" id="VWg-9Z-Spi"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="xmark" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelSaveClient:" destination="RsQ-bL-Ikj" eventType="touchUpInside" id="JcJ-SC-qdF"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Zkh-lI-fhd" secondAttribute="trailing" constant="5" id="80b-eB-g2e"/>
                                     <constraint firstItem="luQ-rU-AGg" firstAttribute="top" secondItem="F3M-ch-A4u" secondAttribute="bottom" constant="20" id="99Z-Yv-kMB"/>
                                     <constraint firstAttribute="trailing" secondItem="FuW-Oz-nza" secondAttribute="trailing" constant="10" id="H4s-2h-qpJ"/>
                                     <constraint firstAttribute="trailing" secondItem="uMb-6M-czJ" secondAttribute="trailing" constant="10" id="QkS-CN-Ymh"/>
-                                    <constraint firstAttribute="trailing" secondItem="F3M-ch-A4u" secondAttribute="trailing" id="RzL-rv-OuZ"/>
+                                    <constraint firstItem="Zkh-lI-fhd" firstAttribute="leading" secondItem="F3M-ch-A4u" secondAttribute="trailing" id="SCt-Mh-GKO"/>
                                     <constraint firstItem="uMb-6M-czJ" firstAttribute="top" secondItem="FuW-Oz-nza" secondAttribute="bottom" constant="20" id="TXp-61-Tkn"/>
                                     <constraint firstItem="FuW-Oz-nza" firstAttribute="top" secondItem="luQ-rU-AGg" secondAttribute="bottom" constant="20" id="e48-PB-v7u"/>
                                     <constraint firstItem="FuW-Oz-nza" firstAttribute="leading" secondItem="BbH-0i-do5" secondAttribute="leading" constant="10" id="eyv-zS-thT"/>
-                                    <constraint firstItem="F3M-ch-A4u" firstAttribute="leading" secondItem="BbH-0i-do5" secondAttribute="leading" id="hE6-bG-Yg5"/>
+                                    <constraint firstItem="F3M-ch-A4u" firstAttribute="leading" secondItem="BbH-0i-do5" secondAttribute="leading" constant="35" id="hE6-bG-Yg5"/>
                                     <constraint firstItem="F3M-ch-A4u" firstAttribute="top" secondItem="BbH-0i-do5" secondAttribute="top" constant="10" id="lX5-Rs-aBQ"/>
                                     <constraint firstItem="uMb-6M-czJ" firstAttribute="leading" secondItem="BbH-0i-do5" secondAttribute="leading" constant="10" id="mhh-w7-efV"/>
+                                    <constraint firstItem="Zkh-lI-fhd" firstAttribute="centerY" secondItem="F3M-ch-A4u" secondAttribute="centerY" id="v8m-Bg-czE"/>
                                     <constraint firstAttribute="trailing" secondItem="luQ-rU-AGg" secondAttribute="trailing" constant="10" id="wr0-Vg-0aT"/>
                                     <constraint firstItem="luQ-rU-AGg" firstAttribute="leading" secondItem="BbH-0i-do5" secondAttribute="leading" constant="10" id="ytB-Me-rAn"/>
                                 </constraints>
@@ -358,11 +378,17 @@ Q29udHJhc2VuYRAQEA
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelSaveButton" destination="Zkh-lI-fhd" id="nCa-Ti-PnD"/>
+                        <outlet property="docTextField" destination="FuW-Oz-nza" id="gW0-0X-Dfk"/>
+                        <outlet property="nameTextField" destination="luQ-rU-AGg" id="2qI-Rt-DhS"/>
                         <outlet property="newSaleButton" destination="zmt-eC-vFe" id="7CA-8O-0tE"/>
+                        <outlet property="phoneTextField" destination="uMb-6M-czJ" id="QT7-DN-Dd5"/>
                         <outlet property="topConstraint" destination="8Eq-RY-bTz" id="WTb-YB-DFR"/>
+                        <segue destination="cPz-G3-DkL" kind="unwind" identifier="unwindToMain" unwindAction="unwind:" id="1sZ-es-n0d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m00-u5-MQH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="cPz-G3-DkL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="5231.884057971015" y="-719.19642857142856"/>
         </scene>
@@ -1766,6 +1792,7 @@ Q29udHJhc2VuYRAQEA
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

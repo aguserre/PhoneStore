@@ -15,6 +15,7 @@
 		0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23BDB625C86CE50069AEC1 /* ProductModel.swift */; };
 		0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */; };
 		0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EEE2625DA63910070E781 /* CHCSVParser.m */; };
+		0F3348BF260162B700606E38 /* ClientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3348BE260162B700606E38 /* ClientModel.swift */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
 		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
 		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
@@ -54,6 +55,7 @@
 		0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneStore-Bridging-Header.h"; sourceTree = "<group>"; };
 		0F2EEE2625DA63910070E781 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		0F2EEE2725DA63910070E781 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
+		0F3348BE260162B700606E38 /* ClientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientModel.swift; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */,
 				0FF106E425BFE92D00B2656D /* UserModel.swift */,
 				0F23BDB625C86CE50069AEC1 /* ProductModel.swift */,
+				0F3348BE260162B700606E38 /* ClientModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
+				0F3348BF260162B700606E38 /* ClientModel.swift in Sources */,
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
 				0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */,
 				0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */,
