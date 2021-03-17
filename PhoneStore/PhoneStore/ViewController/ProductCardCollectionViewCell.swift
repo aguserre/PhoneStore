@@ -44,7 +44,7 @@ class ProductCardCollectionViewCell: GeminiCell {
         
         if let price = product.priceSale {
             unityPrice = price
-            priceLabel.text = "$ \(price)"
+            priceLabel.text = "$ \(price * Double(product.cantitiToSell))"
         }
         
         if let date =  product.dateIn {

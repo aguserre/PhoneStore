@@ -25,6 +25,8 @@ final class SuccessViewController: UIViewController {
     }
     var buttonTitle: ButtonTitle = .newSale
     var result: Result = .success
+    var products: [ProductModel]?
+    var amount: Double?
     private let serviceManager = ServiceManager()
     private let successAnimationView = AnimationView(name: "success")
     private let failureAnimationView = AnimationView(name: "fail")
@@ -150,16 +152,24 @@ final class SuccessViewController: UIViewController {
                     }
                 }
             }
+            generateSaleMovement(client: client)
         }
     }
     
     private func dontSaveClient(animationShowing: AnimationView) {
+        generateSaleMovement()
         checkButtonTitle(title: .newSale)
         UIView.animate(withDuration: 0.4) {
             self.hideDataClient()
             self.newSaleButton.isHidden = false
             animationShowing.center = self.view.center
             self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func generateSaleMovement(client: ClientModel? = nil) {
+        if let prods = products {
+            serviceManager.registerSaleMov(client: client, prods: prods, movType: .out)
         }
     }
     

@@ -53,6 +53,8 @@ final class DetailViewController: UIViewController {
             if let _ = error {
                 newViewController.result = .failure
             } else {
+                newViewController.amount = self.purchaseTotalAmount
+                newViewController.products = self.multipSelectedProducts
                 newViewController.result = .success
             }
             

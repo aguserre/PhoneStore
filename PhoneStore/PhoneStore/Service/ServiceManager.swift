@@ -148,25 +148,25 @@ class ServiceManager: NSObject {
                             if prod.code == postDict["code"] as? String,
                                let cantiti = postDict["cantiti"] as? Int {
                                 if cantiti == prod.cantitiToSell {
-                                    self.deleteProduct(key: snap.key, prod: prod, amount: withTotalAmount)
-                                    completion(nil)
+                                    self.deleteProduct(key: snap.key, prod: prod)
                                 } else {
-                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod, amount: withTotalAmount)
-                                    completion(nil)
+                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod)
                                 }
                             }
                         }
                     } else {
                         completion("Error")
+                        return
                     }
                 }
+                completion(nil)
             } else {
                 completion("Error")
             }
         }
     }
     
-    private func deleteProduct(key: String, prod: ProductModel, amount: Double) {
+    private func deleteProduct(key: String, prod: ProductModel) {
         checkDatabaseReference()
         print("Se quedo sin stock del producto \(key)")
         self.dataBaseRef.child(key).removeValue(completionBlock: { (error, ref) in
@@ -174,11 +174,10 @@ class ServiceManager: NSObject {
                 print("Error: \(String(describing: error))")
                 return
             }
-            self.registerSaleMov(prod: prod, movType: .out, totalAmount: amount)
         })
     }
     
-    private func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel, amount: Double) {
+    private func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
         checkDatabaseReference()
         print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
         let post = ["cantiti": newCantiti]
@@ -188,15 +187,14 @@ class ServiceManager: NSObject {
                 print("Imposible actualizar la cantidad")
                 return
             }
-            self.registerSaleMov(prod: prod, movType: .out, totalAmount: amount)
         }
     }
     
-    func registerSaleMov(prod: ProductModel, movType: MovementType, totalAmount: Double) {
+    func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
-        let mov = generateMovment(prod: prod, movType: movType, amount: totalAmount)
-        dataBaseRef.setValue(mov?.toDictionary())
+        let movs = generateMovment(clientId: client?.document, prods: prods, movType: movType, amount: nil)
+        dataBaseRef.setValue(movs)
     }
     
     func registerAddMov(product: ProductModel) {
@@ -206,26 +204,34 @@ class ServiceManager: NSObject {
         if let priceBuy = product.priceBuy, let cantiti = product.cantiti {
             amount = priceBuy * Double(cantiti)
         }
-        let mov = generateMovment(prod: product, movType: .new, amount: amount)
-        dataBaseRef.setValue(mov?.toDictionary())
+        let mov = generateMovment(prods: [product], movType: .new, amount: amount)
+        dataBaseRef.setValue(mov)
     }
     
-    private func generateMovment(prod: ProductModel, movType: MovementType, amount: Double) -> MovementsModel? {
+    private func generateMovment(clientId: Int? = nil, prods: [ProductModel], movType: MovementType, amount: Double? = nil) -> [String : Any]? {
         let dateFormatter = DateFormatter()
+        var movs = [[String : Any]]()
         dateFormatter.dateFormat = "dd/MM/yy"
-        let movDic = ["id": prod.id  ?? "",
-                      "productDescription": prod.description ?? "",
-                      "movementType": movType.rawValue,
-                      "localId": prod.localInStock as Any,
-                      "code" : prod.code as Any,
-                      "condition" : prod.condition as Any,
-                      "totalAmount" : amount as Any,
-                      "dateOut" : dateFormatter.string(from: Date()),
-                      "cantitiPurchase" : prod.cantitiToSell as Any]
-        guard let mov = MovementsModel(JSON: movDic) else {
-            return nil
+        for prod in prods {
+            var amountToShow: Double? = amount
+            if amount == nil, let prodSalePrice = prod.priceSale{
+                amountToShow = prodSalePrice * Double(prod.cantitiToSell)
+            }
+            let movDic = ["id": prod.id  ?? "",
+                          "productDescription": prod.description ?? "",
+                          "movementType": movType.rawValue,
+                          "localId": prod.localInStock as Any,
+                          "code" : prod.code as Any,
+                          "condition" : prod.condition as Any,
+                          "totalAmount" : amountToShow as Any,
+                          "dateOut" : dateFormatter.string(from: Date()),
+                          "client" : clientId as Any,
+                          "cantitiPurchase" : prod.cantitiToSell as Any]
+            movs.append(movDic)
         }
-        return mov
+        let products: [String: Any] = ["products" : movs]
+        
+        return products
     }
     
     func saveProduct(productDic: [String : Any],
@@ -286,17 +292,21 @@ class ServiceManager: NSObject {
     func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child("PROD_MOV")
-        var movs = [MovementsModel]()
+        var movsObjects = [MovementsModel]()
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
-                    if let posDic = snap.value as? [String : AnyObject] {
-                        if let posObject = MovementsModel(JSON: posDic) {
-                            movs.append(posObject)
+                    if let movDic = snap.value as? [String : AnyObject] {
+                        if let movs = movDic["products"] as? [[String : AnyObject]] {
+                            for mov in movs {
+                                if let movObject = MovementsModel(JSON: mov) {
+                                    movsObjects.append(movObject)
+                                }
+                            }
                         }
                     }
                 }
-                completion(movs)
+                completion(movsObjects)
             }
         }
     }
@@ -305,6 +315,7 @@ class ServiceManager: NSObject {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child("PROD_ADD")
         var totalCant: Int = 0
+        let actualCantiti: Int = product?.cantiti ?? 1
         if let actualCantiti = product?.cantiti {
             totalCant = Int(newCantiti) + actualCantiti
         }
@@ -319,6 +330,11 @@ class ServiceManager: NSObject {
             }
             delegate.presentAlertController(title: "Guardado con exito", message: "", delegate: delegate) { (action) in
                 delegate.dismiss(animated: true, completion: nil)
+            }
+            
+            if let prod = product {
+                prod.cantiti = totalCant - actualCantiti
+                self.registerAddMov(product: prod)
             }
         }
     }

@@ -10,7 +10,7 @@ import ObjectMapper
 class MovementsModel: Mappable {
 
     var id: String?
-    var productDescription: String?
+    var products: [NSDictionary]?
     var movementType: String?
     var localId: String?
     var code: String?
@@ -18,13 +18,14 @@ class MovementsModel: Mappable {
     var totalAmount: Double?
     var dateOut: String?
     var cantitiPurchase: Int?
+    var client: NSDictionary?
     
 
     required init?(map: Map) {}
 
     func mapping(map: Map) {
         id <- map["id"]
-        productDescription <- map["productDescription"]
+        products <- map["products"]
         movementType <- map["movementType"]
         localId <- map["localId"]
         code <- map["code"]
@@ -32,17 +33,19 @@ class MovementsModel: Mappable {
         totalAmount <- map["totalAmount"]
         dateOut <- map["dateOut"]
         cantitiPurchase <- map["cantitiPurchase"]
+        client <- map["client"]
     }
     
     func toDictionary() -> NSDictionary {
         return ["id": id  ?? "",
-                "productDescription": productDescription ?? "",
+                "products": products ?? [:],
                 "movementType": movementType ?? "",
                 "localId": localId as Any,
                 "code" : code as Any,
                 "condition" : condition as Any,
                 "totalAmount" : totalAmount as Any,
                 "dateOut" : dateOut as Any,
+                "client" : client as Any,
                 "cantitiPurchase" : cantitiPurchase as Any] as NSDictionary
     }
     

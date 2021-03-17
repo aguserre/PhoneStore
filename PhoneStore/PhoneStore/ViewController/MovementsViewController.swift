@@ -45,23 +45,9 @@ final class MovementsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
+        setupView()
         getMovementsData()
         setupDatePicker()
-        backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        backGroundTableView.layer.cornerRadius = 20
-        backGroundTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-                
-        weekButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        dayButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        monthButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        datePickerBackgroundView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
-        weekButton.layer.cornerRadius = 5
-        monthButton.layer.cornerRadius = 5
-        dayButton.layer.cornerRadius = 5
-        datePickerBackgroundView.layer.cornerRadius = 5
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,6 +61,22 @@ final class MovementsViewController: UIViewController {
                 self.chartCollectionView.dataSource = self
             }
         }
+    }
+    
+    private func setupView() {
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        backGroundTableView.layer.cornerRadius = 20
+        backGroundTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                
+        weekButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        dayButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        monthButton.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        datePickerBackgroundView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
+        weekButton.layer.cornerRadius = 5
+        monthButton.layer.cornerRadius = 5
+        dayButton.layer.cornerRadius = 5
+        datePickerBackgroundView.layer.cornerRadius = 5
     }
     
     @IBAction private func selectSender(sender: UIButton) {
