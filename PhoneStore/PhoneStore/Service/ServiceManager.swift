@@ -15,6 +15,8 @@ typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Voi
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
 typealias ServiceManagerFinishedSaveClient = ((ClientModel?, Error?) -> Void)
+typealias ServiceManagerFinishedGetClients = (([ClientModel]?, String?) -> Void)
+typealias ServiceManagerFinishedGetClientById = ((ClientModel?) -> Void)
 
 class ServiceManager: NSObject {
     
@@ -403,6 +405,40 @@ class ServiceManager: NSObject {
                 } else {
                     completion(client, nil)
                 }
+            }
+        }
+    }
+    
+    func getClientFullList(completion: @escaping ServiceManagerFinishedGetClients) {
+        checkDatabaseReference()
+        var clients = [ClientModel]()
+        dataBaseRef = Database.database().reference().child("CLI_ADD")
+        dataBaseRef.observeSingleEvent(of: .value) { (snap) in
+            if let snapshot = snap.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let posDic = snap.value as? [String : AnyObject] {
+                        if let cliObject = ClientModel(JSON: posDic) {
+                            clients.append(cliObject)
+                        }
+                    }
+                }
+                completion(clients, nil)
+                return
+            }
+            completion(nil, "Error")
+        }
+    }
+    
+    func getClientById(id: Int, completion: @escaping ServiceManagerFinishedGetClientById) {
+        getClientFullList { (clients, error) in
+            if let clients = clients {
+                for client in clients {
+                    if client.document == id {
+                        completion(client)
+                        return
+                    }
+                }
+                completion(nil)
             }
         }
     }

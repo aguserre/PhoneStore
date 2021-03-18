@@ -18,7 +18,7 @@ class MovementsModel: Mappable {
     var totalAmount: Double?
     var dateOut: String?
     var cantitiPurchase: Int?
-    var client: NSDictionary?
+    var client: Int?
     
 
     required init?(map: Map) {}

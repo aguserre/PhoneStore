@@ -33,7 +33,7 @@ class ChartCollectionViewCell: UICollectionViewCell {
         
         barView.layer.cornerRadius = 5
         barView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        barView.addShadow(offset: .zero, color: .black, radius: 2, opacity: 0.5)
+        barView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         
         posName.text = name.capitalized
         totalLabel.text = "$ \(total)"
@@ -52,22 +52,5 @@ class ChartCollectionViewCell: UICollectionViewCell {
             heightConstraint.constant = CGFloat(percent)
             self.layoutIfNeeded()
         }
-    }
-}
-
-extension CGFloat {
-    static func random() -> CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UInt32.max)
-    }
-}
-
-extension UIColor {
-    static func random() -> UIColor {
-        return UIColor(
-           red:   .random(),
-           green: .random(),
-           blue:  .random(),
-           alpha: 1.0
-        )
     }
 }

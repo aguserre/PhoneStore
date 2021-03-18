@@ -65,6 +65,7 @@ final class MovementsViewController: UIViewController {
     
     private func setupView() {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         backGroundTableView.addShadow(offset: .zero, color: .black, radius: 5, opacity: 0.4)
         backGroundTableView.layer.cornerRadius = 20
         backGroundTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
