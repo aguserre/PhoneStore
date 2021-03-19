@@ -22,7 +22,7 @@ final class SuccessViewController: UIViewController {
         case success, failure
     }
     enum ButtonTitle: Int {
-        case newSale, saveUser
+        case failure, newSale, saveUser
     }
     var clientExist: ClientModel?
     var buttonTitle: ButtonTitle = .newSale
@@ -50,7 +50,7 @@ final class SuccessViewController: UIViewController {
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         newSaleButton.layer.insertSublayer(createCustomGradiend(view: newSaleButton), at: 0)
         newSaleButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        newSaleButton.isHidden = true
+        buttonHeightConstraint.constant = 0
         setupViewWithResult(result: result)
     }
     
@@ -102,7 +102,11 @@ final class SuccessViewController: UIViewController {
     }
     
     private func setupViewAfterFailureAnimation(animationView: AnimationView) {
-        
+        checkButtonTitle(title: .failure)
+        UIView.animate(withDuration: 0.4) {
+            self.buttonHeightConstraint.constant = 70
+            self.view.layoutIfNeeded()
+        }
     }
     
     private func expandDataClient() {
@@ -110,7 +114,7 @@ final class SuccessViewController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.cancelSaveButton.layer.cornerRadius = 15
             self.cancelSaveButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-            self.newSaleButton.isHidden = false
+            self.buttonHeightConstraint.constant = 70
             self.topConstraint.constant = 200
             self.view.layoutIfNeeded()
         }
@@ -120,7 +124,6 @@ final class SuccessViewController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.topConstraint.constant = 1000
             self.buttonHeightConstraint.constant = 0
-            self.newSaleButton.isHidden = false
             self.successAnimationView.center = self.view.center
             self.view.layoutIfNeeded()
         } completion: { (finish) in
@@ -192,6 +195,9 @@ final class SuccessViewController: UIViewController {
         case .newSale:
             buttonTitle = .newSale
             newSaleButton.setTitle("Nueva venta", for: .normal)
+        case .failure:
+            buttonTitle = .failure
+            newSaleButton.setTitle("Intentar de nuevo", for: .normal)
         }
     }
     
@@ -204,6 +210,8 @@ final class SuccessViewController: UIViewController {
         case .saveUser:
             checkClientExist()
         case .newSale:
+            performSegue(withIdentifier: "unwindToMain", sender: self)
+        case .failure:
             performSegue(withIdentifier: "unwindToMain", sender: self)
         }
     }
