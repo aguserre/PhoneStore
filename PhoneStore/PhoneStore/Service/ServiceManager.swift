@@ -335,7 +335,7 @@ class ServiceManager: NSObject {
             }
             
             if let prod = product {
-                prod.cantiti = totalCant - actualCantiti
+                prod.cantitiToSell = totalCant - actualCantiti
                 self.registerAddMov(product: prod)
             }
         }
@@ -443,20 +443,20 @@ class ServiceManager: NSObject {
         }
     }
     
-    func checkClientExist(clientDoc: Int, completion: @escaping (Bool) -> Void) {
+    func checkClientExist(clientDoc: Int, completion: @escaping (ClientModel?) -> Void) {
         checkDatabaseReference()
-        var exist = false
+        var client: ClientModel?
         dataBaseRef = Database.database().reference().child("CLI_ADD")
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
                     if let posDic = snap.value as? [String : AnyObject] {
                         if let cliObject = ClientModel(JSON: posDic), cliObject.document == clientDoc {
-                            exist = true
+                            client = cliObject
                         }
                     }
                 }
-                completion(exist)
+                completion(client)
             }
         }
     }

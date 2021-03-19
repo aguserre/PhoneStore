@@ -16,6 +16,7 @@ final class SuccessViewController: UIViewController {
     @IBOutlet private weak var docTextField: UITextField!
     @IBOutlet private weak var phoneTextField: UITextField!
     @IBOutlet private weak var cancelSaveButton: UIButton!
+    @IBOutlet private weak var buttonHeightConstraint: NSLayoutConstraint!
     
     enum Result {
         case success, failure
@@ -23,6 +24,7 @@ final class SuccessViewController: UIViewController {
     enum ButtonTitle: Int {
         case newSale, saveUser
     }
+    var clientExist: ClientModel?
     var buttonTitle: ButtonTitle = .newSale
     var result: Result = .success
     var products: [ProductModel]?
@@ -61,21 +63,6 @@ final class SuccessViewController: UIViewController {
         }
     }
     
-    private func setupViewAfterSuccessAnimation(animationView: AnimationView) {
-        UIView.animate(withDuration: 0.4) {
-            let safearea = self.view.safeAreaInsets.top
-            animationView.frame.origin.y = safearea
-            animationView.frame.origin.x = (self.view.bounds.size.width - animationView.frame.size.width) / 2.0
-            self.view.layoutIfNeeded()
-        } completion: { (success) in
-            self.expandDataClient()
-        }
-    }
-    
-    private func setupViewAfterFailureAnimation(animationView: AnimationView) {
-        
-    }
-    
     private func setupSuccessView() {
         configureAnimation(animationView: successAnimationView)
     }
@@ -103,6 +90,21 @@ final class SuccessViewController: UIViewController {
         }
     }
     
+    private func setupViewAfterSuccessAnimation(animationView: AnimationView) {
+        UIView.animate(withDuration: 0.4) {
+            let safearea = self.view.safeAreaInsets.top
+            animationView.frame.origin.y = safearea
+            animationView.frame.origin.x = (self.view.bounds.size.width - animationView.frame.size.width) / 2.0
+            self.view.layoutIfNeeded()
+        } completion: { (success) in
+            self.expandDataClient()
+        }
+    }
+    
+    private func setupViewAfterFailureAnimation(animationView: AnimationView) {
+        
+    }
+    
     private func expandDataClient() {
         checkButtonTitle(title: .saveUser)
         UIView.animate(withDuration: 0.4) {
@@ -117,7 +119,15 @@ final class SuccessViewController: UIViewController {
     private func hideDataClient() {
         UIView.animate(withDuration: 0.4) {
             self.topConstraint.constant = 1000
+            self.buttonHeightConstraint.constant = 0
+            self.newSaleButton.isHidden = false
+            self.successAnimationView.center = self.view.center
             self.view.layoutIfNeeded()
+        } completion: { (finish) in
+            UIView.animate(withDuration: 0.4) {
+                self.buttonHeightConstraint.constant = 70
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
@@ -127,47 +137,48 @@ final class SuccessViewController: UIViewController {
             return
         }
         let clientDocInt = Int(clientDoc) ?? 0
-        serviceManager.checkClientExist(clientDoc: clientDocInt) { (exist) in
-            if exist {
+        serviceManager.checkClientExist(clientDoc: clientDocInt) { (client) in
+            if client != nil {
                 self.presentAlertController(title: "Usuario existente", message: "", delegate: self) { (action) in
+                    self.clientExist = client
                     self.dontSaveClient(animationShowing: self.successAnimationView)
                 }
             } else {
-                self.saveClient(document: clientDocInt)
+                self.createClient(document: clientDocInt)
             }
         }
     }
     
-    private func saveClient(document: Int) {
+    private func createClient(document: Int) {
         let clientDic: [String : Any] = ["name" : nameTextField.text ?? "",
                                          "document" : document as Any,
                                          "phone" : phoneTextField.text ?? ""]
         if let client = ClientModel(JSON: clientDic) {
-            serviceManager.saveClient(client: client) { (client, error) in
-                if let error = error {
-                    self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self, completion: nil)
-                } else {
-                    self.presentAlertController(title: "Exito!", message: "Usuario guardado con exito", delegate: self) { (action) in
-                        self.dontSaveClient(animationShowing: self.successAnimationView)
-                    }
+            saveClient(client: client)
+        }
+    }
+    
+    private func saveClient(client: ClientModel) {
+        generateSaleMovement(client: client)
+        serviceManager.saveClient(client: client) { (client, error) in
+            if let error = error {
+                self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self, completion: nil)
+            } else {
+                self.presentAlertController(title: "Exito!", message: "Usuario guardado con exito", delegate: self) { (action) in
+                    self.checkButtonTitle(title: .newSale)
+                    self.hideDataClient()
                 }
             }
-            generateSaleMovement(client: client)
         }
     }
     
     private func dontSaveClient(animationShowing: AnimationView) {
-        generateSaleMovement()
+        generateSaleMovement(client: clientExist)
         checkButtonTitle(title: .newSale)
-        UIView.animate(withDuration: 0.4) {
-            self.hideDataClient()
-            self.newSaleButton.isHidden = false
-            animationShowing.center = self.view.center
-            self.view.layoutIfNeeded()
-        }
+        hideDataClient()
     }
     
-    private func generateSaleMovement(client: ClientModel? = nil) {
+    private func generateSaleMovement(client: ClientModel?) {
         if let prods = products {
             serviceManager.registerSaleMov(client: client, prods: prods, movType: .out)
         }

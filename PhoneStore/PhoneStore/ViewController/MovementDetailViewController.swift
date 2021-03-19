@@ -33,6 +33,7 @@ final class MovementDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         getClient()
         configureAnimation(animationView: successAnimationView)
     }
@@ -87,7 +88,6 @@ final class MovementDetailViewController: UIViewController {
             } else {
                 //Cliente no encontrado
             }
-            self.setupView()
         }
     }
     
