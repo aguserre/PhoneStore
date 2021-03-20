@@ -34,6 +34,7 @@ class InitialAnimationViewController: UIViewController {
                 animationView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             } completion: { (finish) in
                 animationView.removeFromSuperview()
+                //MARK: - ADD SECURITY COPY OF DB
                 self.goToLogin()
             }
         }
