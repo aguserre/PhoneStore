@@ -249,6 +249,7 @@ class ServiceManager: NSObject {
                 print(error.localizedDescription)
             } else {
                 if let product = productToSave {
+                    product.cantitiToSell = cantiti
                     self.registerAddMov(product: product)
                 }
             }
