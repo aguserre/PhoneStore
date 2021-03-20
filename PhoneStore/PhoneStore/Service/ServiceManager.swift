@@ -10,6 +10,7 @@ import FirebaseDatabase
 typealias ServiceManagerFinishedLogin = ((AuthDataResult?, Error?) -> Void)
 typealias ServiceManagerFinishedLogOut = ((Error?) -> Void)
 typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
+typealias ServiceManagerFinishedSaveProduct = ((ProductModel?, Error?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
@@ -239,19 +240,21 @@ class ServiceManager: NSObject {
     func saveProduct(productDic: [String : Any],
                      condition: String,
                      saveToPOS: PointOfSale,
-                     cantiti: Int) {
+                     cantiti: Int, completion: @escaping ServiceManagerFinishedSaveProduct) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child("PROD_ADD").childByAutoId()
         let productToSave = createProduct(productDic: productDic, condition: condition, saveToPOS: saveToPOS, cantiti: cantiti)
         
         dataBaseRef.setValue(productToSave?.toDictionary()) { (error, ref) in
             if let error = error {
-                print(error.localizedDescription)
+                completion(nil, error)
+            }
+            if let product = productToSave {
+                product.cantitiToSell = cantiti
+                self.registerAddMov(product: product)
+                completion(product, nil)
             } else {
-                if let product = productToSave {
-                    product.cantitiToSell = cantiti
-                    self.registerAddMov(product: product)
-                }
+                completion(nil, nil)
             }
         }
     }

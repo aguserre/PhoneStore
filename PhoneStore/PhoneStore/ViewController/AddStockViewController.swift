@@ -96,6 +96,13 @@ final class AddStockViewController: UIViewController {
     
     @IBAction func addProduct(_ sender: Any) {
         generateImpactWhenTouch()
+        guard codeTextField.text != "",
+              colorTextField.text != "",
+              buyPriceTextField.text != "",
+              salePriceTextField.text != ""  else {
+            presentAlertController(title: "Error", message: "Debe completar todos los campos", delegate: self, completion: nil)
+            return
+        }
         saveProduct()
     }
     
@@ -127,8 +134,29 @@ final class AddStockViewController: UIViewController {
             serviceManager.saveProduct(productDic: productDic,
                                        condition: conditionSelector.isOn ? "Usado" : "Nuevo",
                                        saveToPOS: pos,
-                                       cantiti: cantiti)
+                                       cantiti: cantiti) { (prod, error) in
+                if let error = error {
+                    self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self) { (action) in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    self.presentAlertController(title: "Exito", message: "Producto guardado!", delegate: self) { (action) in
+                        self.clearForm()
+                    }
+                }
+            }
         }
+    }
+    
+    private func clearForm() {
+        codeTextField.text = ""
+        colorTextField.text = ""
+        descriptionTextField.text = ""
+        buyPriceTextField.text = ""
+        salePriceTextField.text = ""
+        cantitiLabel.text = "1"
+        cantitiStepper.value = 1
+        productDic = [:]
     }
     
     @IBAction @objc private func logOut(_ sender: Any) {
