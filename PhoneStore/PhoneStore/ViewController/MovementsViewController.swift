@@ -33,7 +33,7 @@ final class MovementsViewController: UIViewController {
     var amounts = [Double]()
     var nameKey = ""
     var valueV = 0.0
-    let filename = "Movimientos.csv"
+    var filename = ""
     var selectedDate: Date?
     var filterNumber = 0
     var isShowingCollectionView = false
@@ -107,14 +107,26 @@ final class MovementsViewController: UIViewController {
         let actionSheetController: UIAlertController = UIAlertController(title: "Que desea compartir?", message: nil, preferredStyle: .actionSheet)
         
         let actionFull: UIAlertAction = UIAlertAction(title: "Todos los movimientos", style: .default) { action -> Void in
-            self.shareData(dataToShare: self.movementsWithoutFilters)
+            self.shareData(movementsToShare: self.movementsWithoutFilters)
         }
         actionSheetController.addAction(actionFull)
         
         let actionFilter: UIAlertAction = UIAlertAction(title: "Movimientos filtrados", style: .default) { action -> Void in
-            self.shareData(dataToShare: self.movements)
+            self.shareData(movementsToShare: self.movementsWithoutFilters)
         }
         actionSheetController.addAction(actionFilter)
+        
+        let actionClients: UIAlertAction = UIAlertAction(title: "Clientes", style: .default) { (action) in
+            self.serviceManager.getClientFullList { (clients, error) in
+                if let error = error {
+                    self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                }
+                if let clients = clients {
+                    self.shareData(clientsToShare: clients)
+                }
+            }
+        }
+        actionSheetController.addAction(actionClients)
 
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancelar", style: .cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
@@ -122,36 +134,65 @@ final class MovementsViewController: UIViewController {
         present(actionSheetController, animated: true)
     }
     
-    private func shareData(dataToShare: [MovementsModel]) {
+    private func shareData(movementsToShare: [MovementsModel]? = nil, clientsToShare: [ClientModel]? = nil) {
         let docDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        let docURL = URL(fileURLWithPath: docDirectoryPath).appendingPathComponent(filename)
         
         let output = OutputStream.toMemory()
         let csvWriter = CHCSVWriter(outputStream: output, encoding: String.Encoding.utf8.rawValue, delimiter: ",".utf16.first!)
         
-        csvWriter?.writeField("NOMBRE LOCAL")
-        csvWriter?.writeField("TIPO DE MOVIMIENTO")
-        csvWriter?.writeField("MONTO DE VENTA")
-        csvWriter?.writeField("FECHA DE VENTA")
-        csvWriter?.finishLine()
-        
-        for (elements) in dataToShare.enumerated() {
-            csvWriter?.writeField(elements.element.localId)
-            csvWriter?.writeField(elements.element.movementType)
-            csvWriter?.writeField(elements.element.totalAmount)
-            csvWriter?.writeField(elements.element.dateOut)
-            
-            csvWriter?.finishLine()
+        if let shareableMovements = movementsToShare {
+            writeMovementsData(writer: csvWriter, shareableMovements: shareableMovements)
         }
-        csvWriter?.closeStream()
+
+        if let shareableClients = clientsToShare {
+            writeClientsData(writer: csvWriter, shareableClients: shareableClients)
+        }
         
+        let docURL = URL(fileURLWithPath: docDirectoryPath).appendingPathComponent(filename)
         let buffer = (output.property(forKey: .dataWrittenToMemoryStreamKey) as? Data)
         do {
             try buffer?.write(to: docURL)
             share()
         } catch {
-            print(error.localizedDescription)
+            presentAlertController(title: "Error", message: error.localizedDescription, delegate: self, completion: nil)
         }
+    }
+    
+    private func writeMovementsData(writer: CHCSVWriter?, shareableMovements: [MovementsModel]) {
+        filename = "Movimientos.csv"
+        writer?.writeField("NOMBRE LOCAL")
+        writer?.writeField("TIPO DE MOVIMIENTO")
+        writer?.writeField("MONTO DE VENTA")
+        writer?.writeField("FECHA DE VENTA")
+        writer?.writeField("CLIENT DNI")
+        writer?.finishLine()
+        
+        for (elements) in shareableMovements.enumerated() {
+            writer?.writeField(elements.element.localId)
+            writer?.writeField(elements.element.movementType)
+            writer?.writeField(elements.element.totalAmount)
+            writer?.writeField(elements.element.dateOut)
+            writer?.writeField(elements.element.client)
+            
+            writer?.finishLine()
+        }
+        writer?.closeStream()
+    }
+    
+    private func writeClientsData(writer: CHCSVWriter?, shareableClients: [ClientModel]) {
+        filename = "Clientes.csv"
+        writer?.writeField("NOMBRE COMPLETO")
+        writer?.writeField("DOCUMENTO")
+        writer?.writeField("TELEFONO")
+        writer?.finishLine()
+        
+        for (elements) in shareableClients.enumerated() {
+            writer?.writeField(elements.element.name)
+            writer?.writeField(elements.element.document)
+            writer?.writeField(elements.element.phone)
+            writer?.finishLine()
+        }
+        writer?.closeStream()
     }
     
     private func share() {
@@ -163,7 +204,7 @@ final class MovementsViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
-    func getDocumentsDirectory() -> String {
+    private func getDocumentsDirectory() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentsDirectory = paths[0]
         return documentsDirectory

@@ -429,7 +429,7 @@ class ServiceManager: NSObject {
                 completion(clients, nil)
                 return
             }
-            completion(nil, "Error")
+            completion(nil, "Ocurrio un error, intente mas tarde")
         }
     }
     
