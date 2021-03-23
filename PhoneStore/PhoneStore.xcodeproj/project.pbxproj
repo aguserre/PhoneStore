@@ -19,6 +19,7 @@
 		0F2B527426031A6E0052F7A4 /* idScan.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F2B527326031A6E0052F7A4 /* idScan.json */; };
 		0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2EEE2625DA63910070E781 /* CHCSVParser.m */; };
 		0F3348BF260162B700606E38 /* ClientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3348BE260162B700606E38 /* ClientModel.swift */; };
+		0F33C08E260A42D5006AF424 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F33C08D260A42D5006AF424 /* GoogleService-Info.plist */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
 		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
 		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
@@ -37,7 +38,6 @@
 		0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4A25BF683B00B325B2 /* Assets.xcassets */; };
 		0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */; };
 		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
-		0FF1064725BFB13E00B2656D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */; };
 		0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF1065D25BFBDC800B2656D /* PhoneModel.swift */; };
 		0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */; };
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
@@ -62,6 +62,7 @@
 		0F2EEE2625DA63910070E781 /* CHCSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		0F2EEE2725DA63910070E781 /* CHCSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSVParser.h; sourceTree = "<group>"; };
 		0F3348BE260162B700606E38 /* ClientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientModel.swift; sourceTree = "<group>"; };
+		0F33C08D260A42D5006AF424 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		0FA63E4D25BF683B00B325B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA63E4F25BF683B00B325B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
-		0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FF1065D25BFBDC800B2656D /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
 		0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementModel.swift; sourceTree = "<group>"; };
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +109,7 @@
 		0F4C5F96260A2BF900EC52D7 /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				0F33C08D260A42D5006AF424 /* GoogleService-Info.plist */,
 				0F2EEE2625DA63910070E781 /* CHCSVParser.m */,
 				0F2EEE2725DA63910070E781 /* CHCSVParser.h */,
 				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
@@ -181,7 +182,6 @@
 				0FA63E4A25BF683B00B325B2 /* Assets.xcassets */,
 				0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */,
 				0FA63E4F25BF683B00B325B2 /* Info.plist */,
-				0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */,
 			);
 			path = PhoneStore;
 			sourceTree = "<group>";
@@ -301,10 +301,10 @@
 				0F569A1B25FDE97F008A9F2B /* fail.json in Resources */,
 				0F569A1525FDC925008A9F2B /* success.json in Resources */,
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
-				0FF1064725BFB13E00B2656D /* GoogleService-Info.plist in Resources */,
 				0F2B527426031A6E0052F7A4 /* idScan.json in Resources */,
 				0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */,
 				0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */,
+				0F33C08E260A42D5006AF424 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,7 +558,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stockApp.PhoneStore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockapp.phonestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PhoneStore/PhoneStore-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -581,7 +581,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stockApp.PhoneStore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockapp.phonestore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PhoneStore/PhoneStore-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
