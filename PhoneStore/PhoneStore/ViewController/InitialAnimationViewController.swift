@@ -47,7 +47,7 @@ final class InitialAnimationViewController: UIViewController {
         let today = Date()
         let wasSavedData = defaults.bool(forKey: defaultsKeys.needSaveKey)
         
-        if today == today.startOfMonth() && wasSavedData {
+        if today == today.startOfMonth() || !wasSavedData {
             presentAlertControllerWithDoubleAction(title: "Ops!", message: "Desea guardar una copia de seguridad?", delegate: self) { (actionOk) in
                 self.saveCopy()
             } completionFailed: { (actionCancel) in
@@ -69,6 +69,7 @@ final class InitialAnimationViewController: UIViewController {
     
     private func dontSaveCopy() {
         defaults.set(false, forKey: defaultsKeys.needSaveKey)
+        goToLogin()
     }
     
     private func goToLogin() {
