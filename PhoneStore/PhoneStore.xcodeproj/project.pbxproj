@@ -106,6 +106,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F4C5F96260A2BF900EC52D7 /* Resourses */ = {
+			isa = PBXGroup;
+			children = (
+				0F2EEE2625DA63910070E781 /* CHCSVParser.m */,
+				0F2EEE2725DA63910070E781 /* CHCSVParser.h */,
+				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
+				0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */,
+				0FA63E4125BF683A00B325B2 /* AppDelegate.swift */,
+				0F2B527326031A6E0052F7A4 /* idScan.json */,
+				0F2B52702602E4010052F7A4 /* loaderApple.json */,
+				0F569A1A25FDE97F008A9F2B /* fail.json */,
+				0F569A1425FDC925008A9F2B /* success.json */,
+			);
+			name = Resourses;
+			sourceTree = "<group>";
+		};
 		0F4EEC2225FC19C3008BCFDE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,23 +173,15 @@
 		0FA63E4025BF683A00B325B2 /* PhoneStore */ = {
 			isa = PBXGroup;
 			children = (
+				0F4C5F96260A2BF900EC52D7 /* Resourses */,
 				0F4EEC2625FC1DF0008BCFDE /* Service */,
-				0F2EEE2725DA63910070E781 /* CHCSVParser.h */,
-				0F2EEE2625DA63910070E781 /* CHCSVParser.m */,
-				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
 				0FF106DB25BFE5FE00B2656D /* ViewController */,
 				0FF1065725BFBDA100B2656D /* Model */,
-				0FA63E4125BF683A00B325B2 /* AppDelegate.swift */,
-				0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */,
 				0FA63E4725BF683A00B325B2 /* Main.storyboard */,
 				0FA63E4A25BF683B00B325B2 /* Assets.xcassets */,
 				0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */,
 				0FA63E4F25BF683B00B325B2 /* Info.plist */,
 				0FF1064625BFB13E00B2656D /* GoogleService-Info.plist */,
-				0F2B527326031A6E0052F7A4 /* idScan.json */,
-				0F2B52702602E4010052F7A4 /* loaderApple.json */,
-				0F569A1A25FDE97F008A9F2B /* fail.json */,
-				0F569A1425FDC925008A9F2B /* success.json */,
 			);
 			path = PhoneStore;
 			sourceTree = "<group>";
