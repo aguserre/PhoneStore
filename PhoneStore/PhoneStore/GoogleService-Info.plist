@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>548379308137-395ccvrokfh0knduuu6r7v6o2tvei853.apps.googleusercontent.com</string>
+	<string>548379308137-ufmfrb1t7ntcgoudvnonjv3l6314gp5s.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.548379308137-395ccvrokfh0knduuu6r7v6o2tvei853</string>
+	<string>com.googleusercontent.apps.548379308137-ufmfrb1t7ntcgoudvnonjv3l6314gp5s</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCSi-2axpuopbxOpiT4a3PBfBxbYSxSzpw</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.stockapp.phonestore</string>
+	<string>com.phonestorebrag.focusdev</string>
 	<key>PROJECT_ID</key>
 	<string>phonestore-6b571</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:548379308137:ios:5e42921d4d7af2ab34f2f8</string>
+	<string>1:548379308137:ios:5b61b21534c6a45b34f2f8</string>
 	<key>DATABASE_URL</key>
 	<string>https://phonestore-6b571-default-rtdb.firebaseio.com</string>
 </dict>

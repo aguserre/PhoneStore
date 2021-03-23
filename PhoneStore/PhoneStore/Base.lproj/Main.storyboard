@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="548-FC-YuS">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -574,18 +575,16 @@ Q29udHJhc2VuYRAQEA
                     </view>
                     <navigationItem key="navigationItem" title="Puntos de Venta" id="lvW-xn-hp0">
                         <barButtonItem key="backBarButtonItem" title=" " id="RGy-G6-s9D"/>
-                        <barButtonItem key="rightBarButtonItem" image="gearshape" catalog="system" id="DHt-NF-SIg">
+                        <barButtonItem key="rightBarButtonItem" id="DHt-NF-SIg">
+                            <imageReference key="image" image="gearshape" catalog="system" renderingMode="template"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="goToSettings:" destination="lGt-Da-Hxv" id="cvZ-SK-NCd"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="loaderIndicator" destination="osY-HX-SzL" id="eMz-4g-gIA"/>
                         <outlet property="posTableView" destination="beA-5x-nSW" id="T2H-zd-HcE"/>
+                        <outlet property="rightBarButton" destination="DHt-NF-SIg" id="FIU-tH-Asj"/>
                         <outlet property="seeMoreButton" destination="fmO-EA-NTe" id="YI7-fD-SaG"/>
-                        <outlet property="settingsButton" destination="DHt-NF-SIg" id="TWT-dY-taC"/>
                         <segue destination="grb-UL-4xB" kind="show" identifier="goToList" id="NR6-EA-ic3"/>
                         <segue destination="bZV-yD-Dpo" kind="show" identifier="goToSettings" id="8sr-dk-ccn"/>
                         <segue destination="P7f-4N-hJJ" kind="show" identifier="goToMovements" id="ues-yD-WVb"/>

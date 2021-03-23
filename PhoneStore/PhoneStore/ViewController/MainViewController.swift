@@ -11,8 +11,17 @@ final class MainViewController: UIViewController {
     
     @IBOutlet private weak var posTableView: UITableView!
     @IBOutlet private weak var seeMoreButton: UIButton!
-    @IBOutlet private weak var settingsButton: UIBarButtonItem!
     @IBOutlet private weak var loaderIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var rightBarButton: UIBarButtonItem! {
+        didSet {
+            let icon = UIImage(systemName: "gearshape")
+            let iconSize = CGRect(origin: .zero, size: icon!.size)
+            let iconButton = UIButton(frame: iconSize)
+            iconButton.setBackgroundImage(icon, for: .normal)
+            rightBarButton.customView = iconButton
+            iconButton.addTarget(self, action: #selector(goToSettings), for: .touchUpInside)
+        }
+    }
     
     var userId: String = ""
     var userLogged: UserModel?
@@ -32,7 +41,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupelementsView() {
-        settingsButton.isEnabled = false
+        rightBarButton.isEnabled = false
         posTableView.isHidden = true
         loaderIndicator.startAnimating()
         self.navigationItem.leftBarButtonItem = setupBackButton(target: #selector(logOutTapped))
@@ -56,7 +65,9 @@ final class MainViewController: UIViewController {
     private func setupUserByID(id: String) {
         serviceManager.setupUserByID(id: id) { (user, error) in
             if let error = error {
-                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                self.presentAlertController(title: "Error", message: error, delegate: self) { (action) in
+                    self.logOutTapped()
+                }
                 return
             }
             if let user = user {
@@ -76,7 +87,7 @@ final class MainViewController: UIViewController {
         } else {
             setupVendorViewByPOSView()
         }
-        settingsButton.isEnabled = true
+        rightBarButton.isEnabled = true
         posTableView.isHidden = false
         loaderIndicator.stopAnimating()
         loaderIndicator.isHidden = true
@@ -86,7 +97,13 @@ final class MainViewController: UIViewController {
         serviceManager.getPOSFullList { (pos, error) in
             if let pos = pos {
                 self.posts = pos
-                self.posTableView.reloadData()
+                if pos.isEmpty {
+                    self.presentAlertController(title: "Ops!", message: "Aun no tiene puntos de venta, cree uno desde el menu", delegate: self) { (action) in
+                        self.rightBarButton.rotate()
+                    }
+                } else {
+                    self.posTableView.reloadData()
+                }
             }
             if let error = error {
                 self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
@@ -105,6 +122,13 @@ final class MainViewController: UIViewController {
                 self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
             }
         }
+    }
+    
+    private func startAnimationBarButton() {
+        UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseIn, animations: {
+            self.rightBarButton.customView?.transform = CGAffineTransform(rotationAngle: .pi*2)
+            self.view.layoutIfNeeded()
+        })
     }
     
     @IBAction private func goToMovements(_ sender: Any) {
