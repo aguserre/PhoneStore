@@ -84,7 +84,7 @@ final class LoginViewController: UIViewController {
                 }
             }
             if let error = error {
-                self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self) { (action) in
+                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self) { (action) in
                     self.userTextField.hideSkeleton()
                     self.passwordTextField.hideSkeleton()
                     self.loginButton.hideSkeleton()
