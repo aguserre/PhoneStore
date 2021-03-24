@@ -11,7 +11,7 @@ import Lottie
 final class InitialAnimationViewController: UIViewController {
     
     private let successAnimationView = AnimationView(name: "loaderApple")
-    @IBOutlet weak var aniView: UIView!
+    @IBOutlet private weak var versionLabel: UILabel!
     private var needSaveCopy = false
     let defaults = UserDefaults.standard
     
@@ -19,6 +19,10 @@ final class InitialAnimationViewController: UIViewController {
         super.viewDidLoad()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         configureAnimation(animationView: successAnimationView)
+        if let text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+           let build =  Bundle.main.infoDictionary?["CFBundleVersion"] as? String{
+            versionLabel.text = "Version \(text) (\(build))"
+        }
     }
     
     private func configureAnimation(animationView: AnimationView) {
