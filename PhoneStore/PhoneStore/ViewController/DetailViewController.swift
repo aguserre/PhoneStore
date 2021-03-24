@@ -26,11 +26,6 @@ final class DetailViewController: UIViewController {
         calculateTotal()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("Volvi de modificar stock")
-    }
-    
     private func setupView() {
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         hideKeyboardWhenTappedAround()

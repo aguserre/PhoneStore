@@ -104,22 +104,22 @@ final class MovementsViewController: UIViewController {
     }
     
     @IBAction func shareOptions(_ sender: UIBarButtonItem) {
-        let actionSheetController: UIAlertController = UIAlertController(title: "Que desea compartir?", message: nil, preferredStyle: .actionSheet)
+        let actionSheetController: UIAlertController = UIAlertController(title: shareTitle, message: nil, preferredStyle: .actionSheet)
         
-        let actionFull: UIAlertAction = UIAlertAction(title: "Todos los movimientos", style: .default) { action -> Void in
+        let actionFull: UIAlertAction = UIAlertAction(title: shareMovOption, style: .default) { action -> Void in
             self.shareData(movementsToShare: self.movementsWithoutFilters)
         }
         actionSheetController.addAction(actionFull)
         
-        let actionFilter: UIAlertAction = UIAlertAction(title: "Movimientos filtrados", style: .default) { action -> Void in
+        let actionFilter: UIAlertAction = UIAlertAction(title: shareFilterMovOption, style: .default) { action -> Void in
             self.shareData(movementsToShare: self.movementsWithoutFilters)
         }
         actionSheetController.addAction(actionFilter)
         
-        let actionClients: UIAlertAction = UIAlertAction(title: "Clientes", style: .default) { (action) in
+        let actionClients: UIAlertAction = UIAlertAction(title: shareClientOption, style: .default) { (action) in
             self.serviceManager.getClientFullList { (clients, error) in
                 if let error = error {
-                    self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                    self.presentAlertController(title: errorTitle, message: error, delegate: self, completion: nil)
                 }
                 if let clients = clients {
                     self.shareData(clientsToShare: clients)
@@ -128,7 +128,7 @@ final class MovementsViewController: UIViewController {
         }
         actionSheetController.addAction(actionClients)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancelar", style: .cancel) { action -> Void in }
+        let cancelAction: UIAlertAction = UIAlertAction(title: cancel, style: .cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
         
         present(actionSheetController, animated: true)
@@ -154,7 +154,7 @@ final class MovementsViewController: UIViewController {
             try buffer?.write(to: docURL)
             share()
         } catch {
-            presentAlertController(title: "Error", message: error.localizedDescription, delegate: self, completion: nil)
+            presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
         }
     }
     
@@ -270,7 +270,7 @@ final class MovementsViewController: UIViewController {
             dates.contains(where: {$0 == mov.dateOut})
         }
         if movements.count == 0 {
-            presentAlertController(title: "Sin movimientos", message: "No se registran movimientos para la fecha elegida", delegate: self, completion: nil)
+            presentAlertController(title: emptyMovements, message: emptyMovementsMessage, delegate: self, completion: nil)
             return
         }
         amounts.removeAll()

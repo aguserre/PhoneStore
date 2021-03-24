@@ -46,7 +46,7 @@ final class MainViewController: UIViewController {
         loaderIndicator.startAnimating()
         self.navigationItem.leftBarButtonItem = setupBackButton(target: #selector(logOutTapped))
         clearNavBar()
-        setNavTitle(title: "Puntos de Venta")
+        setNavTitle(title: mainVCTitle)
         posts.removeAll()
         setupUserByID(id: userId)
     }
@@ -65,7 +65,7 @@ final class MainViewController: UIViewController {
     private func setupUserByID(id: String) {
         serviceManager.setupUserByID(id: id) { (user, error) in
             if let error = error {
-                self.presentAlertController(title: "Error", message: error, delegate: self) { (action) in
+                self.presentAlertController(title: errorTitle, message: error, delegate: self) { (action) in
                     self.logOutTapped()
                 }
                 return
@@ -98,7 +98,7 @@ final class MainViewController: UIViewController {
             if let pos = pos {
                 self.posts = pos
                 if pos.isEmpty {
-                    self.presentAlertController(title: "Ops!", message: "Aun no tiene puntos de venta, cree uno desde el menu", delegate: self) { (action) in
+                    self.presentAlertController(title: warningTitle, message: posEmptyError, delegate: self) { (action) in
                         self.rightBarButton.rotate()
                     }
                 } else {
@@ -106,7 +106,7 @@ final class MainViewController: UIViewController {
                 }
             }
             if let error = error {
-                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                self.presentAlertController(title: errorTitle, message: error, delegate: self, completion: nil)
             }
         }
     }
@@ -119,7 +119,7 @@ final class MainViewController: UIViewController {
                 self.posTableView.reloadData()
             }
             if let error = error {
-                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                self.presentAlertController(title: errorTitle, message: error, delegate: self, completion: nil)
             }
         }
     }
@@ -141,7 +141,7 @@ final class MainViewController: UIViewController {
         if userLogged?.type == UserType.admin.rawValue {
             performSegue(withIdentifier: "goToSettings", sender: nil)
         } else {
-            presentAlertController(title: "Error", message: "No cuenta con permisos para agregar usuarios/pos", delegate: self, completion: nil)
+            presentAlertController(title: errorTitle, message: permisionError, delegate: self, completion: nil)
         }
         
     }
@@ -174,17 +174,17 @@ final class MainViewController: UIViewController {
     private func checkResponsable(position: Int) -> String {
         var responsable = ""
         if userLogged?.type == UserType.vendor.rawValue {
-            responsable = userLogged?.username ?? "Indefinido"
+            responsable = userLogged?.username ?? undefined
         } else {
             
             for user in users {
                 if posts[position].id == user.localAutorized {
-                    responsable = user.username ?? "Indefinido"
+                    responsable = user.username ?? undefined
                 }
             }
         }
         if responsable.isEmpty {
-            responsable = "Indefinido"
+            responsable = undefined
         }
         
         return responsable.capitalized

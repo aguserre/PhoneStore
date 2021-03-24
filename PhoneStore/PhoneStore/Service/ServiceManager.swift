@@ -41,20 +41,20 @@ class ServiceManager: NSObject {
     }
     
     func logOut(delegate: UIViewController) {
-        delegate.presentAlertControllerWithCancel(title: "Desea cerrar la sesion?", message: "Se perderan los datos que no haya guardado", delegate: delegate) { (action) in
+        delegate.presentAlertControllerWithCancel(title: needCloseSession, message: closeSessionMessage, delegate: delegate) { (action) in
             do {
                 try Auth.auth().signOut()
                 delegate.navigationController?.popToRootViewController(animated: true)
             }
             catch {
-                delegate.presentAlertController(title: "Error", message: error.localizedDescription, delegate: delegate, completion: nil)
+                delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)
             }
         }
     }
     
     func setupUserByID(id: String, completion: @escaping ServiceManagerFinishedSetupUser) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("USER_ADD")
+        dataBaseRef = Database.database().reference().child(USER_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -67,7 +67,7 @@ class ServiceManager: NSObject {
                     }
                 }
             } else {
-                completion(nil, "No se pudo encontrar el usuario")
+                completion(nil, userNotExist)
             }
         }
     }
@@ -75,7 +75,7 @@ class ServiceManager: NSObject {
     func getPOSFullList(completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        dataBaseRef = Database.database().reference().child("POS_ADD")
+        dataBaseRef = Database.database().reference().child(POS_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -87,7 +87,7 @@ class ServiceManager: NSObject {
                 }
                 completion(pos, nil)
             } else {
-                completion(nil, "No existen puntos de ventas creados")
+                completion(nil, emptyPOS)
             }
         }
     }
@@ -95,7 +95,7 @@ class ServiceManager: NSObject {
     func getSpecificPOS(id: String, completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        dataBaseRef = Database.database().reference().child("POS_ADD")
+        dataBaseRef = Database.database().reference().child(POS_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -109,7 +109,7 @@ class ServiceManager: NSObject {
                 }
                 completion(pos, nil)
             } else {
-                completion(nil, "No existen puntos de ventas creados")
+                completion(nil, emptyPOS)
             }
         }
     }
@@ -117,7 +117,7 @@ class ServiceManager: NSObject {
     func getProductList(posId: String, completion: @escaping ServiceManagerFinishedGetProducts) {
         checkDatabaseReference()
         var products = [ProductModel]()
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        dataBaseRef = Database.database().reference().child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -127,12 +127,10 @@ class ServiceManager: NSObject {
                                 products.append(p)
                             }
                         }
-                    } else {
-                        print("Zhenya: failed to convert")
                     }
                 }
                 if products.isEmpty {
-                    completion(nil, "Aun no tiene productos cargados")
+                    completion(nil, emptyProds)
                 } else {
                     completion(products, nil)
                 }
@@ -142,7 +140,7 @@ class ServiceManager: NSObject {
     
     func deleteProduct(delegate: UIViewController, productsList: [ProductModel], withTotalAmount: Double, completion: @escaping ServiceManagerFinishUpdateProduct)  {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        dataBaseRef = Database.database().reference().child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -158,51 +156,38 @@ class ServiceManager: NSObject {
                             }
                         }
                     } else {
-                        completion("Error")
+                        completion(errorTitle)
                         return
                     }
                 }
                 completion(nil)
             } else {
-                completion("Error")
+                completion(errorTitle)
             }
         }
     }
     
     private func deleteProduct(key: String, prod: ProductModel) {
         checkDatabaseReference()
-        print("Se quedo sin stock del producto \(key)")
-        self.dataBaseRef.child(key).removeValue(completionBlock: { (error, ref) in
-            if error != nil {
-                print("Error: \(String(describing: error))")
-                return
-            }
-        })
+        self.dataBaseRef.child(key).removeValue()
     }
     
     private func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
         checkDatabaseReference()
-        print("Se actualiza el stock del producto \(key), por una cantidad de \(newCantiti)")
         let post = ["cantiti": newCantiti]
-
-        self.dataBaseRef.child(key).updateChildValues(post) { (error, ref) in
-            if error != nil {
-                print("Imposible actualizar la cantidad")
-                return
-            }
-        }
+        self.dataBaseRef.child(key).updateChildValues(post)
     }
     
     func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
+        dataBaseRef = Database.database().reference().child(PROD_MOV).childByAutoId()
         let movs = generateMovment(clientId: client?.document, prods: prods, movType: movType, amount: nil)
         dataBaseRef.setValue(movs)
     }
     
     func registerAddMov(product: ProductModel) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_MOV").childByAutoId()
+        dataBaseRef = Database.database().reference().child(PROD_MOV).childByAutoId()
         var amount = 0.0
         if let priceBuy = product.priceBuy, let cantiti = product.cantiti {
             amount = priceBuy * Double(cantiti)
@@ -242,7 +227,7 @@ class ServiceManager: NSObject {
                      saveToPOS: PointOfSale,
                      cantiti: Int, completion: @escaping ServiceManagerFinishedSaveProduct) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_ADD").childByAutoId()
+        dataBaseRef = Database.database().reference().child(PROD_ADD).childByAutoId()
         let productToSave = createProduct(productDic: productDic, condition: condition, saveToPOS: saveToPOS, cantiti: cantiti)
         
         dataBaseRef.setValue(productToSave?.toDictionary()) { (error, ref) in
@@ -297,7 +282,7 @@ class ServiceManager: NSObject {
     
     func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_MOV")
+        dataBaseRef = Database.database().reference().child(PROD_MOV)
         var movsObjects = [MovementsModel]()
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
@@ -319,7 +304,7 @@ class ServiceManager: NSObject {
     
     func updateCantiti(delegate: UIViewController, product: ProductModel?, newCantiti: Int) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PROD_ADD")
+        dataBaseRef = Database.database().reference().child(PROD_ADD)
         var totalCant: Int = 0
         let actualCantiti: Int = product?.cantiti ?? 1
         if let actualCantiti = product?.cantiti {
@@ -331,10 +316,10 @@ class ServiceManager: NSObject {
         }
         dataBaseRef.child(id).updateChildValues(newCantiti) { (error, ref) in
             if error != nil {
-                delegate.presentAlertController(title: "Error", message: "mposible actualizar la cantidad de stock en este momento", delegate: delegate, completion: nil)
+                delegate.presentAlertController(title: errorTitle, message: updateValuesError, delegate: delegate, completion: nil)
                 return
             }
-            delegate.presentAlertController(title: "Guardado con exito", message: "", delegate: delegate) { (action) in
+            delegate.presentAlertController(title: successSaved, message: "", delegate: delegate) { (action) in
                 delegate.dismiss(animated: true, completion: nil)
             }
             
@@ -365,12 +350,12 @@ class ServiceManager: NSObject {
     
     private func saveUserInDB(delegate: UIViewController, id: String, userModel: NSDictionary?) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("USER_ADD").child(id)
+        dataBaseRef = Database.database().reference().child(USER_ADD).child(id)
         dataBaseRef.setValue(userModel) { (error, ref) in
             if let error = error {
-                delegate.presentAlertController(title: "Error", message: error.localizedDescription, delegate: delegate, completion: nil)
+                delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)
             } else {
-                delegate.presentAlertController(title: "Guardado", message: "Se guardaron los datos", delegate: delegate) { (action) in
+                delegate.presentAlertController(title: saved, message: successSaved, delegate: delegate) { (action) in
                     delegate.navigationController?.popViewController(animated: true)
                 }
             }
@@ -379,7 +364,7 @@ class ServiceManager: NSObject {
     
     func saveNewPOS(delegate: UIViewController, userDic: [String : Any], userType: POSType) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("POS_ADD").childByAutoId()
+        dataBaseRef = Database.database().reference().child(POS_ADD).childByAutoId()
         let key = dataBaseRef.key
         let newPosDic: [String : Any] = ["id": key as Any,
                                          "name": userDic["name"] as Any,
@@ -389,9 +374,9 @@ class ServiceManager: NSObject {
         let posModel = PointOfSale(JSON: newPosDic)
         dataBaseRef.setValue(posModel?.toDictionary()) { (error, ref) in
             if let error = error {
-                delegate.presentAlertController(title: "Error", message: error.localizedDescription, delegate: delegate, completion: nil)
+                delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)
             } else {
-                delegate.presentAlertController(title: "Guardado", message: "Se guardaron los datos", delegate: delegate) { (action) in
+                delegate.presentAlertController(title: saved, message: successSaved, delegate: delegate) { (action) in
                     delegate.navigationController?.popViewController(animated: true)
                 }
             }
@@ -400,7 +385,7 @@ class ServiceManager: NSObject {
     
     func saveClient(client: ClientModel, completion: @escaping ServiceManagerFinishedSaveClient) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("CLI_ADD").childByAutoId()
+        dataBaseRef = Database.database().reference().child(CLI_ADD).childByAutoId()
         if let clientKey = dataBaseRef.key {
             let clientDic = client.toDictionary(withKey: clientKey)
             dataBaseRef.setValue(clientDic) { (error, ref) in
@@ -416,7 +401,7 @@ class ServiceManager: NSObject {
     func getClientFullList(completion: @escaping ServiceManagerFinishedGetClients) {
         checkDatabaseReference()
         var clients = [ClientModel]()
-        dataBaseRef = Database.database().reference().child("CLI_ADD")
+        dataBaseRef = Database.database().reference().child(CLI_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -429,7 +414,7 @@ class ServiceManager: NSObject {
                 completion(clients, nil)
                 return
             }
-            completion(nil, "Ocurrio un error, intente mas tarde")
+            completion(nil, genericError)
         }
     }
     
@@ -450,7 +435,7 @@ class ServiceManager: NSObject {
     func checkClientExist(clientDoc: Int, completion: @escaping (ClientModel?) -> Void) {
         checkDatabaseReference()
         var client: ClientModel?
-        dataBaseRef = Database.database().reference().child("CLI_ADD")
+        dataBaseRef = Database.database().reference().child(CLI_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {

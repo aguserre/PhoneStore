@@ -19,7 +19,6 @@ final class InitialAnimationViewController: UIViewController {
         super.viewDidLoad()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         configureAnimation(animationView: successAnimationView)
-        checkIfNeedSaveCopy()
     }
     
     private func configureAnimation(animationView: AnimationView) {
@@ -37,43 +36,9 @@ final class InitialAnimationViewController: UIViewController {
                 animationView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             } completion: { (finish) in
                 animationView.removeFromSuperview()
-                //MARK: - ADD SECURITY COPY OF DB
-                self.checkIfNeedSaveCopy()
+                self.goToLogin()
             }
         }
-    }
-    
-    private func checkIfNeedSaveCopy() {
-        let today = Date()
-        let wasSavedData = defaults.bool(forKey: defaultsKeys.needSaveKey)
-        
-        if today.startOfMonth() == today {
-            defaults.set(false, forKey: defaultsKeys.needSaveKey)
-        }
-        
-        if today == today.startOfMonth() || !wasSavedData {
-            presentAlertControllerWithDoubleAction(title: "Ops!", message: "Desea guardar una copia de seguridad?", delegate: self) { (actionOk) in
-                self.saveCopy()
-            } completionFailed: { (actionCancel) in
-                self.dontSaveCopy()
-            }
-        } else {
-            goToLogin()
-        }
-    }
-    
-    private func saveCopy() {
-        //MARK:- Save success
-        defaults.set(true, forKey: defaultsKeys.needSaveKey)
-        //MARK:- Save failed
-        //defaults.set(false, forKey: defaultsKeys.needSaveKey)
-        
-        goToLogin()
-    }
-    
-    private func dontSaveCopy() {
-        defaults.set(false, forKey: defaultsKeys.needSaveKey)
-        goToLogin()
     }
     
     private func goToLogin() {

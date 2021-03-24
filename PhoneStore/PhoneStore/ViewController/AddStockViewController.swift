@@ -44,7 +44,7 @@ final class AddStockViewController: UIViewController {
         setupView()
         hideKeyboardWhenTappedAround()
         setupTextfieldsDelegate()
-        setNavTitle(title: "Nuevo producto")
+        setNavTitle(title: newProduct)
         setupObservers()
     }
     
@@ -100,7 +100,7 @@ final class AddStockViewController: UIViewController {
               colorTextField.text != "",
               buyPriceTextField.text != "",
               salePriceTextField.text != ""  else {
-            presentAlertController(title: "Error", message: "Debe completar todos los campos", delegate: self, completion: nil)
+            presentAlertController(title: errorTitle, message: emptyForm, delegate: self, completion: nil)
             return
         }
         saveProduct()
@@ -116,9 +116,7 @@ final class AddStockViewController: UIViewController {
     
     private func setupStepper() {
         cantitiStepper.addTarget(self, action: #selector(stepperChanged), for: .valueChanged)
-        
         guard let cost = Double(cantitiLabel.text!) else {
-            print("The user entered a value price of")
             return
         }
         
@@ -132,15 +130,15 @@ final class AddStockViewController: UIViewController {
     private func saveProduct() {
         if let pos = selectedPos, let cantiti = Int(cantitiLabel.text ?? "1") {
             serviceManager.saveProduct(productDic: productDic,
-                                       condition: conditionSelector.isOn ? "Usado" : "Nuevo",
+                                       condition: conditionSelector.isOn ? isNew : isOld,
                                        saveToPOS: pos,
                                        cantiti: cantiti) { (prod, error) in
                 if let error = error {
-                    self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self) { (action) in
+                    self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self) { (action) in
                         self.navigationController?.popViewController(animated: true)
                     }
                 } else {
-                    self.presentAlertController(title: "Exito", message: "Producto guardado!", delegate: self) { (action) in
+                    self.presentAlertController(title: success, message: productSaved, delegate: self) { (action) in
                         self.clearForm()
                     }
                 }

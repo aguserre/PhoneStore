@@ -70,10 +70,10 @@ final class SettingsViewController: UIViewController {
     private func expandViewAnimation(expand: Bool) {
         UIView.animate(withDuration: 0.5) {
             if expand {
-                self.addButton.setTitle("Guardar", for: .normal)
+                self.addButton.setTitle(save, for: .normal)
                 self.addButton.tag = 0
             } else {
-                self.addButton.setTitle("Agregar", for: .normal)
+                self.addButton.setTitle(addNew, for: .normal)
                 self.addButton.tag = 1
             }
             self.view.layoutIfNeeded()
@@ -121,13 +121,13 @@ final class SettingsViewController: UIViewController {
         if typeViewExpanded == .userExpanded {
             if typeRawValue == .vendor,
                selectedPos?.id == nil  {
-                print("Debe seleccionar un local")
+                presentAlertController(title: errorTitle, message: needSelectAPOS, delegate: self, completion: nil)
                 return
             }
             let selectedPosId = selectedPos?.id ?? ""
             user = UserModel(JSON: userDic)
             guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
-                print("Error de registracion")
+                presentAlertController(title: errorTitle, message: registrationError, delegate: self, completion: nil)
                 return
             }
             serviceManager.createNewUser(delegate: self, userDic: userDic, email: email, pass: pass, userType: typeRawValue, posAsignedId: selectedPosId)
@@ -150,10 +150,10 @@ final class SettingsViewController: UIViewController {
     
     private func setupUserView() {
         viewState = .userExpanded
-        rolSegmentedControl.setTitle("Vendedor", forSegmentAt: 0)
-        rolSegmentedControl.setTitle("Administrador", forSegmentAt: 1)
+        rolSegmentedControl.setTitle(vendor, forSegmentAt: 0)
+        rolSegmentedControl.setTitle(admin, forSegmentAt: 1)
         rolSegmentedControl.isHidden = false
-        posSelectionButton.setTitle("Asignar punto de venta", for: .normal)
+        posSelectionButton.setTitle(asignPOS, for: .normal)
         posSelectionButton.isHidden = false
         textFieldsTableView.isHidden = false
         setupTextFields()
@@ -162,8 +162,8 @@ final class SettingsViewController: UIViewController {
     
     private func setupPosView() {
         viewState = .posExpanded
-        rolSegmentedControl.setTitle("Movil", forSegmentAt: 0)
-        rolSegmentedControl.setTitle("Fijo", forSegmentAt: 1)
+        rolSegmentedControl.setTitle(movil, forSegmentAt: 0)
+        rolSegmentedControl.setTitle(kStatic, forSegmentAt: 1)
         rolSegmentedControl.isHidden = false
         posSelectionButton.isHidden = true
         textFieldsTableView.isHidden = false
@@ -178,13 +178,13 @@ final class SettingsViewController: UIViewController {
                 self.presentSelectionPosActionSheet()
             }
             if let error = error {
-                self.presentAlertController(title: "Error", message: error, delegate: self, completion: nil)
+                self.presentAlertController(title: errorTitle, message: error, delegate: self, completion: nil)
             }
         }
     }
     
     private func presentSelectionPosActionSheet() {
-        let actionSheetController: UIAlertController = UIAlertController(title: "Elegi una opcion", message: nil, preferredStyle: .actionSheet)
+        let actionSheetController: UIAlertController = UIAlertController(title: chooseOption, message: nil, preferredStyle: .actionSheet)
 
         for pos in posArray {
             let actionAdd: UIAlertAction = UIAlertAction(title: pos.name, style: .default) { action -> Void in
@@ -193,7 +193,7 @@ final class SettingsViewController: UIViewController {
             actionSheetController.addAction(actionAdd)
         }
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+        let cancelAction: UIAlertAction = UIAlertAction(title: cancel, style: .cancel) { action -> Void in }
         actionSheetController.addAction(cancelAction)
 
         present(actionSheetController, animated: true) {

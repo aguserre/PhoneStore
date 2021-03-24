@@ -56,7 +56,7 @@ final class ListViewController: UIViewController {
         cantSelectedLabel.backgroundColor = .systemIndigo
         cantSelectedLabel.layer.cornerRadius = cantSelectedLabel.bounds.width/2
 
-        setNavTitle(title: selectedPos?.name?.capitalized ?? "Stock")
+        setNavTitle(title: selectedPos?.name?.capitalized ?? stock)
 
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         backgroundHeaderView.layer.insertSublayer(createCustomGradiend(view: backgroundHeaderView), at: 0)
@@ -100,7 +100,7 @@ final class ListViewController: UIViewController {
                     self.loaderIndicator.isHidden = true
                 }
                 if let error = error {
-                    self.presentAlertController(title: "Error", message: error, delegate: self) { (action) in
+                    self.presentAlertController(title: errorTitle, message: error, delegate: self) { (action) in
                         if self.userLogged?.type == UserType.vendor.rawValue {
                             self.navigationController?.popViewController(animated: true)
                         } else {

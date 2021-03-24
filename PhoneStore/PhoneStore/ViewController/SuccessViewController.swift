@@ -136,13 +136,13 @@ final class SuccessViewController: UIViewController {
     
     private func checkClientExist() {
         guard let clientDoc = docTextField.text, clientDoc.count > 6 && clientDoc.count < 9 else {
-            presentAlertController(title: "Error", message: "El campo documento debe tener un formato valido", delegate: self, completion: nil)
+            presentAlertController(title: errorTitle, message: docMaxLengthError, delegate: self, completion: nil)
             return
         }
         let clientDocInt = Int(clientDoc) ?? 0
         serviceManager.checkClientExist(clientDoc: clientDocInt) { (client) in
             if client != nil {
-                self.presentAlertController(title: "Usuario existente", message: "", delegate: self) { (action) in
+                self.presentAlertController(title: userExist, message: "", delegate: self) { (action) in
                     self.clientExist = client
                     self.dontSaveClient(animationShowing: self.successAnimationView)
                 }
@@ -165,9 +165,9 @@ final class SuccessViewController: UIViewController {
         generateSaleMovement(client: client)
         serviceManager.saveClient(client: client) { (client, error) in
             if let error = error {
-                self.presentAlertController(title: "Error", message: error.localizedDescription, delegate: self, completion: nil)
+                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
             } else {
-                self.presentAlertController(title: "Exito!", message: "Usuario guardado con exito", delegate: self) { (action) in
+                self.presentAlertController(title: success, message: userSaved, delegate: self) { (action) in
                     self.checkButtonTitle(title: .newSale)
                     self.hideDataClient()
                 }
@@ -191,13 +191,13 @@ final class SuccessViewController: UIViewController {
         switch title {
         case .saveUser:
             buttonTitle = .saveUser
-            newSaleButton.setTitle("Guardar", for: .normal)
+            newSaleButton.setTitle(save, for: .normal)
         case .newSale:
             buttonTitle = .newSale
-            newSaleButton.setTitle("Nueva venta", for: .normal)
+            newSaleButton.setTitle(newSale, for: .normal)
         case .failure:
             buttonTitle = .failure
-            newSaleButton.setTitle("Intentar de nuevo", for: .normal)
+            newSaleButton.setTitle(tryAgain, for: .normal)
         }
     }
     
