@@ -7,6 +7,7 @@
 
 import UIKit
 import Lottie
+import FirebaseAuth
 
 final class InitialAnimationViewController: UIViewController {
     
@@ -59,5 +60,5 @@ extension Date {
     }
 }
 struct defaultsKeys {
-    static let needSaveKey = "firstStringKey"
+    static let userId = "userId"
 }

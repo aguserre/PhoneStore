@@ -35,6 +35,7 @@ class ServiceManager: NSObject {
                 completion(nil, error)
             }
             if let auth = auth {
+                UserDefaults.standard.set(auth.user.uid, forKey: defaultsKeys.userId)
                 completion(auth, nil)
             }
         }
@@ -45,6 +46,7 @@ class ServiceManager: NSObject {
             do {
                 try Auth.auth().signOut()
                 delegate.navigationController?.popToRootViewController(animated: true)
+                UserDefaults.standard.set(nil, forKey: defaultsKeys.userId)
             }
             catch {
                 delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)

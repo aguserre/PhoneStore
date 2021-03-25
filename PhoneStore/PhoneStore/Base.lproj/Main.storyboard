@@ -26,19 +26,13 @@
                                     <constraint firstAttribute="height" constant="70" id="LYG-K2-UkW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal">
+                                <state key="normal" title="Ingresar">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="checkUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u0I-Zp-ml9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingresar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyp-D4-6qj">
-                                <rect key="frame" x="175" y="841.66666666666663" width="64" height="20.333333333333371"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehx-oq-AX7">
                                 <rect key="frame" x="10" y="258" width="394" height="210"/>
                                 <subviews>
@@ -113,8 +107,6 @@ Q29udHJhc2VuYRAQEA
                             <constraint firstItem="ehx-oq-AX7" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="LVV-Hy-Mm1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="McY-iJ-z5R" secondAttribute="trailing" id="O4T-hN-H9F"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ehx-oq-AX7" secondAttribute="trailing" constant="10" id="RSQ-hx-ang"/>
-                            <constraint firstItem="McY-iJ-z5R" firstAttribute="top" secondItem="lyp-D4-6qj" secondAttribute="bottom" constant="-36" id="SWk-Br-f1o"/>
-                            <constraint firstItem="lyp-D4-6qj" firstAttribute="centerX" secondItem="McY-iJ-z5R" secondAttribute="centerX" id="k1g-2N-SLh"/>
                             <constraint firstItem="McY-iJ-z5R" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="s9J-Tz-6yk"/>
                         </constraints>
                     </view>
@@ -127,7 +119,7 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="loginButtonConstant" destination="LYG-K2-UkW" id="j0V-8g-j2v"/>
                         <outlet property="passwordTextField" destination="NRp-Lj-m6c" id="gKs-mH-Vha"/>
                         <outlet property="userTextField" destination="96M-ur-9B0" id="hWy-hu-qyl"/>
-                        <segue destination="lGt-Da-Hxv" kind="show" identifier="goToMain" id="Mta-u4-6Sh"/>
+                        <segue destination="lGt-Da-Hxv" kind="show" identifier="goToMain" id="hTt-Mi-TzE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -397,7 +389,7 @@ Q29udHJhc2VuYRAQEA
         <!--Puntos de Venta-->
         <scene sceneID="SZh-Jr-QfW">
             <objects>
-                <viewController id="lGt-Da-Hxv" customClass="MainViewController" customModule="PhoneStore" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="lGt-Da-Hxv" customClass="MainViewController" customModule="PhoneStore" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WDO-v5-YHl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -592,7 +584,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hvx-BS-Aiw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3352.1739130434785" y="-16.741071428571427"/>
+            <point key="canvasLocation" x="3438" y="-17"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="FqU-da-iDd">
@@ -881,7 +873,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nba-ID-KDV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4304.347826086957" y="-16.741071428571427"/>
+            <point key="canvasLocation" x="4304" y="-17"/>
         </scene>
         <!--Resumen-->
         <scene sceneID="jGu-Xc-ZB4">
@@ -1163,7 +1155,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a84-gr-yJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3352.1739130434785" y="699.10714285714278"/>
+            <point key="canvasLocation" x="3438" y="698"/>
         </scene>
         <!--Movement Detail View Controller-->
         <scene sceneID="6i3-YT-7vz">
@@ -1917,7 +1909,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFz-TJ-Kdm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5234.3999999999996" y="-16.641679160419791"/>
+            <point key="canvasLocation" x="5232" y="-17"/>
         </scene>
         <!--Modified Stock View Controller-->
         <scene sceneID="f8g-9P-jSx">
@@ -2011,7 +2003,7 @@ Q29udHJhc2VuYRAQEA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A1y-vZ-qvu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6073.913043478261" y="-17.410714285714285"/>
+            <point key="canvasLocation" x="6072" y="-18"/>
         </scene>
         <!--Initial Animation View Controller-->
         <scene sceneID="2AQ-ZR-Kg6">

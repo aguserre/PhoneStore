@@ -29,11 +29,28 @@ final class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        if let userLogged = UserDefaults.standard.string(forKey: defaultsKeys.userId) {
+            userId = userLogged
+            setupEmptyViewBeforeNavigation()
+        } else {
+            showViews()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    private func showViews() {
+        backgroundView.isHidden = false
+        loginButton.isHidden = false
+    }
+    
+    private func setupEmptyViewBeforeNavigation() {
+        backgroundView.isHidden = true
+        loginButton.isHidden = true
+        performSegue(withIdentifier: "goToMain", sender: nil)
     }
     
     private func setupObservers() {
@@ -43,6 +60,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupView() {
+        showViews()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         loginButton.layer.insertSublayer(createCustomGradiend(view: loginButton), at: 0)
         
