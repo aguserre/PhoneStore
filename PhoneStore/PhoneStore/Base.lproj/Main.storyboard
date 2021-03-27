@@ -1688,7 +1688,7 @@ Q29udHJhc2VuYRAQEA
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteProduct:" destination="U6i-Sr-7wL" eventType="touchUpInside" id="nJr-Da-Hq2"/>
+                                    <action selector="updateProduct:" destination="U6i-Sr-7wL" eventType="touchUpInside" id="Oky-6F-Tkx"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eG7-wx-VNU" customClass="GeminiCollectionView" customModule="Gemini">

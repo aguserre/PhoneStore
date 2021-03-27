@@ -40,9 +40,9 @@ final class DetailViewController: UIViewController {
         sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
-    @IBAction private func deleteProduct(_ sender: Any) {
+    @IBAction private func updateProduct(_ sender: Any) {
         generateImpactWhenTouch()
-        serviceManager.deleteProduct(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) { (error) in
+        serviceManager.updateProductCantiti(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) { (error) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyBoard.instantiateViewController(withIdentifier: "SuccessViewController") as! SuccessViewController
             if let _ = error {

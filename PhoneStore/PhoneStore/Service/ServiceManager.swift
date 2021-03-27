@@ -140,7 +140,7 @@ class ServiceManager: NSObject {
         }
     }
     
-    func deleteProduct(delegate: UIViewController, productsList: [ProductModel], withTotalAmount: Double, completion: @escaping ServiceManagerFinishUpdateProduct)  {
+    func updateProductCantiti(delegate: UIViewController, productsList: [ProductModel], withTotalAmount: Double, completion: @escaping ServiceManagerFinishUpdateProduct)  {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
@@ -150,11 +150,7 @@ class ServiceManager: NSObject {
                         for prod in productsList {
                             if prod.code == postDict["code"] as? String,
                                let cantiti = postDict["cantiti"] as? Int {
-                                if cantiti == prod.cantitiToSell {
-                                    self.deleteProduct(key: snap.key, prod: prod)
-                                } else {
-                                    self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod)
-                                }
+                                self.updateProductCantiti(key: snap.key, newCantiti: cantiti - prod.cantitiToSell, prod: prod)
                             }
                         }
                     } else {
@@ -168,12 +164,7 @@ class ServiceManager: NSObject {
             }
         }
     }
-    
-    private func deleteProduct(key: String, prod: ProductModel) {
-        checkDatabaseReference()
-        self.dataBaseRef.child(key).removeValue()
-    }
-    
+
     private func updateProductCantiti(key: String, newCantiti: Int, prod: ProductModel) {
         checkDatabaseReference()
         let post = ["cantiti": newCantiti]
