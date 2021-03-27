@@ -15,8 +15,11 @@ final class SuccessViewController: UIViewController {
     @IBOutlet private weak var nameTextField: UITextField!
     @IBOutlet private weak var docTextField: UITextField!
     @IBOutlet private weak var phoneTextField: UITextField!
+    @IBOutlet private weak var instagramTextField: UITextField!
+    @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var cancelSaveButton: UIButton!
     @IBOutlet private weak var buttonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var paymentMethodButton: UIButton!
     
     enum Result {
         case success, failure
@@ -24,10 +27,12 @@ final class SuccessViewController: UIViewController {
     enum ButtonTitle: Int {
         case failure, newSale, saveUser
     }
+    var textToClientWasSend = false
     var clientExist: ClientModel?
     var buttonTitle: ButtonTitle = .newSale
     var result: Result = .success
     var products: [ProductModel]?
+    var paymentMethod: String?
     var amount: Double?
     var isRmaSale = false
     private let serviceManager = ServiceManager()
@@ -153,6 +158,10 @@ final class SuccessViewController: UIViewController {
             presentAlertController(title: errorTitle, message: docMaxLengthError, delegate: self, completion: nil)
             return
         }
+        guard let  phone = phoneTextField.text, phone.count == 10 else {
+            presentAlertController(title: errorTitle, message: phoneMaxLengthError, delegate: self, completion: nil)
+            return
+        }
         let clientDocInt = Int(clientDoc) ?? 0
         serviceManager.checkClientExist(clientDoc: clientDocInt) { (client) in
             if client != nil {
@@ -163,13 +172,33 @@ final class SuccessViewController: UIViewController {
             } else {
                 self.createClient(document: clientDocInt)
             }
+            self.sendWSToClient(phone: phone)
+        }
+    }
+    
+    private func sendWSToClient(phone: String?) {
+        let urlWhats = "whatsapp://send?phone=+549\(phone ?? "")&abid=12354&text=\(whatsappDefaultMessage)"
+        textToClientWasSend = true
+        if let urlString = urlWhats.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) {
+            if let whatsappURL = URL(string: urlString) {
+                if UIApplication.shared.canOpenURL(whatsappURL) {
+                    UIApplication.shared.open(whatsappURL, options: [:], completionHandler: nil)
+                } else {
+                    let email = emailTextField.text ?? ""
+                    if let url = URL(string: "mailto:\(email)") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
         }
     }
     
     private func createClient(document: Int) {
         let clientDic: [String : Any] = ["name" : nameTextField.text ?? "",
                                          "document" : document as Any,
-                                         "phone" : phoneTextField.text ?? ""]
+                                         "phone" : phoneTextField.text ?? "",
+                                         "instagram" : instagramTextField.text ?? "",
+                                         "email" : emailTextField.text ?? ""]
         if let client = ClientModel(JSON: clientDic) {
             saveClient(client: client)
         }
@@ -207,7 +236,7 @@ final class SuccessViewController: UIViewController {
     
     private func generateSaleMovement(client: ClientModel?) {
         if let prods = products {
-            serviceManager.registerSaleMov(client: client, prods: prods, movType: .out)
+            serviceManager.registerSaleMov(client: client, prods: prods, movType: .out, paymentMethod: paymentMethod)
         }
     }
     
@@ -223,6 +252,47 @@ final class SuccessViewController: UIViewController {
             buttonTitle = .failure
             newSaleButton.setTitle(tryAgain, for: .normal)
         }
+    }
+    
+    @IBAction func selectPaymentMethod(_ sender: Any) {
+        let alert = UIAlertController(title: "Forma de pago", message: "Elegí la forma de pago utilizada", preferredStyle: .actionSheet)
+        let actionOther = UIAlertAction(title: "Otro", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Otro", for: .normal)
+            self.paymentMethod = "Otro"
+        }
+        let actionEft = UIAlertAction(title: "Efectivo", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Efectivo", for: .normal)
+            self.paymentMethod = "Efectivo"
+        }
+        let actionCred = UIAlertAction(title: "Crédito", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Credito", for: .normal)
+            self.paymentMethod = "Credito"
+        }
+        let actionDeb = UIAlertAction(title: "Débito", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Debito", for: .normal)
+            self.paymentMethod = "Debito"
+        }
+        let actionChe = UIAlertAction(title: "Cheque", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Cheque", for: .normal)
+            self.paymentMethod = "Cheque"
+        }
+        let actionTra = UIAlertAction(title: "Transferencia", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Transferencia", for: .normal)
+            self.paymentMethod = "Transferencia"
+        }
+        let actionDol = UIAlertAction(title: "Dólares", style: .default) { (action) in
+            self.paymentMethodButton.setTitle("Dolares", for: .normal)
+            self.paymentMethod = "Dolares"
+        }
+        alert.addAction(actionOther)
+        alert.addAction(actionEft)
+        alert.addAction(actionCred)
+        alert.addAction(actionDeb)
+        alert.addAction(actionChe)
+        alert.addAction(actionTra)
+        alert.addAction(actionDol)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func cancelSaveClient(_ sender: Any) {

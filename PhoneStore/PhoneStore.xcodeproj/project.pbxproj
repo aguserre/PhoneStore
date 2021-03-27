@@ -39,7 +39,6 @@
 		0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4A25BF683B00B325B2 /* Assets.xcassets */; };
 		0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */; };
 		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
-		0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF1065D25BFBDC800B2656D /* PhoneModel.swift */; };
 		0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */; };
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
 		0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106E125BFE74D00B2656D /* LoginViewController.swift */; };
@@ -86,7 +85,6 @@
 		0FA63E4D25BF683B00B325B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA63E4F25BF683B00B325B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
-		0FF1065D25BFBDC800B2656D /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
 		0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementModel.swift; sourceTree = "<group>"; };
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0FF106E125BFE74D00B2656D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 			children = (
 				0F4EEC2225FC19C3008BCFDE /* Extension */,
 				0F19895A25C646AD000E56AF /* MovementsModel.swift */,
-				0FF1065D25BFBDC800B2656D /* PhoneModel.swift */,
 				0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */,
 				0FF106E425BFE92D00B2656D /* UserModel.swift */,
 				0F23BDB625C86CE50069AEC1 /* ProductModel.swift */,
@@ -401,7 +398,6 @@
 				0F93E46E25D90935000DBBF7 /* ChartCollectionViewCell.swift in Sources */,
 				0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
-				0FF1065E25BFBDC800B2656D /* PhoneModel.swift in Sources */,
 				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
 				0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,

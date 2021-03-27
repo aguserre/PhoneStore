@@ -171,10 +171,10 @@ class ServiceManager: NSObject {
         self.dataBaseRef.child(key).updateChildValues(post)
     }
     
-    func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType) {
+    func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType, paymentMethod: String? = nil) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(PROD_MOV).childByAutoId()
-        let movs = generateMovment(clientId: client?.document, prods: prods, movType: movType, amount: nil)
+        let movs = generateMovment(clientId: client?.document, prods: prods, movType: movType, amount: nil, paymentMethod: paymentMethod)
         dataBaseRef.setValue(movs)
     }
     
@@ -221,7 +221,7 @@ class ServiceManager: NSObject {
         return products
     }
     
-    private func generateMovment(clientId: Int? = nil, prods: [ProductModel], movType: MovementType, amount: Double? = nil) -> [String : Any]? {
+    private func generateMovment(clientId: Int? = nil, prods: [ProductModel], movType: MovementType, amount: Double? = nil, paymentMethod: String? = nil) -> [String : Any]? {
         let dateFormatter = DateFormatter()
         var movs = [[String : Any]]()
         dateFormatter.dateFormat = "dd/MM/yy"
@@ -239,6 +239,7 @@ class ServiceManager: NSObject {
                           "totalAmount" : amountToShow as Any,
                           "dateOut" : dateFormatter.string(from: Date()),
                           "client" : clientId as Any,
+                          "paymentMethod" : paymentMethod as Any,
                           "cantitiPurchase" : prod.cantitiToSell as Any]
             movs.append(movDic)
         }

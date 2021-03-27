@@ -19,6 +19,7 @@ class MovementsModel: Mappable {
     var dateOut: String?
     var cantitiPurchase: Int?
     var client: Int?
+    var paymentMethod: String?
     
 
     required init?(map: Map) {}
@@ -34,6 +35,7 @@ class MovementsModel: Mappable {
         dateOut <- map["dateOut"]
         cantitiPurchase <- map["cantitiPurchase"]
         client <- map["client"]
+        paymentMethod <- map["paymentMethod"]
     }
     
     func toDictionary() -> NSDictionary {
@@ -46,6 +48,7 @@ class MovementsModel: Mappable {
                 "totalAmount" : totalAmount as Any,
                 "dateOut" : dateOut as Any,
                 "client" : client as Any,
+                "paymentMethod" : paymentMethod as Any,
                 "cantitiPurchase" : cantitiPurchase as Any] as NSDictionary
     }
     
