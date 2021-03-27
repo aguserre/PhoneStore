@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import FirebaseAuth
 
 final class LoginViewController: UIViewController {
     
@@ -15,6 +16,7 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var loginButtonConstant: NSLayoutConstraint!
     @IBOutlet private weak var backgroundView: UIView!
+    @IBOutlet private weak var lostPasswordButton: UIButton!
     
     private let serviceManager = ServiceManager()
     private var userId = ""
@@ -135,6 +137,19 @@ final class LoginViewController: UIViewController {
            segueId == "goToMain",
            let mainViewController = segue.destination as? MainViewController {
             mainViewController.userId = self.userId
+        }
+    }
+    @IBAction func verifyEmailButtonTapped(_ sender: UIButton) {
+        guard let email = userTextField.text else {
+            presentAlertController(title: errorTitle, message: "", delegate: self, completion: nil)
+            return
+        }
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
+            } else {
+                self.presentAlertController(title: success, message: "Se envio un correo a la direccion \(email)", delegate: self, completion: nil)
+            }
         }
     }
 }

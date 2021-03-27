@@ -321,8 +321,7 @@ final class MovementsViewController: UIViewController {
         filterTableView(dates: lastDays)
     }
     
-    private func getMaxValue() -> Double {
-        if amounts.isEmpty {
+    private func getMaxValue() -> Double {        if amounts.isEmpty {
             for item in totalPerPos {
                 for (_, value) in item {
                     amounts.append(value)

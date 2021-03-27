@@ -98,15 +98,28 @@ Q29udHJhc2VuYRAQEA
                                     <constraint firstAttribute="trailing" secondItem="zfr-ds-Jkp" secondAttribute="trailing" constant="10" id="sdf-Gn-FCl"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hEQ-Ie-zwZ">
+                                <rect key="frame" x="20" y="508" width="374" height="29"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <state key="normal" title="¿Olvidó su constraseña?">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="verifyEmailButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KsL-Pp-uRF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="McY-iJ-z5R" secondAttribute="bottom" id="1Fr-ow-AY6"/>
+                            <constraint firstItem="hEQ-Ie-zwZ" firstAttribute="top" secondItem="ehx-oq-AX7" secondAttribute="bottom" constant="40" id="IeA-4J-v2I"/>
                             <constraint firstItem="ehx-oq-AX7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="Ji7-Zv-Hbv"/>
                             <constraint firstItem="ehx-oq-AX7" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="LVV-Hy-Mm1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="McY-iJ-z5R" secondAttribute="trailing" id="O4T-hN-H9F"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ehx-oq-AX7" secondAttribute="trailing" constant="10" id="RSQ-hx-ang"/>
+                            <constraint firstItem="hEQ-Ie-zwZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="gBz-AC-y0G"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hEQ-Ie-zwZ" secondAttribute="trailing" constant="20" id="orp-4Y-I2i"/>
                             <constraint firstItem="McY-iJ-z5R" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="s9J-Tz-6yk"/>
                         </constraints>
                     </view>
@@ -117,6 +130,7 @@ Q29udHJhc2VuYRAQEA
                         <outlet property="backgroundView" destination="ehx-oq-AX7" id="cNq-ul-Mtp"/>
                         <outlet property="loginButton" destination="McY-iJ-z5R" id="1cQ-Tl-m2g"/>
                         <outlet property="loginButtonConstant" destination="LYG-K2-UkW" id="j0V-8g-j2v"/>
+                        <outlet property="lostPasswordButton" destination="hEQ-Ie-zwZ" id="MMN-ay-zFS"/>
                         <outlet property="passwordTextField" destination="NRp-Lj-m6c" id="gKs-mH-Vha"/>
                         <outlet property="userTextField" destination="96M-ur-9B0" id="hWy-hu-qyl"/>
                         <segue destination="lGt-Da-Hxv" kind="show" identifier="goToMain" id="hTt-Mi-TzE"/>
