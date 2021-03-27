@@ -21,8 +21,27 @@ class MovementsTableViewCell: UITableViewCell {
         typeLabel.text = mov.localId?.capitalized
         dateLabel.text = mov.dateOut
         totalAmountMovementLabel.text = "$\(mov.totalAmount ?? 0)"
-        let imageName = mov.movementType == "out" ? "arrow.up" : "arrow.down"
-        let colorImage: UIColor = mov.movementType == "out" ? .red : .green
+        totalAmountMovementLabel.isHidden = mov.movementType == MovementType.rma.rawValue
+        var imageName: String {
+            switch mov.movementType {
+            case "out":
+                return "arrow.up"
+            case "in":
+                return "arrow.down"
+            default:
+                return "archivebox"
+            }
+        }
+        var colorImage: UIColor {
+            switch mov.movementType {
+            case "out":
+                return .red
+            case "in":
+                return .green
+            default:
+                return .gray
+            }
+        }
         imageTypeLabel.image = UIImage(systemName: imageName)
         imageTypeLabel.tintColor = colorImage
     }

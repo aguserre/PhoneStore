@@ -11,20 +11,20 @@ import Lottie
 final class MovementDetailViewController: UIViewController {
 
     @IBOutlet private weak var contentViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var productNameLbl: UILabel!
-    @IBOutlet weak var productTypeLbl: UILabel!
-    @IBOutlet weak var productLocalLbl: UILabel!
-    @IBOutlet weak var productConditionLbl: UILabel!
-    @IBOutlet weak var productCantitiLbl: UILabel!
-    @IBOutlet weak var productDateOutLbl: UILabel!
-    @IBOutlet weak var clientNameLbl: UILabel!
-    @IBOutlet weak var clientDocLbl: UILabel!
-    @IBOutlet weak var clientPhoneLbl: UILabel!
-    @IBOutlet weak var totalLbl: UILabel!
-    @IBOutlet weak var clientBackgroundView: UIView!
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var animationView: UIView!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet private weak var productNameLbl: UILabel!
+    @IBOutlet private weak var productTypeLbl: UILabel!
+    @IBOutlet private weak var productLocalLbl: UILabel!
+    @IBOutlet private weak var productConditionLbl: UILabel!
+    @IBOutlet private weak var productCantitiLbl: UILabel!
+    @IBOutlet private weak var productDateOutLbl: UILabel!
+    @IBOutlet private weak var clientNameLbl: UILabel!
+    @IBOutlet private weak var clientDocLbl: UILabel!
+    @IBOutlet private weak var clientPhoneLbl: UILabel!
+    @IBOutlet private weak var totalLbl: UILabel!
+    @IBOutlet private weak var clientBackgroundView: UIView!
+    @IBOutlet private weak var backgroundView: UIView!
+    @IBOutlet private weak var animationView: UIView!
+    @IBOutlet private weak var closeButton: UIButton!
     
     private let serviceManager = ServiceManager()
     var mov: MovementsModel?
@@ -43,13 +43,25 @@ final class MovementDetailViewController: UIViewController {
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         closeButton.layer.cornerRadius = 15
         closeButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
-        productNameLbl.text = mov?.code
-        productTypeLbl.text = mov?.movementType
-        productLocalLbl.text = mov?.localId
-        productConditionLbl.text = mov?.condition
+        productNameLbl.text = mov?.code?.capitalized
+        var type: String {
+            switch mov?.movementType {
+            case "out":
+                return "Venta"
+            case "in":
+                return "Ingreso"
+            case "rma":
+                return "RMA"
+            default:
+                return ""
+            }
+        }
+        productTypeLbl.text =  type
+        productLocalLbl.text = mov?.localId?.capitalized
+        productConditionLbl.text = mov?.condition?.capitalized
         productCantitiLbl.text = String(mov?.cantitiPurchase ?? 1)
         productDateOutLbl.text = mov?.dateOut
-        totalLbl.text = "$ "+String(mov?.totalAmount ?? 0)
+        totalLbl.text = mov?.movementType == MovementType.rma.rawValue ? "RMA" : "$ "+String(mov?.totalAmount ?? 0)
         
         clientBackgroundView.layer.cornerRadius = 10
         clientBackgroundView.clipsToBounds = true
@@ -85,8 +97,6 @@ final class MovementDetailViewController: UIViewController {
                 self.clientPhoneLbl.text = client.phone
                 let gesture = UITapGestureRecognizer(target: self, action: #selector(self.expandClientView))
                 self.clientBackgroundView.addGestureRecognizer(gesture)
-            } else {
-                //Cliente no encontrado
             }
         }
     }

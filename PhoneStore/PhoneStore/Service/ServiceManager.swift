@@ -140,7 +140,7 @@ class ServiceManager: NSObject {
         }
     }
     
-    func updateProductCantiti(delegate: UIViewController, productsList: [ProductModel], withTotalAmount: Double, completion: @escaping ServiceManagerFinishUpdateProduct)  {
+    func updateProductCantiti(isRma: Bool? = false, productsList: [ProductModel], completion: @escaping ServiceManagerFinishUpdateProduct)  {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
@@ -182,11 +182,43 @@ class ServiceManager: NSObject {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(PROD_MOV).childByAutoId()
         var amount = 0.0
-        if let priceBuy = product.priceBuy, let cantiti = product.cantiti {
-            amount = priceBuy * Double(cantiti)
+        if let priceBuy = product.priceBuy {
+            amount = priceBuy * Double(product.cantitiToSell)
         }
         let mov = generateMovment(prods: [product], movType: .new, amount: amount)
         dataBaseRef.setValue(mov)
+    }
+    
+    func registerRmaMov(product: ProductModel) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child(PROD_MOV).childByAutoId()
+        if let mov = generateRmaMovement(prod: [product], movType: .rma) {
+            dataBaseRef.setValue(mov)
+        }
+    }
+    
+    private func generateRmaMovement(prod: [ProductModel], movType: MovementType) -> [String : Any]? {
+        guard let prod = prod.first else {
+            return nil
+        }
+        var movs = [[String : Any]]()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yy"
+
+        let movDic = ["id": prod.id  ?? "",
+                     "productDescription": prod.description ?? "",
+                     "movementType": movType.rawValue,
+                     "localId": prod.localInStock as Any,
+                     "code" : prod.code as Any,
+                     "condition" : prod.condition as Any,
+                     "totalAmount" : 0 as Any,
+                     "dateOut" : dateFormatter.string(from: Date()),
+                     "cantitiPurchase" : prod.cantitiToSell as Any]
+
+        movs.append(movDic)
+        let products: [String: Any] = ["products" : movs]
+   
+        return products
     }
     
     private func generateMovment(clientId: Int? = nil, prods: [ProductModel], movType: MovementType, amount: Double? = nil) -> [String : Any]? {

@@ -52,7 +52,7 @@ class MovementsModel: Mappable {
 }
 
 enum MovementType: String {
-    case out, new
+    case out, new, rma
     
     public typealias RawValue = String
     
@@ -62,6 +62,8 @@ enum MovementType: String {
             return "out"
         case .new:
             return "in"
+        case .rma:
+            return "rma"
         }
     }
     
@@ -71,6 +73,8 @@ enum MovementType: String {
             self = .out
         case "in":
             self = .new
+        case "rma":
+            self = .rma
         default:
             self = .new
         }

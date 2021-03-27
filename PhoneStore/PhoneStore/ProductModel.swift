@@ -23,6 +23,7 @@ class ProductModel: Mappable {
     var cantiti: Int?
     var cantitiToSell = 1
     var isChecked = false
+    var isRma = false
 
     required init?(map: Map) {}
     
@@ -38,6 +39,7 @@ class ProductModel: Mappable {
         dateIn <- map["dateIn"]
         dateOut <- map["dateOut"]
         cantiti <- map["cantiti"]
+        isRma <- map["isRma"]
         localInStock <- map["localInStock"]
     }
     
@@ -55,6 +57,7 @@ class ProductModel: Mappable {
                 "isChecked" : isChecked as Any,
                 "cantiti" : cantiti as Any,
                 "cantitiToSell" : cantitiToSell as Any,
+                "isRma" : isRma as Any,
                 "localInStock" : localInStock as Any] as NSDictionary
     }
 }

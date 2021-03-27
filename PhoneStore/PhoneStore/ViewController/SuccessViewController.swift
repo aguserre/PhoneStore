@@ -29,6 +29,7 @@ final class SuccessViewController: UIViewController {
     var result: Result = .success
     var products: [ProductModel]?
     var amount: Double?
+    var isRmaSale = false
     private let serviceManager = ServiceManager()
     private let successAnimationView = AnimationView(name: "success")
     private let failureAnimationView = AnimationView(name: "fail")
@@ -97,7 +98,11 @@ final class SuccessViewController: UIViewController {
             animationView.frame.origin.x = (self.view.bounds.size.width - animationView.frame.size.width) / 2.0
             self.view.layoutIfNeeded()
         } completion: { (success) in
-            self.expandDataClient()
+            if !self.isRmaSale {
+                self.expandDataClient()
+            } else {
+                self.dontSaveClient(animationShowing: animationView)
+            }
         }
     }
     
@@ -116,6 +121,15 @@ final class SuccessViewController: UIViewController {
             self.cancelSaveButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
             self.buttonHeightConstraint.constant = 70
             self.topConstraint.constant = 200
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func setupViewAfterRmaSale() {
+        checkButtonTitle(title: .newSale)
+        generateSaleMovement(client: nil)
+        UIView.animate(withDuration: 0.4) {
+            self.buttonHeightConstraint.constant = 70
             self.view.layoutIfNeeded()
         }
     }
@@ -176,9 +190,19 @@ final class SuccessViewController: UIViewController {
     }
     
     private func dontSaveClient(animationShowing: AnimationView) {
-        generateSaleMovement(client: clientExist)
+        if isRmaSale {
+            generateRmaMovement()
+        } else {
+            generateSaleMovement(client: clientExist)
+        }
         checkButtonTitle(title: .newSale)
         hideDataClient()
+    }
+    
+    private func generateRmaMovement() {
+        if let prod = products?.first {
+            serviceManager.registerRmaMov(product: prod)
+        }
     }
     
     private func generateSaleMovement(client: ClientModel?) {

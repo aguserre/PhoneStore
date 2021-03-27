@@ -15,6 +15,8 @@ final class DetailViewController: UIViewController {
     var userLogged: UserModel?
     let serviceManager = ServiceManager()
     @IBOutlet private weak var sellButton: UIButton!
+    @IBOutlet private weak var rmaButton: UIButton!
+    @IBOutlet private weak var bottomStackView: UIStackView!
     @IBOutlet private weak var prodCollectionView: GeminiCollectionView!
     var purchaseTotalAmount = 0.0
     let cellScale: CGFloat = 0.7
@@ -27,6 +29,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupView() {
+        rmaButton.isHidden = multipSelectedProducts.count > 1
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         hideKeyboardWhenTappedAround()
         prodCollectionView.gemini
@@ -35,14 +38,14 @@ final class DetailViewController: UIViewController {
             .rollEffect(.reverseSineWave)
         
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
-        sellButton.layer.insertSublayer(createCustomGradiend(view: sellButton), at: 0)
-        
-        sellButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        bottomStackView.layer.insertSublayer(createCustomGradiend(view: bottomStackView), at: 0)
+        bottomStackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
-    @IBAction private func updateProduct(_ sender: Any) {
+    @IBAction private func updateProduct(_ sender: UIButton) {
         generateImpactWhenTouch()
-        serviceManager.updateProductCantiti(delegate: self,productsList: multipSelectedProducts, withTotalAmount: purchaseTotalAmount) { (error) in
+        let rma = sender.tag == 0 ? false : true
+        serviceManager.updateProductCantiti(isRma: rma, productsList: multipSelectedProducts) { (error) in
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let newViewController = storyBoard.instantiateViewController(withIdentifier: "SuccessViewController") as! SuccessViewController
             if let _ = error {
@@ -50,6 +53,7 @@ final class DetailViewController: UIViewController {
             } else {
                 newViewController.amount = self.purchaseTotalAmount
                 newViewController.products = self.multipSelectedProducts
+                newViewController.isRmaSale = rma
                 newViewController.result = .success
             }
             
