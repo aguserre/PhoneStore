@@ -328,19 +328,18 @@ class ServiceManager: NSObject {
         }
     }
     
-    func updateCantiti(delegate: UIViewController, product: ProductModel?, newCantiti: Int) {
+    func updateCantiti(delegate: UIViewController, product: ProductModel?) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(PROD_ADD)
-        var totalCant: Int = 0
-        let actualCantiti: Int = product?.cantiti ?? 1
-        if let actualCantiti = product?.cantiti {
-            totalCant = Int(newCantiti) + actualCantiti
-        }
-        let newCantiti = ["cantiti": totalCant]
+        
+        let updatedValues: [String : Any] = ["cantiti": product?.cantiti as Any,
+                                             "priceBuy":product?.priceBuy as Any,
+                                             "priceSale":product?.priceSale as Any]
+
         guard let id = product?.productId else {
             return
         }
-        dataBaseRef.child(id).updateChildValues(newCantiti) { (error, ref) in
+        dataBaseRef.child(id).updateChildValues(updatedValues) { (error, ref) in
             if error != nil {
                 delegate.presentAlertController(title: errorTitle, message: updateValuesError, delegate: delegate, completion: nil)
                 return
@@ -350,7 +349,6 @@ class ServiceManager: NSObject {
             }
             
             if let prod = product {
-                prod.cantitiToSell = totalCant - actualCantiti
                 self.registerAddMov(product: prod)
             }
         }
