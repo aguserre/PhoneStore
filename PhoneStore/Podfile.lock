@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.4.1)
   - Firebase/Auth (7.4.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 7.4.0)
@@ -60,6 +61,7 @@ PODS:
   - SkeletonView (1.12.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 5.2)
   - Firebase/Database
   - FirebaseUI/Auth
   - Gemini
@@ -69,6 +71,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Firebase
     - FirebaseAuth
     - FirebaseCore
@@ -87,6 +90,7 @@ SPEC REPOS:
     - SkeletonView
 
 SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   Firebase: 09fb40287b6dfc8ee65f726fa0b788719d3f2a07
   FirebaseAuth: d8dba8db90a1705ee2493857047282ca4f6e7598
   FirebaseCore: 99c06e5a1e8d6952e75cb1f0a6d0b23c0f5ccdcf
@@ -104,6 +108,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SkeletonView: 3aca8da20cfd0d577fbcd7832c4535983f827328
 
-PODFILE CHECKSUM: cdfe9559c2d27a0df8fad8f9522ba50ba4e0e5d6
+PODFILE CHECKSUM: 09b521f73e75c7f777b6893bf72f279f32b2a86d
 
 COCOAPODS: 1.10.1

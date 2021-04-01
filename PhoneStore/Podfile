@@ -11,5 +11,6 @@ target 'PhoneStore' do
   pod 'Gemini'
   pod 'SkeletonView'
   pod 'lottie-ios'
-
+  pod 'Alamofire', '~> 5.2'
+  
 end

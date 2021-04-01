@@ -8,6 +8,7 @@
 import UIKit
 import Lottie
 import FirebaseAuth
+import Alamofire
 
 final class InitialAnimationViewController: UIViewController {
     
