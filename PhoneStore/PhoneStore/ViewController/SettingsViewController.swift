@@ -12,7 +12,7 @@ final class SettingsViewController: UIViewController {
     var user: UserModel?
     var userLogged: UserModel?
     var pos: PointOfSale?
-    var selectedPos: PointOfSale?
+    var selectedPos = [PointOfSale]()
     var posArray = [PointOfSale]()
     var viewState: StateExpandView? = .userExpanded
     var userTypeView: UserType? = .vendor
@@ -120,17 +120,29 @@ final class SettingsViewController: UIViewController {
         
         if typeViewExpanded == .userExpanded {
             if typeRawValue == .vendor,
-               selectedPos?.id == nil  {
+               selectedPos.count == 0  {
                 presentAlertController(title: errorTitle, message: needSelectAPOS, delegate: self, completion: nil)
                 return
             }
-            let selectedPosId = selectedPos?.id ?? ""
+            var selectedPosIds: [String] {
+                var posIds: [String] = ["undefined"]
+                if selectedPos.count == 0 {
+                    return posIds
+                }
+                posIds.removeAll()
+                for pos in selectedPos {
+                    if let posId = pos.id {
+                        posIds.append(posId)
+                    }
+                }
+                return posIds
+            }
             user = UserModel(JSON: userDic)
             guard let email = userDic["email"] as? String, let pass = userDic["password"] as? String else {
                 presentAlertController(title: errorTitle, message: registrationError, delegate: self, completion: nil)
                 return
             }
-            serviceManager.createNewUser(delegate: self, userDic: userDic, email: email, pass: pass, userType: typeRawValue, posAsignedId: selectedPosId)
+            serviceManager.createNewUser(delegate: self, userDic: userDic, email: email, pass: pass, userType: typeRawValue, posAsignedId: selectedPosIds)
         } else {
             let typeRawValue: POSType = self.rolSegmentedControl.selectedSegmentIndex == 0 ? .movil : .kStatic
             serviceManager.saveNewPOS(delegate: self,userDic: userDic, userType: typeRawValue)
@@ -188,7 +200,8 @@ final class SettingsViewController: UIViewController {
 
         for pos in posArray {
             let actionAdd: UIAlertAction = UIAlertAction(title: pos.name, style: .default) { action -> Void in
-                self.selectedPos = pos
+                self.selectedPos.append(pos)
+                self.posSelectionButton.setTitle("Asignar puntos de venta(\(self.selectedPos.count ?? 0))", for: .normal)
             }
             actionSheetController.addAction(actionAdd)
         }

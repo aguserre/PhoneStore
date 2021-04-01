@@ -94,7 +94,7 @@ class ServiceManager: NSObject {
         }
     }
     
-    func getSpecificPOS(id: String, completion: @escaping ServiceManagerFinishedGetPOS) {
+    func getSpecificPOS(ids: [String], completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
         dataBaseRef = Database.database().reference().child(POS_ADD)
@@ -103,8 +103,10 @@ class ServiceManager: NSObject {
                 for snap in snapshot {
                     if let posDic = snap.value as? [String : AnyObject] {
                         if let posObject = PointOfSale(JSON: posDic) {
-                            if id == posObject.id {
-                                pos.append(posObject)
+                            for id in ids {
+                                if id == posObject.id {
+                                    pos.append(posObject)
+                                }
                             }
                         }
                     }
@@ -354,21 +356,22 @@ class ServiceManager: NSObject {
         }
     }
     
-    func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: String) {
+    func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: [String]) {
         Auth.auth().createUser(withEmail: email, password: pass) { (auth, error) in
-            guard let user = auth?.user else {
-                return
+            if let user = auth?.user  {
+                let newUserDic: [String : Any] = ["id":user.uid,
+                                                "email": user.email as Any,
+                                                "username": userDic["username"] as Any,
+                                                "dni":userDic["dni"] as Any,
+                                                "type": userType.rawValue,
+                                                "localAutorized":posAsignedId]
+                
+                let userModel = UserModel(JSON: newUserDic)?.toDictionary()
+                self.saveUserInDB(delegate: delegate, id: user.uid, userModel: userModel)
             }
-            
-            let newUserDic: [String : Any] = ["id":user.uid,
-                                            "email": user.email as Any,
-                                            "username": userDic["username"] as Any,
-                                            "dni":userDic["dni"] as Any,
-                                            "type": userType.rawValue,
-                                            "localAutorized":posAsignedId]
-            
-            let userModel = UserModel(JSON: newUserDic)?.toDictionary()
-            self.saveUserInDB(delegate: delegate, id: user.uid, userModel: userModel)
+            if let error = error {
+                delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)
+            }
         }
     }
     

@@ -114,7 +114,8 @@ final class MainViewController: UIViewController {
     
     private func setupVendorViewByPOSView() {
         seeMoreButton.isHidden = true
-        serviceManager.getSpecificPOS(id: userLogged?.localAutorized ?? "") { (pos, error) in
+        let localsId = userLogged?.localAutorized
+        serviceManager.getSpecificPOS(ids: localsId ?? []) { (pos, error) in
             if let pos = pos {
                 self.posts = pos
                 self.posTableView.reloadData()
@@ -179,7 +180,8 @@ final class MainViewController: UIViewController {
         } else {
             
             for user in users {
-                if posts[position].id == user.localAutorized {
+                let locals: String = user.localAutorized?.first as? String ?? "undefined"
+                if posts[position].id == locals {
                     responsable = user.username ?? undefined
                 }
             }

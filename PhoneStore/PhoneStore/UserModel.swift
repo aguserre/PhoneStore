@@ -14,7 +14,7 @@ class UserModel: Mappable {
     var email: String?
     var dni: String?
     var type: String?
-    var localAutorized: String?
+    var localAutorized: [String]?
 
     required init?(map: Map) {}
     
