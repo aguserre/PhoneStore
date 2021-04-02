@@ -47,11 +47,13 @@ final class LoginViewController: UIViewController {
     private func showViews() {
         backgroundView.isHidden = false
         loginButton.isHidden = false
+        lostPasswordButton.isHidden = false
     }
     
     private func setupEmptyViewBeforeNavigation() {
         backgroundView.isHidden = true
         loginButton.isHidden = true
+        lostPasswordButton.isHidden = true
         performSegue(withIdentifier: "goToMain", sender: nil)
     }
     
