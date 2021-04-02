@@ -11,7 +11,7 @@ import FirebaseAuth
 
 final class InitialAnimationViewController: UIViewController {
     
-    private let successAnimationView = AnimationView(name: "loaderApple")
+    private let successAnimationView = AnimationView(name: "shopLoader")
     @IBOutlet private weak var versionLabel: UILabel!
     private var needSaveCopy = false
     let defaults = UserDefaults.standard
