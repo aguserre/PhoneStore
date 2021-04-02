@@ -54,6 +54,16 @@ class ServiceManager: NSObject {
         }
     }
     
+    func forceLogOut() {
+        do {
+            try Auth.auth().signOut()
+            UserDefaults.standard.set(nil, forKey: defaultsKeys.userId)
+        }
+        catch {
+            NSLog(error.localizedDescription, self)
+        }
+    }
+    
     func setupUserByID(id: String, completion: @escaping ServiceManagerFinishedSetupUser) {
         checkDatabaseReference()
         dataBaseRef = Database.database().reference().child(USER_ADD)

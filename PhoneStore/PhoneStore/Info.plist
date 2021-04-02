@@ -72,6 +72,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Valide su identidad</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 </dict>
