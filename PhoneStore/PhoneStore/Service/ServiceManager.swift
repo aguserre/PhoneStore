@@ -118,7 +118,7 @@ class ServiceManager: NSObject {
         }
     }
     
-    func getProductList(posId: String, completion: @escaping ServiceManagerFinishedGetProducts) {
+    func getProductList(posId: String? = nil, completion: @escaping ServiceManagerFinishedGetProducts) {
         checkDatabaseReference()
         var products = [ProductModel]()
         dataBaseRef = Database.database().reference().child(PROD_ADD)
@@ -127,7 +127,11 @@ class ServiceManager: NSObject {
                 for snap in snapshot {
                     if let prodDict = snap.value as? Dictionary<String, AnyObject> {
                         if let p = ProductModel(JSON: prodDict) {
-                            if posId == p.id {
+                            if posId != nil {
+                                if posId == p.id {
+                                    products.append(p)
+                                }
+                            } else {
                                 products.append(p)
                             }
                         }

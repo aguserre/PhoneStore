@@ -10,7 +10,9 @@ import UIKit
 final class MainViewController: UIViewController {
     
     @IBOutlet private weak var posTableView: UITableView!
+    @IBOutlet private weak var buttonsStackView: UIStackView!
     @IBOutlet private weak var seeMoreButton: UIButton!
+    @IBOutlet private weak var totalStockButton: UIButton!
     @IBOutlet private weak var loaderIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var rightBarButton: UIBarButtonItem! {
         didSet {
@@ -59,8 +61,8 @@ final class MainViewController: UIViewController {
     
     private func setupView() {
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
-        seeMoreButton.layer.insertSublayer(createCustomGradiend(view: seeMoreButton), at: 0)
-        seeMoreButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        buttonsStackView.layer.insertSublayer(createCustomGradiend(view: buttonsStackView), at: 0)
+        buttonsStackView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
     
     private func setupUserByID(id: String) {
@@ -114,6 +116,7 @@ final class MainViewController: UIViewController {
     
     private func setupVendorViewByPOSView() {
         seeMoreButton.isHidden = true
+        totalStockButton.isHidden = true
         let localsId = userLogged?.localAutorized
         serviceManager.getSpecificPOS(ids: localsId ?? []) { (pos, error) in
             if let pos = pos {
@@ -136,6 +139,11 @@ final class MainViewController: UIViewController {
     @IBAction private func goToMovements(_ sender: Any) {
         generateImpactWhenTouch()
         performSegue(withIdentifier: "goToMovements", sender: nil)
+    }
+    
+    @IBAction func goToTotalStock(_ sender: Any) {
+        generateImpactWhenTouch()
+        performSegue(withIdentifier: "goToCentralStock", sender: nil)
     }
     
     @IBAction private func goToSettings(_ sender: UIBarButtonItem) {

@@ -38,6 +38,9 @@
 		0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4725BF683A00B325B2 /* Main.storyboard */; };
 		0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4A25BF683B00B325B2 /* Assets.xcassets */; };
 		0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA63E4C25BF683B00B325B2 /* LaunchScreen.storyboard */; };
+		0FA693E4261682CE00662C91 /* FullStockListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E3261682CE00662C91 /* FullStockListViewController.swift */; };
+		0FA693E7261686FD00662C91 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */; };
+		0FA693EA2616906B00662C91 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E92616906B00662C91 /* PopUpViewController.swift */; };
 		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
 		0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */; };
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
@@ -84,6 +87,9 @@
 		0FA63E4A25BF683B00B325B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0FA63E4D25BF683B00B325B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0FA63E4F25BF683B00B325B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FA693E3261682CE00662C91 /* FullStockListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullStockListViewController.swift; sourceTree = "<group>"; };
+		0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
+		0FA693E92616906B00662C91 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
 		0FF106A725BFCDCE00B2656D /* ReplacementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementModel.swift; sourceTree = "<group>"; };
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 				0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */,
 				0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */,
 				0F93E46D25D90935000DBBF7 /* ChartCollectionViewCell.swift */,
+				0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -225,6 +232,8 @@
 				0F27274C25D1DD53004C4073 /* ModifiedStockViewController.swift */,
 				0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */,
 				0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */,
+				0FA693E3261682CE00662C91 /* FullStockListViewController.swift */,
+				0FA693E92616906B00662C91 /* PopUpViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -391,6 +400,7 @@
 				0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */,
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
+				0FA693EA2616906B00662C91 /* PopUpViewController.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0F3348BF260162B700606E38 /* ClientModel.swift in Sources */,
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
@@ -399,6 +409,7 @@
 				0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */,
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
+				0FA693E7261686FD00662C91 /* ProductTableViewCell.swift in Sources */,
 				0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,
@@ -408,6 +419,7 @@
 				0F3BE7EA260BB86200DCADB9 /* Strings.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
 				0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */,
+				0FA693E4261682CE00662C91 /* FullStockListViewController.swift in Sources */,
 				0F19895425C64584000E56AF /* MovementsViewController.swift in Sources */,
 				0F2EEE2825DA63910070E781 /* CHCSVParser.m in Sources */,
 				0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */,
