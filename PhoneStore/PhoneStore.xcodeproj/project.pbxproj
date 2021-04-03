@@ -27,6 +27,10 @@
 		0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */; };
 		0F569A1525FDC925008A9F2B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1425FDC925008A9F2B /* success.json */; };
 		0F569A1B25FDE97F008A9F2B /* fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1A25FDE97F008A9F2B /* fail.json */; };
+		0F5EF9192618DE7900F71997 /* PyMeOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */; };
+		0F5EF91C2618DF2300F71997 /* PyMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF91B2618DF2300F71997 /* PyMeModel.swift */; };
+		0F5EF91F2618E40600F71997 /* on_ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F5EF91E2618E40600F71997 /* on_ok.json */; };
+		0F5EF9222618E68400F71997 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF9212618E68400F71997 /* Core.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
@@ -74,6 +78,10 @@
 		0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		0F569A1425FDC925008A9F2B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		0F569A1A25FDE97F008A9F2B /* fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fail.json; sourceTree = "<group>"; };
+		0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyMeOnboardingViewController.swift; sourceTree = "<group>"; };
+		0F5EF91B2618DF2300F71997 /* PyMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyMeModel.swift; sourceTree = "<group>"; };
+		0F5EF91E2618E40600F71997 /* on_ok.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = on_ok.json; sourceTree = "<group>"; };
+		0F5EF9212618E68400F71997 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -131,10 +139,12 @@
 				0F2EEE2525DA63900070E781 /* PhoneStore-Bridging-Header.h */,
 				0FA63E4325BF683A00B325B2 /* SceneDelegate.swift */,
 				0FA63E4125BF683A00B325B2 /* AppDelegate.swift */,
+				0F5EF91E2618E40600F71997 /* on_ok.json */,
 				0FA693F32616B11800662C91 /* shopLoader.json */,
 				0F2B527326031A6E0052F7A4 /* idScan.json */,
 				0F569A1A25FDE97F008A9F2B /* fail.json */,
 				0F569A1425FDC925008A9F2B /* success.json */,
+				0F5EF9212618E68400F71997 /* Core.swift */,
 			);
 			name = Resourses;
 			sourceTree = "<group>";
@@ -213,6 +223,7 @@
 				0FF106E425BFE92D00B2656D /* UserModel.swift */,
 				0F23BDB625C86CE50069AEC1 /* ProductModel.swift */,
 				0F3348BE260162B700606E38 /* ClientModel.swift */,
+				0F5EF91B2618DF2300F71997 /* PyMeModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -234,6 +245,7 @@
 				0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */,
 				0FA693E3261682CE00662C91 /* FullStockListViewController.swift */,
 				0FA693E92616906B00662C91 /* PopUpViewController.swift */,
+				0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -323,6 +335,7 @@
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
 				0F2B527426031A6E0052F7A4 /* idScan.json in Resources */,
 				0FA63E4B25BF683B00B325B2 /* Assets.xcassets in Resources */,
+				0F5EF91F2618E40600F71997 /* on_ok.json in Resources */,
 				0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,11 +409,13 @@
 				0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */,
 				0F19895725C64584000E56AF /* MovementsTableViewCell.swift in Sources */,
 				0FF106E525BFE92D00B2656D /* UserModel.swift in Sources */,
+				0F5EF9222618E68400F71997 /* Core.swift in Sources */,
 				0F9CDCF825C7992500086067 /* PosTableViewCell.swift in Sources */,
 				0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */,
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
 				0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */,
 				0FA693EA2616906B00662C91 /* PopUpViewController.swift in Sources */,
+				0F5EF91C2618DF2300F71997 /* PyMeModel.swift in Sources */,
 				0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */,
 				0F3348BF260162B700606E38 /* ClientModel.swift in Sources */,
 				0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */,
@@ -410,6 +425,7 @@
 				0F19895525C64584000E56AF /* TextFieldTableViewCell.swift in Sources */,
 				0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */,
 				0FA693E7261686FD00662C91 /* ProductTableViewCell.swift in Sources */,
+				0F5EF9192618DE7900F71997 /* PyMeOnboardingViewController.swift in Sources */,
 				0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */,
 				0F27274D25D1DD53004C4073 /* ModifiedStockViewController.swift in Sources */,
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,

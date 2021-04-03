@@ -18,6 +18,7 @@ final class LoginViewController: UIViewController {
     @IBOutlet private weak var loginButtonConstant: NSLayoutConstraint!
     @IBOutlet private weak var backgroundView: UIView!
     @IBOutlet private weak var lostPasswordButton: UIButton!
+    @IBOutlet private weak var registerPymeButton: UIButton!
     
     private let serviceManager = ServiceManager()
     private var userId = ""
@@ -47,16 +48,26 @@ final class LoginViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    private func checkIfNewUser() {
+        if Core.shared.isNewUser() {
+            let vc = storyboard?.instantiateViewController(identifier: "Onboarding") as! PyMeOnboardingViewController
+            present(vc, animated: true, completion: nil)
+        }
+    }
+    
     private func showViews() {
         backgroundView.isHidden = false
         loginButton.isHidden = false
         lostPasswordButton.isHidden = false
+        registerPymeButton.isHidden = false
+        checkIfNewUser()
     }
     
     private func setupEmptyViewBeforeNavigation() {
         backgroundView.isHidden = true
         loginButton.isHidden = true
         lostPasswordButton.isHidden = true
+        registerPymeButton.isHidden = true
         
         beingIdentity()
     }
@@ -134,8 +145,9 @@ final class LoginViewController: UIViewController {
         showViews()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         loginButton.layer.insertSublayer(createCustomGradiend(view: loginButton), at: 0)
-        
-        backgroundView.addShadow(offset: .zero, color: .systemIndigo, radius: 6, opacity: 0.4)
+        registerPymeButton.layer.cornerRadius = 10
+        registerPymeButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
+        backgroundView.addShadow(offset: .zero, color: .systemIndigo, radius: 4, opacity: 0.4)
         loginButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
 
         backgroundView.layer.cornerRadius = 20
@@ -208,7 +220,8 @@ final class LoginViewController: UIViewController {
             mainViewController.userId = self.userId
         }
     }
-    @IBAction func verifyEmailButtonTapped(_ sender: UIButton) {
+    
+    @IBAction private func verifyEmailButtonTapped(_ sender: UIButton) {
         guard let email = userTextField.text else {
             presentAlertController(title: errorTitle, message: "", delegate: self, completion: nil)
             return
@@ -220,5 +233,9 @@ final class LoginViewController: UIViewController {
                 self.presentAlertController(title: success, message: "Se envio un correo a la direccion \(email)", delegate: self, completion: nil)
             }
         }
+    }
+    
+    @IBAction private func registerPyme(_ sender: Any) {
+        print("GO TO NEW PYME VC")
     }
 }
