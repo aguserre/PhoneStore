@@ -36,7 +36,7 @@ final class AddStockViewController: UIViewController {
     @IBOutlet private weak var salePriceTextField: UITextField!
     @IBOutlet private weak var backgroundConditionView: UIView!
     @IBOutlet private weak var posSelectButton: UIView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     
     override func viewDidLoad() {

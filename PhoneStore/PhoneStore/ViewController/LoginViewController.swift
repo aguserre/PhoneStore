@@ -236,6 +236,7 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction private func registerPyme(_ sender: Any) {
-        print("GO TO NEW PYME VC")
+        let vc = storyboard?.instantiateViewController(identifier: "RegisterPymeViewController") as! RegisterPymeViewController
+        present(vc, animated: true, completion: nil)
     }
 }

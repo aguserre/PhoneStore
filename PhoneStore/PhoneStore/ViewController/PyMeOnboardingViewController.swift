@@ -76,6 +76,7 @@ final class PyMeOnboardingViewController: UIViewController {
     }
     
     @objc func start() {
+        Core.shared.setIsNotNewUser()
         dismiss(animated: true, completion: nil)
     }
 

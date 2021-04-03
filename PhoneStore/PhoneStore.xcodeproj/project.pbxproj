@@ -31,6 +31,7 @@
 		0F5EF91C2618DF2300F71997 /* PyMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF91B2618DF2300F71997 /* PyMeModel.swift */; };
 		0F5EF91F2618E40600F71997 /* on_ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F5EF91E2618E40600F71997 /* on_ok.json */; };
 		0F5EF9222618E68400F71997 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF9212618E68400F71997 /* Core.swift */; };
+		0F5EF925261907DF00F71997 /* RegisterPymeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5EF924261907DF00F71997 /* RegisterPymeViewController.swift */; };
 		0F69283625C05A5700CCE117 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283525C05A5700CCE117 /* ListViewController.swift */; };
 		0F69283A25C05DEA00CCE117 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */; };
 		0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F69285125C09D0800CCE117 /* DetailViewController.swift */; };
@@ -82,6 +83,7 @@
 		0F5EF91B2618DF2300F71997 /* PyMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyMeModel.swift; sourceTree = "<group>"; };
 		0F5EF91E2618E40600F71997 /* on_ok.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = on_ok.json; sourceTree = "<group>"; };
 		0F5EF9212618E68400F71997 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		0F5EF924261907DF00F71997 /* RegisterPymeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPymeViewController.swift; sourceTree = "<group>"; };
 		0F69283525C05A5700CCE117 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		0F69283925C05DEA00CCE117 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		0F69285125C09D0800CCE117 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				0FA693E3261682CE00662C91 /* FullStockListViewController.swift */,
 				0FA693E92616906B00662C91 /* PopUpViewController.swift */,
 				0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */,
+				0F5EF924261907DF00F71997 /* RegisterPymeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,
 				0F3BE7EA260BB86200DCADB9 /* Strings.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
+				0F5EF925261907DF00F71997 /* RegisterPymeViewController.swift in Sources */,
 				0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */,
 				0FA693E4261682CE00662C91 /* FullStockListViewController.swift in Sources */,
 				0F19895425C64584000E56AF /* MovementsViewController.swift in Sources */,

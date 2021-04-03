@@ -10,9 +10,11 @@ import ObjectMapper
 class PyMeModel: Mappable {
         
     var name: String?
-    var cuil: Int?
+    var cuil: String?
     var localized: String?
     var contact: String?
+    var id: String?
+    var description: String?
 
     required init?(map: Map) {}
     
@@ -21,13 +23,16 @@ class PyMeModel: Mappable {
         cuil <- map["cuil"]
         localized <- map["localized"]
         contact <- map["contact"]
+        id <- map["id"]
+        description <- map["description"]
     }
     
-    func toDictionary(withKey: String) -> NSDictionary {
-        return ["key": withKey as Any,
+    func toDictionary() -> NSDictionary {
+        return ["id": id as Any,
                 "name":name as Any,
                 "cuil" : cuil as Any,
                 "localized" : localized as Any,
+                "description" : description as Any,
                 "contact" : contact as Any] as NSDictionary
     }
 }

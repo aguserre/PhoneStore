@@ -18,6 +18,7 @@ typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
 typealias ServiceManagerFinishedSaveClient = ((ClientModel?, Error?) -> Void)
 typealias ServiceManagerFinishedGetClients = (([ClientModel]?, String?) -> Void)
 typealias ServiceManagerFinishedGetClientById = ((ClientModel?) -> Void)
+typealias ServiceManagerFinishedCreatePyMe = ((DatabaseReference?, Error?) -> Void)
 
 class ServiceManager: NSObject {
     
@@ -153,6 +154,18 @@ class ServiceManager: NSObject {
                     completion(products, nil)
                 }
             }
+        }
+    }
+    
+    func registerPyme(pyme: PyMeModel, completion: @escaping ServiceManagerFinishedCreatePyMe) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("PYME_LIST")
+        dataBaseRef.setValue(pyme.toJSON()) { (error, success) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            completion(success, nil)
         }
     }
     
