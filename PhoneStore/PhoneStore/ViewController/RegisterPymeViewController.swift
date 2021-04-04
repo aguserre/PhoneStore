@@ -123,7 +123,7 @@ final class RegisterPymeViewController: UIViewController {
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
-        composer.setToRecipients(["agustin.errecalde.dev@gmail.com"])
+        composer.setToRecipients(["soporte.ipyme@gmail.com"])
         composer.setSubject("Solicitud nueva iPyme \(dicPyme["name"] ?? "")")
         composer.setMessageBody("Name: \(dicPyme["name"] ?? "") \nCUIL: \(dicPyme["cuil"] ?? "")\nLocalized: \(dicPyme["localized"] ?? "")\nContact: \(dicPyme["contact"] ?? "")\nid: \(dicPyme["id"] ?? "")\n Description: \(dicPyme["description"] ?? "")\n", isHTML: false)
         present(composer, animated: true)
