@@ -29,7 +29,8 @@ final class DetailViewController: UIViewController {
     }
     
     private func setupView() {
-        rmaButton.isHidden = multipSelectedProducts.count > 1
+        rmaButton.isHidden = multipSelectedProducts.count > 1 ||
+            userLogged?.type == UserType.vendor.rawValue
         navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
         hideKeyboardWhenTappedAround()
         prodCollectionView.gemini

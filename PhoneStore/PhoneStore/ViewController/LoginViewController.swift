@@ -28,6 +28,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        checkIfNewUser()
         skeletonSetup()
         setupObservers()
     }
@@ -60,7 +61,6 @@ final class LoginViewController: UIViewController {
         loginButton.isHidden = false
         lostPasswordButton.isHidden = false
         registerPymeButton.isHidden = false
-        checkIfNewUser()
     }
     
     private func setupEmptyViewBeforeNavigation() {
@@ -136,8 +136,6 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name:UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         hideKeyboardWhenTappedAround()
     }
     
@@ -191,25 +189,6 @@ final class LoginViewController: UIViewController {
                     self.loginButton.hideSkeleton()
                 }
             }
-        }
-    }
-    
-    @objc private func keyboardWillShow(notification:NSNotification) {
-        let userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        self.loginButtonConstant.constant = keyboardFrame.height + 50
-        UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.view.layoutIfNeeded()
-        }
-        
-    }
-    
-    @objc private func keyboardWillHide(notification:NSNotification){
-        UIView.animate(withDuration: 1, delay: 0.5) {
-            self.loginButtonConstant.constant = 70
-            self.loginButton.addTarget(self, action: #selector(self.checkUser(_:)), for: .touchUpOutside)
-            self.view.layoutIfNeeded()
         }
     }
     

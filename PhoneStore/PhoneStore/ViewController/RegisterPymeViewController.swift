@@ -10,17 +10,14 @@ import MessageUI
 
 final class RegisterPymeViewController: UIViewController {
     
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var cuilTextField: UITextField!
-    @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var descripTextField: UITextField!
-    @IBOutlet weak var localizedTextField: UITextField!
-    
-    
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var backGroundView: UIView!
-    
-    @IBOutlet weak var sendInfoButton: UIButton!
+    @IBOutlet private weak var nameTextField: UITextField!
+    @IBOutlet private weak var cuilTextField: UITextField!
+    @IBOutlet private weak var email: UITextField!
+    @IBOutlet private weak var descripTextField: UITextField!
+    @IBOutlet private weak var localizedTextField: UITextField!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var backGroundView: UIView!
+    @IBOutlet private weak var sendInfoButton: UIButton!
     
     private var dicPyme: [String : Any] = [:]
     
@@ -32,23 +29,21 @@ final class RegisterPymeViewController: UIViewController {
     private func setupView() {
         setupObservers()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
+        sendInfoButton.layer.insertSublayer(createCustomGradiend(view: sendInfoButton), at: 0)
+        sendInfoButton.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         backGroundView.layer.cornerRadius = 10
         backGroundView.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
     }
    
-    func randomString(length: Int) -> String {
+    private func randomString(length: Int) -> String {
       let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
-    @IBAction func add(_ sender: UIButton) {
+    @IBAction private func add(_ sender: UIButton) {
         if validateTexts() {
-            dicPyme["id"] = randomString(length: 30)
-            if let pyme = PyMeModel(JSON: dicPyme) {
-                showMailComposer()
-                    
-            //self.presentAlertController(title: "Listo!", message: "Recibirá un email a la casilla \(self.email.text ?? "") con las instrucciones", delegate: self, completion: nil)
-            }
+            dicPyme["id"] = randomString(length: 22)
+            showMailComposer()
         }
     }
     private func validateTexts() -> Bool {
@@ -121,7 +116,7 @@ final class RegisterPymeViewController: UIViewController {
         }
     }
     
-    @objc func showMailComposer() {
+    @objc private func showMailComposer() {
         guard MFMailComposeViewController.canSendMail() else {
             presentAlertController(title: errorTitle, message: "Algo salió mal, contactese con soporte al mail soporte.ipyme@gmail.com", delegate: self, completion: nil)
             return
@@ -146,16 +141,23 @@ extension RegisterPymeViewController: MFMailComposeViewControllerDelegate {
         }
         switch result {
         case .cancelled:
-            break
+            controller.dismiss(animated: true, completion: nil)
         case .failed:
-            break
+            controller.dismiss(animated: true) {
+                self.presentAlertController(title: errorTitle, message: "Algo salió mal, contactese con soporte al mail soporte.ipyme@gmail.com", delegate: self) { (action) in
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
         case .saved:
-            break
+            controller.dismiss(animated: true, completion: nil)
         case .sent:
-            break
+            controller.dismiss(animated: true) {
+                self.presentAlertController(title: "Listo!", message: "Tu solicitud ha sido enviada. \nRecibiras un mail con instrucciones.", delegate: self) { (action) in
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
         @unknown default:
             break
         }
-        controller.dismiss(animated: true, completion: nil)
     }
 }

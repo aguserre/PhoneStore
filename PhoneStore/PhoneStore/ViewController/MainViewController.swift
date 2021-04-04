@@ -81,6 +81,7 @@ final class MainViewController: UIViewController {
     
     private func selectUserLogged(users: UserModel) {
         userLogged = users
+        UserDefaults.standard.setValue(users.pyme, forKey: "pymeId")
         prepareViewByUser(user: userLogged)
     }
     
@@ -188,7 +189,7 @@ final class MainViewController: UIViewController {
         } else {
             
             for user in users {
-                let locals: String = user.localAutorized?.first as? String ?? "undefined"
+                let locals: String = user.localAutorized?.first ?? "undefined"
                 if posts[position].id == locals {
                     responsable = user.username ?? undefined
                 }

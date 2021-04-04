@@ -15,6 +15,7 @@ class UserModel: Mappable {
     var dni: String?
     var type: String?
     var localAutorized: [String]?
+    var pyme: String?
 
     required init?(map: Map) {}
     
@@ -24,6 +25,7 @@ class UserModel: Mappable {
         dni <- map["dni"]
         type <- map["type"]
         email <- map["email"]
+        pyme <- map["pymeId"]
         localAutorized <- map["localAutorized"]
     }
     
@@ -33,6 +35,7 @@ class UserModel: Mappable {
                 "email" : email as Any,
                 "dni" : dni as Any,
                 "type" : type as Any,
+                "pymeId" : pyme as Any,
                 "localAutorized" : localAutorized as Any] as NSDictionary
     }
 }
