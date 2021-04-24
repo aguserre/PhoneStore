@@ -47,6 +47,7 @@ final class FullStockListViewController: UIViewController {
     
     private func addPopUp(product: ProductModel) {
         let popVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PopUpViewController") as! PopUpViewController
+        dismissKeyboard()
         popVc.product = product
         addChild(popVc)
         popVc.view.frame = view.bounds

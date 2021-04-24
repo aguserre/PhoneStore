@@ -21,7 +21,6 @@ typealias ServiceManagerFinishedGetClientById = ((ClientModel?) -> Void)
 typealias ServiceManagerFinishedCreatePyMe = ((DatabaseReference?, Error?) -> Void)
 
 class ServiceManager: NSObject {
-    private let pymeId = UserDefaults.standard.string(forKey: "pymeId") ?? ""
     var dataBaseRef: DatabaseReference!
     
     private func checkDatabaseReference() {
@@ -88,7 +87,10 @@ class ServiceManager: NSObject {
     func getPOSFullList(completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(POS_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -108,7 +110,10 @@ class ServiceManager: NSObject {
     func getSpecificPOS(ids: [String], completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(POS_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -132,7 +137,10 @@ class ServiceManager: NSObject {
     func getProductList(posId: String? = nil, completion: @escaping ServiceManagerFinishedGetProducts) {
         checkDatabaseReference()
         var products = [ProductModel]()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -171,7 +179,10 @@ class ServiceManager: NSObject {
     
     func updateProductCantiti(isRma: Bool? = false, productsList: [ProductModel], completion: @escaping ServiceManagerFinishUpdateProduct)  {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -202,14 +213,20 @@ class ServiceManager: NSObject {
     
     func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType, paymentMethod: String? = nil) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_MOV).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
         let movs = generateMovment(clientId: client?.document, prods: prods, movType: movType, amount: nil, paymentMethod: paymentMethod)
         dataBaseRef.setValue(movs)
     }
     
     func registerAddMov(product: ProductModel) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_MOV).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
         var amount = 0.0
         if let priceBuy = product.priceBuy {
             amount = priceBuy * Double(product.cantitiToSell)
@@ -220,7 +237,10 @@ class ServiceManager: NSObject {
     
     func registerRmaMov(product: ProductModel) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_MOV).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
         if let mov = generateRmaMovement(prod: [product], movType: .rma) {
             dataBaseRef.setValue(mov)
         }
@@ -282,7 +302,10 @@ class ServiceManager: NSObject {
                      saveToPOS: PointOfSale,
                      cantiti: Int, completion: @escaping ServiceManagerFinishedSaveProduct) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_ADD).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD).childByAutoId()
         let productToSave = createProduct(productDic: productDic, condition: condition, saveToPOS: saveToPOS, cantiti: cantiti)
         
         dataBaseRef.setValue(productToSave?.toDictionary()) { (error, ref) in
@@ -337,7 +360,10 @@ class ServiceManager: NSObject {
     
     func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_MOV)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV)
         var movsObjects = [MovementsModel]()
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
@@ -359,7 +385,10 @@ class ServiceManager: NSObject {
     
     func updateCantiti(delegate: UIViewController, product: ProductModel?) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(PROD_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
         
         let updatedValues: [String : Any] = ["cantiti": product?.cantiti as Any,
                                              "priceBuy":product?.priceBuy as Any,
@@ -384,6 +413,9 @@ class ServiceManager: NSObject {
     }
     
     func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: [String]) {
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
         Auth.auth().createUser(withEmail: email, password: pass) { (auth, error) in
             if let user = auth?.user  {
                 let newUserDic: [String : Any] = ["id":user.uid,
@@ -391,7 +423,7 @@ class ServiceManager: NSObject {
                                                 "username": userDic["username"] as Any,
                                                 "dni":userDic["dni"] as Any,
                                                 "type": userType.rawValue,
-                                                "pymeId" : self.pymeId as Any,
+                                                "pymeId" : identifier as Any,
                                                 "localAutorized":posAsignedId]
                 
                 let userModel = UserModel(JSON: newUserDic)?.toDictionary()
@@ -419,7 +451,10 @@ class ServiceManager: NSObject {
     
     func saveNewPOS(delegate: UIViewController, userDic: [String : Any], userType: POSType) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(POS_ADD).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD).childByAutoId()
         let key = dataBaseRef.key
         let newPosDic: [String : Any] = ["id": key as Any,
                                          "name": userDic["name"] as Any,
@@ -440,7 +475,10 @@ class ServiceManager: NSObject {
     
     func saveClient(client: ClientModel, completion: @escaping ServiceManagerFinishedSaveClient) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(CLI_ADD).childByAutoId()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD).childByAutoId()
         if let clientKey = dataBaseRef.key {
             let clientDic = client.toDictionary(withKey: clientKey)
             dataBaseRef.setValue(clientDic) { (error, ref) in
@@ -456,7 +494,10 @@ class ServiceManager: NSObject {
     func getClientFullList(completion: @escaping ServiceManagerFinishedGetClients) {
         checkDatabaseReference()
         var clients = [ClientModel]()
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(CLI_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
@@ -490,7 +531,10 @@ class ServiceManager: NSObject {
     func checkClientExist(clientDoc: Int, completion: @escaping (ClientModel?) -> Void) {
         checkDatabaseReference()
         var client: ClientModel?
-        dataBaseRef = Database.database().reference().child("PYME_LIST").child(pymeId).child(CLI_ADD)
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snap) in
             if let snapshot = snap.children.allObjects as? [DataSnapshot] {
                 for snap in snapshot {
