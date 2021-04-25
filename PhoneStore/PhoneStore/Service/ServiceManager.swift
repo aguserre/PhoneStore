@@ -12,6 +12,7 @@ typealias ServiceManagerFinishedLogOut = ((Error?) -> Void)
 typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
 typealias ServiceManagerFinishedSaveProduct = ((ProductModel?, Error?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
+typealias ServiceManagerFinishedDeletePOS = ((Error?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
@@ -131,6 +132,21 @@ class ServiceManager: NSObject {
             } else {
                 completion(nil, emptyPOS)
             }
+        }
+    }
+    
+    func deleteSpecificPOS(id: String, completion: @escaping ServiceManagerFinishedDeletePOS) {
+        checkDatabaseReference()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD).child(id)
+        dataBaseRef.removeValue { (error, ref) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
         }
     }
     

@@ -30,11 +30,29 @@ final class EditViewController: UIViewController {
         posCollectionView.dataSource = self
     }
     
+    private func presentAlertBeforeDelete(index: IndexPath) {
+        guard let selectedPos = posFullList?[index.row].id else {
+            return
+        }
+        presentAlertController(title: "Seguro desea eliminar el Punto de Venta?", message: "Se borrará por completo el POS seleccionado", delegate: self) { (completion) in
+            ServiceManager().deleteSpecificPOS(id: selectedPos) { (error) in
+                guard let error = error else {
+                    self.posFullList?.remove(at: index.row)
+                    self.posCollectionView.reloadItems(at: [index])
+                    return
+                }
+                
+                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
+            }
+            
+        }
+    }
+    
 }
 
 extension EditViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
+      presentAlertBeforeDelete(index: indexPath)
     }
 }
 
