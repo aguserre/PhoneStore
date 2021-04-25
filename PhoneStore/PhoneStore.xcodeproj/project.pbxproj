@@ -21,6 +21,8 @@
 		0F33C0D2260A60B6006AF424 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F33C0D1260A60B6006AF424 /* GoogleService-Info.plist */; };
 		0F3BE7EA260BB86200DCADB9 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3BE7E9260BB86200DCADB9 /* Strings.swift */; };
 		0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */; };
+		0F49569D2634DDE400C25E82 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49569C2634DDE400C25E82 /* EditViewController.swift */; };
+		0F4956A02634EF5F00C25E82 /* EditCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49569F2634EF5F00C25E82 /* EditCollectionViewCell.swift */; };
 		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
 		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
@@ -73,6 +75,8 @@
 		0F3BE7E9260BB86200DCADB9 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		0F3BE7F9260BC98200DCADB9 /* PhoneStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhoneStore.entitlements; sourceTree = "<group>"; };
 		0F4749F325C9BD0500044586 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		0F49569C2634DDE400C25E82 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		0F49569F2634EF5F00C25E82 /* EditCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCollectionViewCell.swift; sourceTree = "<group>"; };
 		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */,
 				0F93E46D25D90935000DBBF7 /* ChartCollectionViewCell.swift */,
 				0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */,
+				0F49569F2634EF5F00C25E82 /* EditCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 				0FA693E92616906B00662C91 /* PopUpViewController.swift */,
 				0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */,
 				0F5EF924261907DF00F71997 /* RegisterPymeViewController.swift */,
+				0F49569C2634DDE400C25E82 /* EditViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -413,6 +419,7 @@
 				0F19895725C64584000E56AF /* MovementsTableViewCell.swift in Sources */,
 				0FF106E525BFE92D00B2656D /* UserModel.swift in Sources */,
 				0F5EF9222618E68400F71997 /* Core.swift in Sources */,
+				0F4956A02634EF5F00C25E82 /* EditCollectionViewCell.swift in Sources */,
 				0F9CDCF825C7992500086067 /* PosTableViewCell.swift in Sources */,
 				0FF106A825BFCDCE00B2656D /* ReplacementModel.swift in Sources */,
 				0FA63E4225BF683A00B325B2 /* AppDelegate.swift in Sources */,
@@ -434,6 +441,7 @@
 				0F4749F425C9BD0500044586 /* CalendarCollectionViewCell.swift in Sources */,
 				0F69285225C09D0800CCE117 /* DetailViewController.swift in Sources */,
 				0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */,
+				0F49569D2634DDE400C25E82 /* EditViewController.swift in Sources */,
 				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,
 				0F3BE7EA260BB86200DCADB9 /* Strings.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,

@@ -15,7 +15,6 @@ final class SettingsViewController: UIViewController {
     var selectedPos = [PointOfSale]()
     var posArray = [PointOfSale]()
     var viewState: StateExpandView? = .userExpanded
-    var userTypeView: UserType? = .vendor
     private let serviceManager = ServiceManager()
     
     var placeholders = [String]()
@@ -54,10 +53,8 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         backgroundContactView.layer.insertSublayer(createCustomGradiend(view: backgroundContactView), at: 0)
-        setNavTitle(title: "Configuracion")
         
-        navigationItem.rightBarButtonItem = setupRightButton(target: #selector(logOut))
-        addButton.isHidden = userTypeView == .admin ? false : true
+        navigationItem.rightBarButtonItem = setupEditkButton(target: #selector(goToEditUsersOrPOS))
         
         if !addButton.isHidden {
             addButton.layer.insertSublayer(createCustomGradiend(view: addButton), at: 0)
@@ -161,6 +158,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func setupUserView() {
+        setNavTitle(title: "Nuevo usuario")
         viewState = .userExpanded
         rolSegmentedControl.setTitle(vendor, forSegmentAt: 0)
         rolSegmentedControl.setTitle(admin, forSegmentAt: 1)
@@ -173,6 +171,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func setupPosView() {
+        setNavTitle(title: "Nuevo punto de venta")
         viewState = .posExpanded
         rolSegmentedControl.setTitle(movil, forSegmentAt: 0)
         rolSegmentedControl.setTitle(kStatic, forSegmentAt: 1)
@@ -183,25 +182,13 @@ final class SettingsViewController: UIViewController {
         expandViewAnimation(expand: true)
     }
     
-    private func presentActionSheet() {
-        serviceManager.getPOSFullList { (pos, error) in
-            if let pos = pos {
-                self.posArray = pos
-                self.presentSelectionPosActionSheet()
-            }
-            if let error = error {
-                self.presentAlertController(title: errorTitle, message: error, delegate: self, completion: nil)
-            }
-        }
-    }
-    
     private func presentSelectionPosActionSheet() {
         let actionSheetController: UIAlertController = UIAlertController(title: chooseOption, message: nil, preferredStyle: .actionSheet)
 
         for pos in posArray {
             let actionAdd: UIAlertAction = UIAlertAction(title: pos.name, style: .default) { action -> Void in
                 self.selectedPos.append(pos)
-                self.posSelectionButton.setTitle("Asignar puntos de venta(\(self.selectedPos.count ?? 0))", for: .normal)
+                self.posSelectionButton.setTitle("Asignar puntos de venta(\(self.selectedPos.count ))", for: .normal)
             }
             actionSheetController.addAction(actionAdd)
         }
@@ -216,7 +203,7 @@ final class SettingsViewController: UIViewController {
     
     @IBAction private func selectAsign(_ sender: Any) {
         generateImpactWhenTouch()
-        presentActionSheet()
+        presentSelectionPosActionSheet()
     }
     
     @IBAction private func typeChanged(_ sender: UISegmentedControl) {
@@ -230,8 +217,16 @@ final class SettingsViewController: UIViewController {
         generateImpactWhenTouch()
     }
     
-    @objc private func logOut(_ sender: Any) {
-        serviceManager.logOut(delegate: self)
+    @objc private func goToEditUsersOrPOS(_ sender: Any) {
+        performSegue(withIdentifier: "goToEdit", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "goToEdit",
+           let editViewController = segue.destination as? EditViewController {
+            editViewController.posFullList = posArray
+        }
     }
 
 }

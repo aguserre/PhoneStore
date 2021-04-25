@@ -75,6 +75,14 @@ extension UIViewController {
         setupBackButton(target: target)
     }
     
+    func setupEditkButton(target: Selector?) -> UIBarButtonItem {
+        let editButton = UIBarButtonItem(barButtonSystemItem: .edit,
+                                            target: self,
+                                            action:target)
+        editButton.tintColor = .white
+        return editButton
+    }
+    
     func clearNavBar() {
         navigationController?.navigationBar.barTintColor = .systemIndigo
         navigationController?.navigationBar.shadowImage = UIImage()

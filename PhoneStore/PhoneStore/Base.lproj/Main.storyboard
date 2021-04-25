@@ -280,6 +280,90 @@ Q29udHJhc2XDsWEQEBA
             </objects>
             <point key="canvasLocation" x="3437.68115942029" y="-1379.4642857142856"/>
         </scene>
+        <!--Edit View Controller-->
+        <scene sceneID="G0G-KL-KAN">
+            <objects>
+                <viewController id="Sd4-qD-Qob" customClass="EditViewController" customModule="PhoneStore" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lxP-wm-r3V">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tMG-ki-i4K">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="065-PC-VyR">
+                                    <size key="itemSize" width="171" height="159"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EditCollectionViewCell" id="30L-aB-PeE" customClass="EditCollectionViewCell" customModule="PhoneStore" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="10" width="171" height="159"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="nZh-qK-RIW">
+                                            <rect key="frame" x="0.0" y="0.0" width="171" height="159"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pV1-px-euu">
+                                                    <rect key="frame" x="62" y="5" width="47" height="79.666666666666671"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rdg-RB-QKq">
+                                                    <rect key="frame" x="0.0" y="84.666666666666686" width="171" height="74.333333333333314"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" systemColor="systemTealColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="171" id="D9D-2M-ecl"/>
+                                                        <constraint firstAttribute="height" constant="74.333333333333314" id="SsO-Ad-jLx"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Rdg-RB-QKq" secondAttribute="bottom" id="86F-UO-o7c"/>
+                                                <constraint firstItem="pV1-px-euu" firstAttribute="height" secondItem="nZh-qK-RIW" secondAttribute="height" multiplier="0.5" id="ETI-PC-oeR"/>
+                                                <constraint firstItem="Rdg-RB-QKq" firstAttribute="leading" secondItem="nZh-qK-RIW" secondAttribute="leading" id="GtI-iO-pFB"/>
+                                                <constraint firstItem="Rdg-RB-QKq" firstAttribute="top" secondItem="pV1-px-euu" secondAttribute="bottom" id="Oo2-bD-PII"/>
+                                                <constraint firstAttribute="trailing" secondItem="Rdg-RB-QKq" secondAttribute="trailing" id="QhJ-vP-Ir4"/>
+                                                <constraint firstItem="pV1-px-euu" firstAttribute="top" secondItem="nZh-qK-RIW" secondAttribute="top" constant="5" id="XIU-OR-snW"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pV1-px-euu" secondAttribute="trailing" constant="5" id="ovQ-Ss-UJK"/>
+                                                <constraint firstItem="pV1-px-euu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nZh-qK-RIW" secondAttribute="leading" constant="5" id="rmZ-rd-d0G"/>
+                                                <constraint firstItem="pV1-px-euu" firstAttribute="centerX" secondItem="nZh-qK-RIW" secondAttribute="centerX" id="zu9-0K-EAG"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="171" height="159"/>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="pV1-px-euu" id="jsg-Iv-hrz"/>
+                                            <outlet property="typeImage" destination="Rdg-RB-QKq" id="BFP-oZ-jb3"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dkg-Sf-pID"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tMG-ki-i4K" firstAttribute="leading" secondItem="dkg-Sf-pID" secondAttribute="leading" id="NcY-7w-ALE"/>
+                            <constraint firstAttribute="bottom" secondItem="tMG-ki-i4K" secondAttribute="bottom" id="W9A-Xx-jWP"/>
+                            <constraint firstItem="tMG-ki-i4K" firstAttribute="top" secondItem="dkg-Sf-pID" secondAttribute="top" id="noq-Aa-QNG"/>
+                            <constraint firstItem="tMG-ki-i4K" firstAttribute="trailing" secondItem="dkg-Sf-pID" secondAttribute="trailing" id="o2D-vT-XWj"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="iHT-Si-ui8">
+                        <barButtonItem key="backBarButtonItem" title=" " id="GpY-rA-xAt"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="posCollectionView" destination="tMG-ki-i4K" id="mJF-vu-osf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AAv-ec-fL3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4302.898550724638" y="-1379.4642857142856"/>
+        </scene>
         <!--Full Stock List View Controller-->
         <scene sceneID="uj6-ef-ufn">
             <objects>
@@ -386,7 +470,7 @@ Q29udHJhc2XDsWEQEBA
             </objects>
             <point key="canvasLocation" x="3437.68115942029" y="-719.19642857142856"/>
         </scene>
-        <!--Settings View Controller-->
+        <!-- -->
         <scene sceneID="XGs-LN-q87">
             <objects>
                 <viewController id="bZV-yD-Dpo" customClass="SettingsViewController" customModule="PhoneStore" customModuleProvider="target" sceneMemberID="viewController">
@@ -522,7 +606,9 @@ Q29udHJhc2XDsWEQEBA
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="ADE-aX-Lsb"/>
+                    <navigationItem key="navigationItem" title=" " id="ADE-aX-Lsb">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Ji9-Sb-lEr"/>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addButton" destination="vrp-k2-n2j" id="Z0B-Bg-3IF"/>
@@ -531,6 +617,7 @@ Q29udHJhc2XDsWEQEBA
                         <outlet property="posSelectionButton" destination="rEK-OV-kIe" id="Ktb-Kl-9hv"/>
                         <outlet property="rolSegmentedControl" destination="GAC-wg-gdp" id="vfj-Vd-Twa"/>
                         <outlet property="textFieldsTableView" destination="8fF-gS-NC9" id="XXX-iz-UGO"/>
+                        <segue destination="Sd4-qD-Qob" kind="show" identifier="goToEdit" id="I4t-71-ykm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3DN-w6-qfg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

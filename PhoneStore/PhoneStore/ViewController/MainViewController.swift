@@ -169,9 +169,7 @@ final class MainViewController: UIViewController {
            segueId == "goToSettings",
            let settingsVC = segue.destination as? SettingsViewController {
             if self.userLogged?.type == UserType.admin.rawValue {
-                settingsVC.userTypeView = .admin
-            } else {
-                settingsVC.userTypeView = .vendor
+                settingsVC.posArray = posts
             }
         }
         
