@@ -19,4 +19,8 @@ class EditCollectionViewCell: UICollectionViewCell {
         typeImage.image = UIImage(systemName: imageType)
     }
     
+    func setupCell(user: UserModel) {
+        nameLabel.text = user.email
+    }
+    
 }

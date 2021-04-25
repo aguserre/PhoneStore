@@ -289,7 +289,7 @@ Q29udHJhc2XDsWEQEBA
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tMG-ki-i4K">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="065-PC-VyR">
                                     <size key="itemSize" width="171" height="159"/>
@@ -343,14 +343,27 @@ Q29udHJhc2XDsWEQEBA
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3A6-3b-aLt">
+                                <rect key="frame" x="20" y="108" width="374" height="32"/>
+                                <segments>
+                                    <segment title="Puntos de Venta"/>
+                                    <segment title="Usuarios"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentdChanged:" destination="Sd4-qD-Qob" eventType="valueChanged" id="CSv-iX-eKS"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dkg-Sf-pID"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="tMG-ki-i4K" firstAttribute="top" secondItem="3A6-3b-aLt" secondAttribute="bottom" constant="5" id="0j5-Mu-a46"/>
                             <constraint firstItem="tMG-ki-i4K" firstAttribute="leading" secondItem="dkg-Sf-pID" secondAttribute="leading" id="NcY-7w-ALE"/>
+                            <constraint firstItem="dkg-Sf-pID" firstAttribute="trailing" secondItem="3A6-3b-aLt" secondAttribute="trailing" constant="20" id="UjS-ai-Clw"/>
                             <constraint firstAttribute="bottom" secondItem="tMG-ki-i4K" secondAttribute="bottom" id="W9A-Xx-jWP"/>
-                            <constraint firstItem="tMG-ki-i4K" firstAttribute="top" secondItem="dkg-Sf-pID" secondAttribute="top" id="noq-Aa-QNG"/>
+                            <constraint firstItem="3A6-3b-aLt" firstAttribute="leading" secondItem="dkg-Sf-pID" secondAttribute="leading" constant="20" id="lqs-MY-dvF"/>
                             <constraint firstItem="tMG-ki-i4K" firstAttribute="trailing" secondItem="dkg-Sf-pID" secondAttribute="trailing" id="o2D-vT-XWj"/>
+                            <constraint firstItem="3A6-3b-aLt" firstAttribute="top" secondItem="dkg-Sf-pID" secondAttribute="top" constant="20" id="orz-l1-Dse"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iHT-Si-ui8">
@@ -358,6 +371,7 @@ Q29udHJhc2XDsWEQEBA
                     </navigationItem>
                     <connections>
                         <outlet property="posCollectionView" destination="tMG-ki-i4K" id="mJF-vu-osf"/>
+                        <outlet property="typeEditSegmentedControl" destination="3A6-3b-aLt" id="ufc-2d-W8J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AAv-ec-fL3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

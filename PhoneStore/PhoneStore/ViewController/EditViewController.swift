@@ -9,7 +9,14 @@ import UIKit
 
 final class EditViewController: UIViewController {
     
+    @IBOutlet weak var typeEditSegmentedControl: UISegmentedControl!
     @IBOutlet weak var posCollectionView: UICollectionView!
+    enum EditType: Int {
+        case pos = 0
+        case user
+    }
+    var type: EditType = .pos
+    var users = [UserModel]()
     var posFullList: [PointOfSale]?
     let cellScale: CGFloat = 0.5
 
@@ -18,6 +25,7 @@ final class EditViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupCollectionDelegates()
+        getUsers()
     }
     
     private func setupView() {
@@ -30,15 +38,34 @@ final class EditViewController: UIViewController {
         posCollectionView.dataSource = self
     }
     
+    private func getUsers() {
+        ServiceManager().getUsersList { (users) in
+            if let users = users {
+                self.users = users
+            }
+        }
+    }
+    
     private func presentAlertBeforeDelete(index: IndexPath) {
-        guard let selectedPos = posFullList?[index.row].id else {
+        switch type {
+        case .pos:
+            deletePos(atIndex: index)
+        default:
+            print("")
+        }
+        
+        
+    }
+    
+    private func deletePos(atIndex: IndexPath) {
+        guard let selectedPos = posFullList?[atIndex.row].id else {
             return
         }
         presentAlertControllerWithCancel(title: "Seguro desea eliminar el Punto de Venta?", message: "Se borrará por completo el POS seleccionado y sus productos asociados", delegate: self) { (completion) in
             ServiceManager().deleteSpecificPOS(id: selectedPos) { (error) in
                 guard let error = error else {
-                    self.posFullList?.remove(at: index.row)
-                    self.posCollectionView.reloadItems(at: [index])
+                    self.posFullList?.remove(at: atIndex.row)
+                    self.posCollectionView.reloadItems(at: [atIndex])
                     return
                 }
                 
@@ -46,6 +73,34 @@ final class EditViewController: UIViewController {
             }
             
         }
+    }
+    
+    private func deleteUser(atIndex: IndexPath) {
+        guard let selectedUserId = users[atIndex.row].id else {
+            return
+        }
+        presentAlertControllerWithCancel(title: "Seguro desea eliminar el usuario?", message: "Se borrará por completo el usuario seleccionado", delegate: self) { (completion) in
+            ServiceManager().deleteSpecificUser(id: selectedUserId) { (error) in
+                guard let error = error else {
+                    self.users.remove(at: atIndex.row)
+                    self.posCollectionView.reloadItems(at: [atIndex])
+                    self.presentAlertControllerWithCancel(title: success, message: "Se borró con éxito el usuario.\nPara crear un usuario con el mismo email, deberá contactar con soporte", delegate: self, completion: nil)
+                   return
+                }
+                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
+            }
+        }
+        
+    }
+    
+    @IBAction func segmentdChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            type = .pos
+        default:
+            type = .user
+        }
+        posCollectionView.reloadData()
     }
     
 }
@@ -58,12 +113,22 @@ extension EditViewController: UICollectionViewDelegate {
 
 extension EditViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posFullList?.count ?? 1
+        return type == .pos ? posFullList?.count ?? 1 : users.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditCollectionViewCell", for: indexPath) as! EditCollectionViewCell
-        cell.setupCell(pos: (posFullList?[indexPath.row])!)
+        
+        switch type {
+        case .pos:
+            guard let posList = posFullList?[indexPath.row] else {
+                return cell
+            }
+            cell.setupCell(pos: posList)
+        default:
+            cell.setupCell(user: users[indexPath.row])
+        }
+        
         cell.contentView.layer.cornerRadius = 15
         cell.addShadow(offset: .zero, color: .black, radius: 4, opacity: 0.4)
         

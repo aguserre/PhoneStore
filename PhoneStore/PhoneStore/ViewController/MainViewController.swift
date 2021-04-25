@@ -73,9 +73,15 @@ final class MainViewController: UIViewController {
                 }
                 return
             }
-            if let user = user {
-                self.selectUserLogged(users: user)
+            guard let user = user else {
+                self.buttonsStackView.isHidden = true
+                self.presentAlertController(title: errorTitle, message: "Deberá ponerse en contacto con soporte", delegate: self) { (completion) in
+                    self.serviceManager.forceLogOut()
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                return
             }
+            self.selectUserLogged(users: user)
         }
     }
     

@@ -10,9 +10,11 @@ import FirebaseDatabase
 typealias ServiceManagerFinishedLogin = ((AuthDataResult?, Error?) -> Void)
 typealias ServiceManagerFinishedLogOut = ((Error?) -> Void)
 typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
+typealias ServiceManagerFinishedGetUserList = (([UserModel]?) -> Void)
 typealias ServiceManagerFinishedSaveProduct = ((ProductModel?, Error?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedDeletePOS = ((Error?) -> Void)
+typealias ServiceManagerFinishedDeleteUser = ((Error?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
@@ -67,6 +69,7 @@ class ServiceManager: NSObject {
     
     func setupUserByID(id: String, completion: @escaping ServiceManagerFinishedSetupUser) {
         checkDatabaseReference()
+        var userLogged: UserModel?
         dataBaseRef = Database.database().reference().child(USER_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
@@ -74,13 +77,37 @@ class ServiceManager: NSObject {
                     if let userDic = snap.value as? [String : AnyObject] {
                         if let userObject = UserModel(JSON: userDic) {
                             if userObject.id == id {
-                                completion(userObject, nil)
+                                userLogged = userObject
                             }
                         }
                     }
                 }
+                completion(userLogged, nil)
             } else {
                 completion(nil, userNotExist)
+            }
+        }
+    }
+    
+    func getUsersList(completion: @escaping ServiceManagerFinishedGetUserList) {
+        checkDatabaseReference()
+        var users = [UserModel]()
+        dataBaseRef = Database.database().reference().child(USER_ADD)
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot],
+               snapshot.count > 0 {
+                for snap in snapshot {
+                    if let userDic = snap.value as? [String : AnyObject] {
+                        if let userObject = UserModel(JSON: userDic) {
+                            if userObject.email != "admin@admin.com" {
+                                users.append(userObject)
+                            }
+                        }
+                    }
+                }
+                completion(users)
+            } else {
+                completion(nil)
             }
         }
     }
@@ -131,6 +158,18 @@ class ServiceManager: NSObject {
                 completion(pos, nil)
             } else {
                 completion(nil, emptyPOS)
+            }
+        }
+    }
+    
+    func deleteSpecificUser(id: String, completion: @escaping ServiceManagerFinishedDeleteUser) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child(POS_ADD).child(id)
+        dataBaseRef.removeValue { (error, _) in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
             }
         }
     }
