@@ -34,7 +34,7 @@ final class EditViewController: UIViewController {
         guard let selectedPos = posFullList?[index.row].id else {
             return
         }
-        presentAlertController(title: "Seguro desea eliminar el Punto de Venta?", message: "Se borrará por completo el POS seleccionado", delegate: self) { (completion) in
+        presentAlertControllerWithCancel(title: "Seguro desea eliminar el Punto de Venta?", message: "Se borrará por completo el POS seleccionado y sus productos asociados", delegate: self) { (completion) in
             ServiceManager().deleteSpecificPOS(id: selectedPos) { (error) in
                 guard let error = error else {
                     self.posFullList?.remove(at: index.row)

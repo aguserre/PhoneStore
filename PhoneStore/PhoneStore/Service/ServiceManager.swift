@@ -146,7 +146,42 @@ class ServiceManager: NSObject {
                 completion(error)
                 return
             }
-            completion(nil)
+            DispatchQueue.main.async {
+                self.deleteProductsInPos(posId: id) { (error) in
+                    if let error = error {
+                        completion(error)
+                        return
+                    }
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    func deleteProductsInPos(posId: String, completion: @escaping ServiceManagerFinishedDeletePOS) {
+        checkDatabaseReference()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
+        dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot],
+               snapshot.count > 0 {
+                for snap in snapshot {
+                    if let prodDict = snap.value as? Dictionary<String, AnyObject> {
+                        if posId == prodDict["id"] as? String,
+                           let prodId = prodDict["productId"] as? String {
+                            self.dataBaseRef.child(prodId).setValue(nil) { (error, _) in
+                                if let error = error {
+                                    completion(error)
+                                    return
+                                }
+                                completion(nil)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
