@@ -45,6 +45,7 @@
 		0FA693E7261686FD00662C91 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */; };
 		0FA693EA2616906B00662C91 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E92616906B00662C91 /* PopUpViewController.swift */; };
 		0FCF525226367FA800AF25F8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5654AC26367EA00085B24A /* Strings.swift */; };
+		0FCF52702636832F00AF25F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */; };
 		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
 		0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106E125BFE74D00B2656D /* LoginViewController.swift */; };
@@ -103,6 +104,7 @@
 		0FA693E3261682CE00662C91 /* FullStockListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullStockListViewController.swift; sourceTree = "<group>"; };
 		0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		0FA693E92616906B00662C91 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0FF106E125BFE74D00B2656D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 		0F5654B526367EBA0085B24A /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */,
 				0F56549E26367EA00085B24A /* AppDelegate.swift */,
 				0F56549D26367EA00085B24A /* Assets.xcassets */,
 				0F5654AE26367EA00085B24A /* CHCSVParser.h */,
@@ -346,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
+				0FCF52702636832F00AF25F8 /* GoogleService-Info.plist in Resources */,
 				0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
