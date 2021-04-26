@@ -46,6 +46,12 @@
 		0FA693EA2616906B00662C91 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA693E92616906B00662C91 /* PopUpViewController.swift */; };
 		0FCF525226367FA800AF25F8 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5654AC26367EA00085B24A /* Strings.swift */; };
 		0FCF52702636832F00AF25F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */; };
+		0FCF527626368A3F00AF25F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527526368A3F00AF25F8 /* Assets.xcassets */; };
+		0FCF527D26368A7300AF25F8 /* idScan.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527826368A7200AF25F8 /* idScan.json */; };
+		0FCF527E26368A7300AF25F8 /* on_ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527926368A7300AF25F8 /* on_ok.json */; };
+		0FCF527F26368A7300AF25F8 /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527A26368A7300AF25F8 /* success.json */; };
+		0FCF528026368A7300AF25F8 /* shopLoader.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527B26368A7300AF25F8 /* shopLoader.json */; };
+		0FCF528126368A7300AF25F8 /* fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 0FCF527C26368A7300AF25F8 /* fail.json */; };
 		0FE3363E25D9D4E1008E3947 /* MovementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */; };
 		0FF106DD25BFE62D00B2656D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106DC25BFE62D00B2656D /* MainViewController.swift */; };
 		0FF106E225BFE74D00B2656D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF106E125BFE74D00B2656D /* LoginViewController.swift */; };
@@ -74,15 +80,9 @@
 		0F56546F26366E440085B24A /* DefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultKeys.swift; sourceTree = "<group>"; };
 		0F56548526367B7F0085B24A /* PointOfSaleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointOfSaleModel.swift; sourceTree = "<group>"; };
 		0F56548826367BD20085B24A /* FilterDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDateModel.swift; sourceTree = "<group>"; };
-		0F56549D26367EA00085B24A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F56549E26367EA00085B24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F5654A026367EA00085B24A /* CHCSVParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCSVParser.m; sourceTree = "<group>"; };
 		0F5654A126367EA00085B24A /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
-		0F5654A326367EA00085B24A /* success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
-		0F5654A426367EA00085B24A /* shopLoader.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = shopLoader.json; sourceTree = "<group>"; };
-		0F5654A526367EA00085B24A /* idScan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = idScan.json; sourceTree = "<group>"; };
-		0F5654A626367EA00085B24A /* on_ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = on_ok.json; sourceTree = "<group>"; };
-		0F5654A726367EA00085B24A /* fail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fail.json; sourceTree = "<group>"; };
 		0F5654A826367EA00085B24A /* PhoneStore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneStore-Bridging-Header.h"; sourceTree = "<group>"; };
 		0F5654A926367EA00085B24A /* PhoneStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhoneStore.entitlements; sourceTree = "<group>"; };
 		0F5654AA26367EA00085B24A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +105,12 @@
 		0FA693E6261686FD00662C91 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		0FA693E92616906B00662C91 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0FCF527526368A3F00AF25F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0FCF527826368A7200AF25F8 /* idScan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idScan.json; sourceTree = "<group>"; };
+		0FCF527926368A7300AF25F8 /* on_ok.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = on_ok.json; sourceTree = "<group>"; };
+		0FCF527A26368A7300AF25F8 /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
+		0FCF527B26368A7300AF25F8 /* shopLoader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = shopLoader.json; sourceTree = "<group>"; };
+		0FCF527C26368A7300AF25F8 /* fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fail.json; sourceTree = "<group>"; };
 		0FE3363D25D9D4E1008E3947 /* MovementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDetailViewController.swift; sourceTree = "<group>"; };
 		0FF106DC25BFE62D00B2656D /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0FF106E125BFE74D00B2656D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -156,11 +162,11 @@
 		0F5654A226367EA00085B24A /* AnimationJson */ = {
 			isa = PBXGroup;
 			children = (
-				0F5654A326367EA00085B24A /* success.json */,
-				0F5654A426367EA00085B24A /* shopLoader.json */,
-				0F5654A526367EA00085B24A /* idScan.json */,
-				0F5654A626367EA00085B24A /* on_ok.json */,
-				0F5654A726367EA00085B24A /* fail.json */,
+				0FCF527C26368A7300AF25F8 /* fail.json */,
+				0FCF527826368A7200AF25F8 /* idScan.json */,
+				0FCF527926368A7300AF25F8 /* on_ok.json */,
+				0FCF527B26368A7300AF25F8 /* shopLoader.json */,
+				0FCF527A26368A7300AF25F8 /* success.json */,
 			);
 			path = AnimationJson;
 			sourceTree = "<group>";
@@ -168,9 +174,10 @@
 		0F5654B526367EBA0085B24A /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				0F5654A226367EA00085B24A /* AnimationJson */,
+				0FCF527526368A3F00AF25F8 /* Assets.xcassets */,
 				0FCF526F2636832F00AF25F8 /* GoogleService-Info.plist */,
 				0F56549E26367EA00085B24A /* AppDelegate.swift */,
-				0F56549D26367EA00085B24A /* Assets.xcassets */,
 				0F5654AE26367EA00085B24A /* CHCSVParser.h */,
 				0F5654A026367EA00085B24A /* CHCSVParser.m */,
 				0F5654A126367EA00085B24A /* Core.swift */,
@@ -179,6 +186,7 @@
 				0F5654A926367EA00085B24A /* PhoneStore.entitlements */,
 				0F5654AA26367EA00085B24A /* SceneDelegate.swift */,
 				0F5654AC26367EA00085B24A /* Strings.swift */,
+				0F56549426367DA20085B24A /* Storyboards */,
 			);
 			path = Resourses;
 			sourceTree = "<group>";
@@ -221,8 +229,6 @@
 			isa = PBXGroup;
 			children = (
 				0F5654B526367EBA0085B24A /* Resourses */,
-				0F5654A226367EA00085B24A /* AnimationJson */,
-				0F56549426367DA20085B24A /* Storyboards */,
 				0F4EEC2625FC1DF0008BCFDE /* Service */,
 				0FF106DB25BFE5FE00B2656D /* ViewController */,
 				0FF1065725BFBDA100B2656D /* Model */,
@@ -348,9 +354,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FCF528026368A7300AF25F8 /* shopLoader.json in Resources */,
 				0FA63E4E25BF683B00B325B2 /* LaunchScreen.storyboard in Resources */,
 				0FCF52702636832F00AF25F8 /* GoogleService-Info.plist in Resources */,
+				0FCF528126368A7300AF25F8 /* fail.json in Resources */,
+				0FCF527626368A3F00AF25F8 /* Assets.xcassets in Resources */,
 				0FA63E4925BF683A00B325B2 /* Main.storyboard in Resources */,
+				0FCF527F26368A7300AF25F8 /* success.json in Resources */,
+				0FCF527E26368A7300AF25F8 /* on_ok.json in Resources */,
+				0FCF527D26368A7300AF25F8 /* idScan.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

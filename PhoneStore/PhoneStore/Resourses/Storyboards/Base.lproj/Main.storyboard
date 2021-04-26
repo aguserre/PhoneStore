@@ -2702,20 +2702,9 @@ Q29udHJhc2XDsWEQEBA
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEx-CG-8eD" userLabel="Enviar">
-                                <rect key="frame" x="0.0" y="826" width="414" height="70"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="Bkd-k1-NSD"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Enviar solicitud">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="add:" destination="Xic-NI-oEO" eventType="touchUpInside" id="NQT-rJ-mCh"/>
-                                </connections>
-                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="on_step0" translatesAutoresizingMaskIntoConstraints="NO" id="oa3-JV-1WD">
+                                <rect key="frame" x="0.0" y="378" width="414" height="448"/>
+                            </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P50-dJ-lEC">
                                 <rect key="frame" x="0.0" y="94" width="414" height="712"/>
                                 <subviews>
@@ -2801,6 +2790,7 @@ Q29udHJhc2XDsWEQEBA
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="OYl-0R-U3B" firstAttribute="bottom" secondItem="X6p-Af-Wws" secondAttribute="bottom" id="AyB-Nh-oRS"/>
                                     <constraint firstItem="OYl-0R-U3B" firstAttribute="width" secondItem="PD8-yH-Jp7" secondAttribute="width" multiplier="0.961353" id="hba-23-lpt"/>
@@ -2811,6 +2801,20 @@ Q29udHJhc2XDsWEQEBA
                                 <viewLayoutGuide key="contentLayoutGuide" id="X6p-Af-Wws"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PD8-yH-Jp7"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEx-CG-8eD" userLabel="Enviar">
+                                <rect key="frame" x="0.0" y="826" width="414" height="70"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="Bkd-k1-NSD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Enviar solicitud">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="add:" destination="Xic-NI-oEO" eventType="touchUpInside" id="NQT-rJ-mCh"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nueva iPyMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrJ-4H-bGM">
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="32"/>
@@ -2822,15 +2826,19 @@ Q29udHJhc2XDsWEQEBA
                         <color key="backgroundColor" systemColor="systemIndigoColor"/>
                         <constraints>
                             <constraint firstItem="jFn-AQ-gPZ" firstAttribute="trailing" secondItem="TrJ-4H-bGM" secondAttribute="trailing" id="6IR-m1-Irt"/>
+                            <constraint firstItem="oa3-JV-1WD" firstAttribute="height" secondItem="0qB-NT-nKt" secondAttribute="height" multiplier="0.5" id="ECA-ym-KJt"/>
                             <constraint firstItem="TrJ-4H-bGM" firstAttribute="top" secondItem="jFn-AQ-gPZ" secondAttribute="top" id="Hyy-8e-viv"/>
                             <constraint firstItem="P50-dJ-lEC" firstAttribute="leading" secondItem="jFn-AQ-gPZ" secondAttribute="leading" id="HzR-gd-wBT"/>
                             <constraint firstAttribute="bottom" secondItem="nEx-CG-8eD" secondAttribute="bottom" id="KVV-Yi-Tkh"/>
+                            <constraint firstItem="oa3-JV-1WD" firstAttribute="leading" secondItem="jFn-AQ-gPZ" secondAttribute="leading" id="N7b-e0-mqd"/>
                             <constraint firstItem="TrJ-4H-bGM" firstAttribute="leading" secondItem="jFn-AQ-gPZ" secondAttribute="leading" id="Pub-4n-yYf"/>
                             <constraint firstItem="P50-dJ-lEC" firstAttribute="top" secondItem="jFn-AQ-gPZ" secondAttribute="top" constant="50" id="TZ2-z1-7Kh"/>
                             <constraint firstItem="jFn-AQ-gPZ" firstAttribute="trailing" secondItem="nEx-CG-8eD" secondAttribute="trailing" id="VLA-Jw-gNW"/>
+                            <constraint firstItem="jFn-AQ-gPZ" firstAttribute="trailing" secondItem="oa3-JV-1WD" secondAttribute="trailing" id="VaQ-C9-OiC"/>
                             <constraint firstItem="P50-dJ-lEC" firstAttribute="top" secondItem="TrJ-4H-bGM" secondAttribute="bottom" id="XKc-os-2Jx"/>
                             <constraint firstItem="nEx-CG-8eD" firstAttribute="leading" secondItem="jFn-AQ-gPZ" secondAttribute="leading" id="YOF-wJ-jSv"/>
                             <constraint firstItem="P50-dJ-lEC" firstAttribute="trailing" secondItem="jFn-AQ-gPZ" secondAttribute="trailing" id="dfA-Fp-5j7"/>
+                            <constraint firstItem="nEx-CG-8eD" firstAttribute="top" secondItem="oa3-JV-1WD" secondAttribute="bottom" id="r7j-5z-mfV"/>
                             <constraint firstItem="nEx-CG-8eD" firstAttribute="top" secondItem="P50-dJ-lEC" secondAttribute="bottom" constant="20" id="wRX-jL-sZb"/>
                         </constraints>
                     </view>
@@ -2848,7 +2856,7 @@ Q29udHJhc2XDsWEQEBA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ffj-0V-PrZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2583" y="1418"/>
+            <point key="canvasLocation" x="2582.608695652174" y="1417.6339285714284"/>
         </scene>
         <!--User Edit View Controller-->
         <scene sceneID="jK1-hq-sWI">
@@ -2978,6 +2986,7 @@ Q29udHJhc2XDsWEQEBA
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
+        <image name="on_step0" width="987" height="877"/>
         <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
