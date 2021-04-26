@@ -7,7 +7,6 @@
 
 import UIKit
 import Lottie
-import FirebaseAuth
 
 final class InitialAnimationViewController: UIViewController {
     
@@ -40,8 +39,18 @@ final class InitialAnimationViewController: UIViewController {
                 animationView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             } completion: { (finish) in
                 animationView.removeFromSuperview()
-                self.goToLogin()
+                self.checkVersionApp()
             }
+        }
+    }
+    
+    private func checkVersionApp() {
+        guard let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            return
+        }
+        ServiceManager().checkVersionApp(versionApp: appVersion) { (error) in
+            UserDefaults.standard.set(error == nil, forKey: Keys.canUseApp)
+            self.goToLogin()
         }
     }
     
@@ -51,13 +60,4 @@ final class InitialAnimationViewController: UIViewController {
         newViewController.modalPresentationStyle = .fullScreen
         self.present(newViewController, animated: true, completion: nil)
     }
-}
-
-extension Date {
-    func startOfMonth() -> Date {
-        return Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Calendar.current.startOfDay(for: self)))!
-    }
-}
-struct defaultsKeys {
-    static let userId = "userId"
 }

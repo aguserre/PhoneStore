@@ -24,19 +24,25 @@ final class LoginViewController: UIViewController {
     private var userId = ""
     let context = LAContext()
     var error: NSError? = nil
+    let canUseApp = KeysValues().canUseApp
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        guard canUseApp else {
+            return
+        }
         checkIfNewUser()
-        skeletonSetup()
         setupObservers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        if let userLogged = UserDefaults.standard.string(forKey: defaultsKeys.userId) {
+        guard canUseApp else {
+            return
+        }
+        if let userLogged = KeysValues().userId {
             userId = userLogged
             setupEmptyViewBeforeNavigation()
         } else {
@@ -141,6 +147,7 @@ final class LoginViewController: UIViewController {
     
     private func setupView() {
         showViews()
+        skeletonSetup()
         view.layer.insertSublayer(createCustomGradiend(view: view), at: 0)
         loginButton.layer.insertSublayer(createCustomGradiend(view: loginButton), at: 0)
         registerPymeButton.layer.cornerRadius = 10
@@ -161,6 +168,10 @@ final class LoginViewController: UIViewController {
     
     @IBAction @objc func checkUser(_ sender: Any) {
         generateImpactWhenTouch()
+        guard canUseApp else {
+            presentAlertController(title: errorTitle, message: "Actualice la app para continuar", delegate: self, completion: nil)
+            return
+        }
         userTextField.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))
         passwordTextField.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))
         loginButton.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .systemIndigo), animation: nil, transition: .crossDissolve(0.5))

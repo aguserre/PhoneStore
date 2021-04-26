@@ -14,8 +14,8 @@
             filePath = "PhoneStore/Service/ServiceManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "559"
+            endingLineNumber = "559"
             landmarkName = "createNewUser(delegate:userDic:email:pass:userType:posAsignedId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "PhoneStore/Service/ServiceManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "528"
-            endingLineNumber = "528"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "createNewUser(delegate:userDic:email:pass:userType:posAsignedId:)"
             landmarkType = "7">
          </BreakpointContent>

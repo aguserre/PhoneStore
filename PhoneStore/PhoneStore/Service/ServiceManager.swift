@@ -7,6 +7,7 @@
 import FirebaseAuth
 import FirebaseDatabase
 
+typealias ServiceManagerFinishCheckVersionApp = ((Error?) -> Void)
 typealias ServiceManagerFinishedLogin = ((AuthDataResult?, Error?) -> Void)
 typealias ServiceManagerFinishedLogOut = ((Error?) -> Void)
 typealias ServiceManagerFinishedSetupUser = ((UserModel?, String?) -> Void)
@@ -33,13 +34,31 @@ class ServiceManager: NSObject {
         }
     }
     
+    func checkVersionApp(versionApp: String, completion: @escaping ServiceManagerFinishCheckVersionApp) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child("LATEST_V")
+        dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let snapshot = snapshot.children.allObjects as? [DataSnapshot] {
+                for snap in snapshot {
+                    if let version = snap.value as? String,
+                       version == versionApp {
+                        completion(nil)
+                    } else {
+                        self.forceLogOut()
+                        completion(NSError())
+                    }
+                }
+            }
+        }
+    }
+    
     func login(user: String, password: String, completion: @escaping ServiceManagerFinishedLogin) {
         Auth.auth().signIn(withEmail: user, password: password) { (auth, error) in
             if let error = error {
                 completion(nil, error)
             }
             if let auth = auth {
-                UserDefaults.standard.set(auth.user.uid, forKey: defaultsKeys.userId)
+                UserDefaults.standard.set(auth.user.uid, forKey: Keys.userId)
                 completion(auth, nil)
             }
         }
@@ -50,7 +69,7 @@ class ServiceManager: NSObject {
             do {
                 try Auth.auth().signOut()
                 delegate.navigationController?.popToRootViewController(animated: true)
-                UserDefaults.standard.set(nil, forKey: defaultsKeys.userId)
+                UserDefaults.standard.set(nil, forKey: Keys.userId)
             }
             catch {
                 delegate.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: delegate, completion: nil)
@@ -61,7 +80,7 @@ class ServiceManager: NSObject {
     func forceLogOut() {
         do {
             try Auth.auth().signOut()
-            UserDefaults.standard.set(nil, forKey: defaultsKeys.userId)
+            UserDefaults.standard.set(nil, forKey: Keys.userId)
         }
         catch {
             NSLog(error.localizedDescription, self)
@@ -93,7 +112,7 @@ class ServiceManager: NSObject {
     func getUsersList(completion: @escaping ServiceManagerFinishedGetUserList) {
         checkDatabaseReference()
         var users = [UserModel]()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child(USER_ADD)
@@ -132,7 +151,7 @@ class ServiceManager: NSObject {
     func getPOSFullList(completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD)
@@ -155,7 +174,7 @@ class ServiceManager: NSObject {
     func getSpecificPOS(ids: [String], completion: @escaping ServiceManagerFinishedGetPOS) {
         checkDatabaseReference()
         var pos = [PointOfSale]()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD)
@@ -193,7 +212,7 @@ class ServiceManager: NSObject {
     
     func deleteSpecificPOS(id: String, completion: @escaping ServiceManagerFinishedDeletePOS) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD).child(id)
@@ -216,7 +235,7 @@ class ServiceManager: NSObject {
     
     func deleteProductsInPos(posId: String, completion: @escaping ServiceManagerFinishedDeletePOS) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
@@ -244,7 +263,7 @@ class ServiceManager: NSObject {
     func getProductList(posId: String? = nil, completion: @escaping ServiceManagerFinishedGetProducts) {
         checkDatabaseReference()
         var products = [ProductModel]()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
@@ -286,7 +305,7 @@ class ServiceManager: NSObject {
     
     func updateProductCantiti(isRma: Bool? = false, productsList: [ProductModel], completion: @escaping ServiceManagerFinishUpdateProduct)  {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
@@ -320,7 +339,7 @@ class ServiceManager: NSObject {
     
     func registerSaleMov(client: ClientModel?, prods: [ProductModel], movType: MovementType, paymentMethod: String? = nil) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
@@ -330,7 +349,7 @@ class ServiceManager: NSObject {
     
     func registerAddMov(product: ProductModel) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
@@ -344,7 +363,7 @@ class ServiceManager: NSObject {
     
     func registerRmaMov(product: ProductModel) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV).childByAutoId()
@@ -409,7 +428,7 @@ class ServiceManager: NSObject {
                      saveToPOS: PointOfSale,
                      cantiti: Int, completion: @escaping ServiceManagerFinishedSaveProduct) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD).childByAutoId()
@@ -467,7 +486,7 @@ class ServiceManager: NSObject {
     
     func getMovements(completion: @escaping ServiceManagerFinishGetMovements) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_MOV)
@@ -492,7 +511,7 @@ class ServiceManager: NSObject {
     
     func updateCantiti(delegate: UIViewController, product: ProductModel?) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(PROD_ADD)
@@ -520,7 +539,7 @@ class ServiceManager: NSObject {
     }
     
     func createNewUser(delegate: UIViewController, userDic: [String : Any], email: String, pass: String, userType: UserType, posAsignedId: [String]) {
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         Auth.auth().createUser(withEmail: email, password: pass) { (auth, error) in
@@ -558,7 +577,7 @@ class ServiceManager: NSObject {
     
     func saveNewPOS(delegate: UIViewController, userDic: [String : Any], userType: POSType) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(POS_ADD).childByAutoId()
@@ -582,7 +601,7 @@ class ServiceManager: NSObject {
     
     func saveClient(client: ClientModel, completion: @escaping ServiceManagerFinishedSaveClient) {
         checkDatabaseReference()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD).childByAutoId()
@@ -601,7 +620,7 @@ class ServiceManager: NSObject {
     func getClientFullList(completion: @escaping ServiceManagerFinishedGetClients) {
         checkDatabaseReference()
         var clients = [ClientModel]()
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD)
@@ -638,7 +657,7 @@ class ServiceManager: NSObject {
     func checkClientExist(clientDoc: Int, completion: @escaping (ClientModel?) -> Void) {
         checkDatabaseReference()
         var client: ClientModel?
-        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+        guard let identifier = KeysValues().pymeId else {
             return
         }
         dataBaseRef = Database.database().reference().child("PYME_LIST").child(identifier).child(CLI_ADD)

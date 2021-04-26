@@ -87,7 +87,7 @@ final class MainViewController: UIViewController {
     
     private func selectUserLogged(users: UserModel) {
         userLogged = users
-        UserDefaults.standard.setValue(users.pyme, forKey: "pymeId")
+        UserDefaults.standard.setValue(users.pyme, forKey: Keys.pymeId)
         prepareViewByUser(user: userLogged)
     }
     
