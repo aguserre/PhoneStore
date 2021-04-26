@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-class ClientModel: Mappable {
+final class ClientModel: Mappable {
         
     var name: String?
     var document: Int?

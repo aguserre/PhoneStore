@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-class MovementsModel: Mappable {
+final class MovementsModel: Mappable {
 
     var id: String?
     var products: [NSDictionary]?

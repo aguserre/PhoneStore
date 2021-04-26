@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-class ProductModel: Mappable {
+final class ProductModel: Mappable {
         
     var id: String?
     var productId: String = ""

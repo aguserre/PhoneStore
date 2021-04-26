@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-class UserModel: Mappable {
+final class UserModel: Mappable {
         
     var id: String?
     var username: String?
@@ -40,67 +40,6 @@ class UserModel: Mappable {
     }
 }
 
-class PointOfSale: Mappable {
-    var id: String?
-    var name: String?
-    var type: String?
-    var localized: String?
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        localized <- map["localized"]
-        type <- map["type"]
-    }
-    
-    func toDictionary() -> NSDictionary {
-        return ["id":id as Any,
-                "name" : name as Any,
-                "localized" : localized as Any,
-                "type" : type as Any] as NSDictionary
-    }
-}
-
-enum FilterSelection: Int {
-    case none = 0, day, week, month, other
-    
-    public typealias RawValue = Int
-    
-    public var rawValue: RawValue {
-        switch self {
-        case .none:
-            return 0
-        case .day:
-            return 1
-        case .week:
-            return 2
-        case .month:
-            return 3
-        case .other:
-            return 4
-        }
-    }
-    
-    public init?(rawValue: RawValue) {
-        switch rawValue {
-        case 0:
-            self = .none
-        case 1:
-            self = .day
-        case 2:
-            self = .week
-        case 3:
-            self = .month
-        case 4:
-            self = .other
-        default:
-            self = .none
-        }
-    }
-}
-
 enum UserType: Int, RawRepresentable {
     case admin = 0
     case vendor = 1
@@ -124,42 +63,6 @@ enum UserType: Int, RawRepresentable {
             self = .admin
         default:
             self = .vendor
-        }
-    }
-}
-
-enum addType: Int {
-    case user = 0
-    case pos = 1
-}
-
-enum ShowType {
-    case phones, accesories
-}
-
-enum POSType: Int, RawRepresentable {
-    case movil = 0
-    case kStatic = 1
-    
-    public typealias RawValue = String
-    
-    public var rawValue: RawValue {
-        switch self {
-        case .kStatic:
-            return "fijo"
-        case .movil:
-            return "movil"
-        }
-    }
-    
-    public init?(rawValue: RawValue) {
-        switch rawValue.lowercased() {
-        case "movil":
-            self = .movil
-        case "fijo":
-            self = .kStatic
-        default:
-            self = .kStatic
         }
     }
 }

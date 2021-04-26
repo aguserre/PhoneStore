@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-class PyMeModel: Mappable {
+final class PyMeModel: Mappable {
         
     var name: String?
     var cuil: String?
