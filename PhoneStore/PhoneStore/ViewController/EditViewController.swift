@@ -5,6 +5,10 @@
 //  Created by Agustin Errecalde on 24/04/2021.
 //
 
+protocol ModalDelegate {
+    func changeValue(userIdDeleted: String)
+}
+
 import UIKit
 
 final class EditViewController: UIViewController {
@@ -17,6 +21,7 @@ final class EditViewController: UIViewController {
     }
     var type: EditType = .pos
     var users = [UserModel]()
+    var userSelected: UserModel?
     var posFullList: [PointOfSale]?
     let cellScale: CGFloat = 0.5
 
@@ -51,10 +56,9 @@ final class EditViewController: UIViewController {
         case .pos:
             deletePos(atIndex: index)
         default:
-            print("")
+            userSelected = users[index.row]
+            performSegue(withIdentifier: "goToUserEdit", sender: nil)
         }
-        
-        
     }
     
     private func deletePos(atIndex: IndexPath) {
@@ -75,22 +79,14 @@ final class EditViewController: UIViewController {
         }
     }
     
-    private func deleteUser(atIndex: IndexPath) {
-        guard let selectedUserId = users[atIndex.row].id else {
-            return
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let segueId = segue.identifier,
+           segueId == "goToUserEdit",
+           let userEditViewController = segue.destination as? UserEditViewController {
+            userEditViewController.user = userSelected
+            userEditViewController.pos = posFullList ?? []
+            userEditViewController.delegate = self
         }
-        presentAlertControllerWithCancel(title: "Seguro desea eliminar el usuario?", message: "Se borrará por completo el usuario seleccionado", delegate: self) { (completion) in
-            ServiceManager().deleteSpecificUser(id: selectedUserId) { (error) in
-                guard let error = error else {
-                    self.users.remove(at: atIndex.row)
-                    self.posCollectionView.reloadItems(at: [atIndex])
-                    self.presentAlertControllerWithCancel(title: success, message: "Se borró con éxito el usuario.\nPara crear un usuario con el mismo email, deberá contactar con soporte", delegate: self, completion: nil)
-                   return
-                }
-                self.presentAlertController(title: errorTitle, message: error.localizedDescription, delegate: self, completion: nil)
-            }
-        }
-        
     }
     
     @IBAction func segmentdChanged(_ sender: UISegmentedControl) {
@@ -157,5 +153,12 @@ extension EditViewController: UICollectionViewDelegateFlowLayout {
         collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+}
+
+extension EditViewController: ModalDelegate {
+    func changeValue(userIdDeleted: String) {
+        users.removeAll {$0.id == userIdDeleted}
+        posCollectionView.reloadData()
     }
 }

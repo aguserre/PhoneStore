@@ -26,6 +26,7 @@
 		0F4EEC2425FC19F6008BCFDE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2325FC19F6008BCFDE /* Extension.swift */; };
 		0F4EEC2825FC1E44008BCFDE /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */; };
 		0F52D26025CB41B600A6A8FA /* ProductCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */; };
+		0F56546D26361D030085B24A /* UserEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F56546C26361D030085B24A /* UserEditViewController.swift */; };
 		0F5699FF25FDC602008A9F2B /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */; };
 		0F569A1525FDC925008A9F2B /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1425FDC925008A9F2B /* success.json */; };
 		0F569A1B25FDE97F008A9F2B /* fail.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F569A1A25FDE97F008A9F2B /* fail.json */; };
@@ -80,6 +81,7 @@
 		0F4EEC2325FC19F6008BCFDE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0F4EEC2725FC1E44008BCFDE /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		0F52D25F25CB41B600A6A8FA /* ProductCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		0F56546C26361D030085B24A /* UserEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditViewController.swift; sourceTree = "<group>"; };
 		0F5699FE25FDC602008A9F2B /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
 		0F569A1425FDC925008A9F2B /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
 		0F569A1A25FDE97F008A9F2B /* fail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fail.json; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				0F5EF9182618DE7900F71997 /* PyMeOnboardingViewController.swift */,
 				0F5EF924261907DF00F71997 /* RegisterPymeViewController.swift */,
 				0F49569C2634DDE400C25E82 /* EditViewController.swift */,
+				0F56546C26361D030085B24A /* UserEditViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				0F19895625C64584000E56AF /* SettingsViewController.swift in Sources */,
 				0F3BE7EA260BB86200DCADB9 /* Strings.swift in Sources */,
 				0FF3F3C825C1013100F6D0AA /* AddStockViewController.swift in Sources */,
+				0F56546D26361D030085B24A /* UserEditViewController.swift in Sources */,
 				0F5EF925261907DF00F71997 /* RegisterPymeViewController.swift in Sources */,
 				0F23BDB725C86CE50069AEC1 /* ProductModel.swift in Sources */,
 				0FA693E4261682CE00662C91 /* FullStockListViewController.swift in Sources */,

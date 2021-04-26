@@ -15,12 +15,13 @@ class EditCollectionViewCell: UICollectionViewCell {
     
     func setupCell(pos: PointOfSale) {
         nameLabel.text = pos.name?.capitalized
-        let imageType: String = pos.type == POSType.kStatic.rawValue ? "house" : "car"
+        let imageType: String = pos.type == POSType.kStatic.rawValue ? "house.fill" : "car.fill"
         typeImage.image = UIImage(systemName: imageType)
     }
     
     func setupCell(user: UserModel) {
         nameLabel.text = user.email
+        typeImage.image = UIImage(systemName: "person.crop.rectangle.fill")
     }
     
 }

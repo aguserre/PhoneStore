@@ -15,6 +15,7 @@ typealias ServiceManagerFinishedSaveProduct = ((ProductModel?, Error?) -> Void)
 typealias ServiceManagerFinishedGetPOS = (([PointOfSale]?, String?) -> Void)
 typealias ServiceManagerFinishedDeletePOS = ((Error?) -> Void)
 typealias ServiceManagerFinishedDeleteUser = ((Error?) -> Void)
+typealias ServiceManagerDidFinishUpdateUser = ((Error?) -> Void)
 typealias ServiceManagerFinishedGetProducts = (([ProductModel]?, String?) -> Void)
 typealias ServiceManagerFinishUpdateProduct = ((String?) -> Void)
 typealias ServiceManagerFinishGetMovements = (([MovementsModel]?) -> Void)
@@ -92,6 +93,9 @@ class ServiceManager: NSObject {
     func getUsersList(completion: @escaping ServiceManagerFinishedGetUserList) {
         checkDatabaseReference()
         var users = [UserModel]()
+        guard let identifier = UserDefaults.standard.string(forKey: "pymeId") else {
+            return
+        }
         dataBaseRef = Database.database().reference().child(USER_ADD)
         dataBaseRef.observeSingleEvent(of: .value) { (snapshot) in
             if let snapshot = snapshot.children.allObjects as? [DataSnapshot],
@@ -99,7 +103,9 @@ class ServiceManager: NSObject {
                 for snap in snapshot {
                     if let userDic = snap.value as? [String : AnyObject] {
                         if let userObject = UserModel(JSON: userDic) {
-                            if userObject.email != "admin@admin.com" {
+                            if userObject.email != "admin@admin.com",
+                               userObject.email != Auth.auth().currentUser?.email,
+                               userObject.pyme == identifier {
                                 users.append(userObject)
                             }
                         }
@@ -109,6 +115,17 @@ class ServiceManager: NSObject {
             } else {
                 completion(nil)
             }
+        }
+    }
+    
+    func updateSpecificUser(info: [String : Any], userId: String, completion: @escaping ServiceManagerDidFinishUpdateUser) {
+        checkDatabaseReference()
+        dataBaseRef = Database.database().reference().child(USER_ADD).child(userId)
+        dataBaseRef.updateChildValues(info) { (error, _) in
+            guard let error = error else {
+                return completion(nil)
+            }
+            completion(error)
         }
     }
     
@@ -164,7 +181,7 @@ class ServiceManager: NSObject {
     
     func deleteSpecificUser(id: String, completion: @escaping ServiceManagerFinishedDeleteUser) {
         checkDatabaseReference()
-        dataBaseRef = Database.database().reference().child(POS_ADD).child(id)
+        dataBaseRef = Database.database().reference().child(USER_ADD).child(id)
         dataBaseRef.removeValue { (error, _) in
             if let error = error {
                 completion(error)
