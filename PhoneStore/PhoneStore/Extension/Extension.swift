@@ -108,6 +108,18 @@ extension UIViewController {
         navigationItem.titleView = titleLbl
     }
     
+    func disableViews(views: [UIView]) {
+        for view in views {
+            view.isUserInteractionEnabled = false
+        }
+    }
+    
+    func enableViews(views: [UIView]) {
+        for view in views {
+            view.isUserInteractionEnabled = true
+        }
+    }
+    
 }
 
 extension UIView {

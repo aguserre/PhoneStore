@@ -34,6 +34,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        disableViews(views: [seeMoreButton, totalStockButton])
         navigationController?.setNavigationBarHidden(false, animated: true)
         setupView()
     }
@@ -97,6 +98,7 @@ final class MainViewController: UIViewController {
         } else {
             setupVendorViewByPOSView()
         }
+        enableViews(views: [seeMoreButton, totalStockButton])
         rightBarButton.isEnabled = true
         posTableView.isHidden = false
         loaderIndicator.stopAnimating()
