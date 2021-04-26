@@ -29,11 +29,11 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupObservers()
         guard canUseApp else {
             return
         }
         checkIfNewUser()
-        setupObservers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
