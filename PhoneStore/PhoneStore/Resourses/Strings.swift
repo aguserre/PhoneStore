@@ -33,6 +33,17 @@ let newSale = "Nueva venta"
 let tryAgain = "Intentar de nuevo"
 let needCloseSession = "Desea cerrar la sesion?"
 let closeSessionMessage = "Se perderan los datos que no haya guardado"
+let emailSupport = "ipyme.focusdev@gmail.com"
+let pymeRegistrationError = "Algo salió mal, contactese con soporte al mail \(emailSupport)"
+let pymeRegistrationSuccess = "Tu solicitud ha sido enviada. \nRecibiras un mail con instrucciones."
+
+//Onboarding titles
+let onboardingTitles = ["Crea tu iPyMe", "Administra tu iPyMe", "Comparte datos", "Gracias por utilizar iPyMe!"]
+let onboardingDescriptions = ["Registrá tu PyMe, un administrador te contactará informandote que ya fue creada. \nSe te otorgará un usuario administrador para comenzar a utilizarla",
+                              "Crea Usuarios vendedores o admins, Puntos de venta, productos.\nChequea los movimientos de tus puntos de ventas.",
+                              "Comparte tus movimientos y base de clientes.\nY mucho mas!",
+                              ""]
+let lettersCombinations = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 //Errors
 let errorTitle = "Error"

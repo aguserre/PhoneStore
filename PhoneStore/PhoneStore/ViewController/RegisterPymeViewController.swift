@@ -36,7 +36,7 @@ final class RegisterPymeViewController: UIViewController {
     }
    
     private func randomString(length: Int) -> String {
-      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      let letters = lettersCombinations
       return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
@@ -118,12 +118,12 @@ final class RegisterPymeViewController: UIViewController {
     
     @objc private func showMailComposer() {
         guard MFMailComposeViewController.canSendMail() else {
-            presentAlertController(title: errorTitle, message: "Algo salió mal, contactese con soporte al mail ipyme.focusdev@gmail.com", delegate: self, completion: nil)
+            presentAlertController(title: errorTitle, message: pymeRegistrationError, delegate: self, completion: nil)
             return
         }
         let composer = MFMailComposeViewController()
         composer.mailComposeDelegate = self
-        composer.setToRecipients(["ipyme.focusdev@gmail.com"])
+        composer.setToRecipients([emailSupport])
         composer.setSubject("Solicitud nueva iPyme \(dicPyme["name"] ?? "")")
         composer.setMessageBody("Name: \(dicPyme["name"] ?? "") \nCUIL: \(dicPyme["cuil"] ?? "")\nLocalized: \(dicPyme["localized"] ?? "")\nContact: \(dicPyme["contact"] ?? "")\nid: \(dicPyme["id"] ?? "")\n Description: \(dicPyme["description"] ?? "")\n", isHTML: false)
         present(composer, animated: true)
@@ -135,7 +135,7 @@ extension RegisterPymeViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         if let _ = error {
             controller.dismiss(animated: true) {
-                self.presentAlertController(title: errorTitle, message: "Algo salió mal, contactese con soporte al mail ipyme.focusdev@gmail.com", delegate: self, completion: nil)
+                self.presentAlertController(title: errorTitle, message: pymeRegistrationError, delegate: self, completion: nil)
             }
             return
         }
@@ -144,7 +144,7 @@ extension RegisterPymeViewController: MFMailComposeViewControllerDelegate {
             controller.dismiss(animated: true, completion: nil)
         case .failed:
             controller.dismiss(animated: true) {
-                self.presentAlertController(title: errorTitle, message: "Algo salió mal, contactese con soporte al mail ipyme.focusdev@gmail.com", delegate: self) { (action) in
+                self.presentAlertController(title: errorTitle, message: pymeRegistrationError, delegate: self) { (action) in
                     self.dismiss(animated: true, completion: nil)
                 }
             }
@@ -152,7 +152,7 @@ extension RegisterPymeViewController: MFMailComposeViewControllerDelegate {
             controller.dismiss(animated: true, completion: nil)
         case .sent:
             controller.dismiss(animated: true) {
-                self.presentAlertController(title: "Listo!", message: "Tu solicitud ha sido enviada. \nRecibiras un mail con instrucciones.", delegate: self) { (action) in
+                self.presentAlertController(title: success, message: pymeRegistrationSuccess, delegate: self) { (action) in
                     self.dismiss(animated: true, completion: nil)
                 }
             }

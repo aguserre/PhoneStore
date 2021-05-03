@@ -28,11 +28,8 @@ final class PyMeOnboardingViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         holderView.addSubview(scrollView)
-        let titles = ["Crea tu iPyMe", "Administra tu iPyMe", "Comparte datos", "Gracias por utilizar iPyMe!"]
-        let desciptions = ["Registrá tu PyMe, un administrador te contactará informandote que ya fue creada. \nSe te otorgará un usuario administrador para comenzar a utilizarla",
-                           "Crea Usuarios vendedores o admins, Puntos de venta, productos.\nChequea los movimientos de tus puntos de ventas.",
-                           "Comparte tus movimientos y base de clientes.\nY mucho mas!",
-                           ""]
+        let titles = onboardingTitles
+        let desciptions = onboardingDescriptions
         for x in 0..<4 {
             let pageView = UIView(frame: CGRect(x: CGFloat(x)*holderView.frame.size.width, y: 0, width: holderView.frame.size.width, height: holderView.frame.size.height))
             pageView.backgroundColor = .clear
